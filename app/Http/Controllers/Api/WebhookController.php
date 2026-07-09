@@ -21,12 +21,13 @@ class WebhookController extends Controller
             // Log the incoming payload for debugging purposes
             Log::info('Fillout Webhook Received', ['payload' => $payload]);
 
-            // Handle Fillout's "Test" ping which might not have submissionId
+            // Handle Fillout's "Test" ping which might have null submissionId
             if (empty($payload)) {
                 return response()->json(['message' => 'Empty payload received.'], 200);
             }
 
-            if (!isset($payload['submissionId']) || !isset($payload['fields'])) {
+            // Check if the expected Fillout structure is present
+            if (!isset($payload['submission']) || !isset($payload['submission']['questions'])) {
                 // Return 200 for unrecognized format to avoid Fillout test errors, but don't process
                 return response()->json([
                     'message' => 'Invalid payload format or test ping.',
@@ -34,8 +35,8 @@ class WebhookController extends Controller
                 ], 200);
             }
 
-            $submissionId = $payload['submissionId'];
-            $fields = collect($payload['fields']);
+            $submissionId = $payload['submission']['submissionId'] ?? 'test-submission-' . time();
+            $fields = collect($payload['submission']['questions']);
 
             // Helper function to find a field value by its name (case-insensitive partial match)
             $getFieldValue = function ($name, $default = null) use ($fields) {
@@ -48,6 +49,11 @@ class WebhookController extends Controller
                 }
 
                 $value = $field['value'] ?? $default;
+
+                // If the value is a string that looks like a URL, just return it
+                if (is_string($value)) {
+                    return $value;
+                }
 
                 // If the value is an array (like file uploads in Fillout), extract the URL
                 if (is_array($value) && !empty($value)) {
@@ -64,14 +70,13 @@ class WebhookController extends Controller
             };
 
             // Extract data
-            $title = $getFieldValue('title', 'Untitled Photo');
-            $story = $getFieldValue('story', 'No story provided.');
-            $category = strtolower($getFieldValue('category', 'smartphone'));
-            if (!in_array($category, ['smartphone', 'dslr'])) {
-                $category = 'smartphone'; // fallback
-            }
-            $location = $getFieldValue('location', 'Unknown');
-            $driveLink = $getFieldValue('photo', null) ?? $getFieldValue('drive', null) ?? $getFieldValue('file', null);
+            $title = $getFieldValue('Judul Foto', 'Untitled Photo');
+            $story = $getFieldValue('Cerita atau Deskripsi', 'No story provided.');
+            $categoryRaw = strtolower($getFieldValue('Pilih Kategori Lomba', 'smartphone'));
+            $category = str_contains($categoryRaw, 'dslr') ? 'dslr' : 'smartphone';
+            
+            $location = $getFieldValue('Lokasi Pengambilan', 'Unknown');
+            $driveLink = $getFieldValue('Upload Foto', null);
             
             // Map the drive link to preview/thumbnail fields
             $drivePreview = $driveLink;
