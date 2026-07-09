@@ -19,10 +19,19 @@ class WebhookController extends Controller
             $payload = $request->all();
 
             // Log the incoming payload for debugging purposes
-            Log::info('Fillout Webhook Received', ['submissionId' => $payload['submissionId'] ?? 'unknown']);
+            Log::info('Fillout Webhook Received', ['payload' => $payload]);
+
+            // Handle Fillout's "Test" ping which might not have submissionId
+            if (empty($payload)) {
+                return response()->json(['message' => 'Empty payload received.'], 200);
+            }
 
             if (!isset($payload['submissionId']) || !isset($payload['fields'])) {
-                return response()->json(['message' => 'Invalid payload format.'], 400);
+                // Return 200 for unrecognized format to avoid Fillout test errors, but don't process
+                return response()->json([
+                    'message' => 'Invalid payload format or test ping.',
+                    'payload_received' => $payload
+                ], 200);
             }
 
             $submissionId = $payload['submissionId'];
