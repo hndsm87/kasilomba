@@ -1,67 +1,81 @@
-<x-layouts.app title="Contact Us | Kasiinfo Photo Challenge 2026">
+<x-layouts.app title="Kontak | Kasiinfo Photo Challenge 2026">
     <header class="pt-32 pb-20 bg-dark text-white text-center border-b border-gray-800">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="font-heading text-5xl md:text-7xl mb-4" data-aos="fade-up">Get In Touch</h1>
-            <p class="text-xl text-gray-300" data-aos="fade-up" data-aos-delay="100">Need help? We are here for you.</p>
+            <h1 class="font-heading text-5xl md:text-7xl mb-4" data-aos="fade-up">Hubungi Kami</h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">Tim Kasiinfo siap membantu menjawab kendala teknis maupun pertanyaan seputar lomba.</p>
         </div>
     </header>
 
     <section class="py-24 bg-white relative">
-        <!-- Background Decoration -->
-        <div class="absolute top-0 right-0 w-1/2 h-full bg-gray-50 z-0 hidden lg:block"></div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
                 
                 <!-- Contact Info -->
                 <div data-aos="fade-right">
-                    <span class="text-gold font-bold tracking-wider text-sm uppercase mb-3 block">Reach Out</span>
-                    <h2 class="font-heading text-5xl mb-8 text-dark">Contact Information</h2>
-                    <p class="text-gray-600 mb-12 text-lg">Whether you have a question about the rules, registration issues, or partnership inquiries, our team is ready to answer your questions.</p>
+                    <span class="text-gold font-bold tracking-wider text-sm uppercase mb-3 block">Info Penyelenggara</span>
+                    <h2 class="font-heading text-4xl mb-8 text-dark">Kasiinfo ID</h2>
+                    <p class="text-gray-600 leading-relaxed mb-10 text-lg">
+                        Media informasi terdepan Kabupaten Paser. Jangan ragu untuk menghubungi kami melalui media komunikasi di bawah ini pada jam kerja operasional.
+                    </p>
 
                     <div class="space-y-8">
                         <div class="flex items-start">
-                            <div class="w-14 h-14 bg-dark rounded-2xl flex items-center justify-center mr-6 flex-shrink-0 shadow-lg">
-                                <i data-lucide="mail" class="w-6 h-6 text-gold"></i>
+                            <div class="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-gold"></i>
                             </div>
                             <div>
-                                <h4 class="font-heading text-2xl text-dark mb-1">Email Support</h4>
-                                <a href="mailto:hello@kasiinfo.id" class="text-gray-600 hover:text-gold transition-colors">hello@kasiinfo.id</a>
-                                <p class="text-sm text-gray-400 mt-1">We aim to reply within 24 hours.</p>
+                                <h4 class="font-bold text-dark text-lg mb-1">Sekretariat</h4>
+                                <p class="text-gray-600">Tanah Grogot, Kabupaten Paser<br>Kalimantan Timur, Indonesia</p>
                             </div>
                         </div>
 
                         <div class="flex items-start">
-                            <div class="w-14 h-14 bg-dark rounded-2xl flex items-center justify-center mr-6 flex-shrink-0 shadow-lg">
-                                <i data-lucide="message-circle" class="w-6 h-6 text-green-400"></i>
+                            <div class="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                                <i data-lucide="mail" class="w-5 h-5 text-gold"></i>
                             </div>
                             <div>
-                                <h4 class="font-heading text-2xl text-dark mb-1">WhatsApp Fast Response</h4>
-                                <a href="https://wa.me/6281234567890" target="_blank" class="text-gray-600 hover:text-gold transition-colors">+62 812 3456 7890</a>
-                                <p class="text-sm text-gray-400 mt-1">Available Mon-Fri, 09:00 - 17:00 WITA.</p>
+                                <h4 class="font-bold text-dark text-lg mb-1">Email Resmi</h4>
+                                <a href="mailto:halo@kasiinfo.id" class="text-gray-600 hover:text-gold transition-colors">halo@kasiinfo.id</a>
                             </div>
                         </div>
 
                         <div class="flex items-start">
-                            <div class="w-14 h-14 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0 shadow-lg">
-                                <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
+                            <div class="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                                <i data-lucide="phone" class="w-5 h-5 text-gold"></i>
                             </div>
                             <div>
-                                <h4 class="font-heading text-2xl text-dark mb-1">Instagram</h4>
-                                <a href="https://instagram.com/kasiinfo.id" target="_blank" class="text-gray-600 hover:text-gold transition-colors">@kasiinfo.id</a>
-                                <p class="text-sm text-gray-400 mt-1">DM us for quick updates and queries.</p>
+                                <h4 class="font-bold text-dark text-lg mb-1">WhatsApp / Telepon</h4>
+                                <p class="text-gray-600">+62 812 3456 7890 (Hanya Jam Kerja)</p>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12">
+                        <h4 class="font-bold text-dark mb-4">Ikuti Media Sosial Kami:</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gold hover:text-white transition-colors">
+                                <i data-lucide="instagram" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gold hover:text-white transition-colors">
+                                <i data-lucide="twitter" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gold hover:text-white transition-colors">
+                                <i data-lucide="facebook" class="w-5 h-5"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Google Maps Placeholder -->
-                <div class="relative rounded-3xl overflow-hidden shadow-2xl h-[500px] bg-gray-200" data-aos="fade-left">
-                    <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-8 bg-gray-100">
-                        <i data-lucide="map" class="w-16 h-16 text-gray-400 mb-4"></i>
-                        <h3 class="font-heading text-3xl text-gray-600 mb-2">Headquarters</h3>
-                        <p class="text-gray-500">Tana Paser, Kabupaten Paser<br>Kalimantan Timur, Indonesia</p>
-                        <div class="mt-8 border border-gray-300 text-gray-500 px-6 py-2 rounded-full text-sm">Google Maps Embed Placeholder</div>
+                <!-- Decorative Side -->
+                <div class="relative hidden lg:block" data-aos="fade-left">
+                    <div class="absolute inset-0 bg-dark rounded-3xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1516383274235-5f42d6c6426d?q=80&w=2069&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 mix-blend-overlay" alt="Contact Us">
+                        <div class="absolute inset-0 flex items-center justify-center p-12 text-center">
+                            <div>
+                                <img src="{{ asset('images/logo.png') }}" alt="Kasiinfo Logo" class="h-16 mx-auto mb-6">
+                                <p class="text-white text-lg font-light italic">"Dari tangan-tangan sederhana lahir kemajuan Bumi Paser."</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

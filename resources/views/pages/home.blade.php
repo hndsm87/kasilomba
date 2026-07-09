@@ -25,10 +25,10 @@
             
             <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6" data-aos="fade-up" data-aos-delay="800">
                 <a href="{{ url('/register') }}" class="bg-gold text-dark px-10 py-4 rounded-full font-bold text-lg hover:bg-yellow-500 hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.5)] w-full sm:w-auto">
-                    Register Now
+                    Daftar Sekarang
                 </a>
                 <a href="{{ url('/guidebook') }}" class="bg-white/10 backdrop-blur-md border border-white/30 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 w-full sm:w-auto">
-                    Read Guidebook
+                    Baca Panduan
                 </a>
             </div>
         </div>
@@ -36,7 +36,7 @@
         <!-- Scroll Indicator -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center animate-bounce" data-aos="fade-in" data-aos-delay="1200">
             <i data-lucide="camera" class="w-8 h-8 text-gold mb-2 opacity-80"></i>
-            <span class="text-xs text-white uppercase tracking-widest">Scroll</span>
+            <span class="text-xs text-white uppercase tracking-widest">Gulir Ke Bawah</span>
             <i data-lucide="chevron-down" class="w-5 h-5 text-white"></i>
         </div>
     </section>
@@ -46,17 +46,17 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div>
-                    <x-ui.section-title title="The Exhibition of Progress" subtitle="About The Challenge">
+                    <x-ui.section-title title="Merekam Semangat Paser" subtitle="Tentang Kompetisi">
                         <p class="mb-6 text-gray-600">
-                            Kabupaten Paser is evolving. This competition is a stage to capture the untold stories of simple hands building the future. Show us the human interest, the documentary, the raw reality of progress.
+                            Kasiinfo Photo Challenge merupakan kompetisi fotografi untuk mendokumentasikan semangat masyarakat Kabupaten Paser sekaligus meningkatkan apresiasi terhadap profesi yang menggerakkan roda kehidupan daerah.
                         </p>
                         <a href="{{ url('/about') }}" class="inline-flex items-center text-dark font-bold hover:text-gold transition-colors group">
-                            Discover the Vision <i data-lucide="arrow-right" class="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform"></i>
+                            Pelajari Selengkapnya <i data-lucide="arrow-right" class="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform"></i>
                         </a>
                     </x-ui.section-title>
                 </div>
                 <div class="relative rounded-2xl overflow-hidden shadow-2xl" data-aos="fade-left">
-                    <img src="https://images.unsplash.com/photo-1517409081512-42171120eb5a?q=80&w=2070&auto=format&fit=crop" alt="Photography" class="w-full h-auto object-cover aspect-[4/3] transform hover:scale-105 transition-transform duration-700">
+                    <img src="https://images.unsplash.com/photo-1516383274235-5f42d6c6426d?q=80&w=2069&auto=format&fit=crop" alt="Photography" class="w-full h-auto object-cover aspect-[4/3] transform hover:scale-105 transition-transform duration-700">
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
     <!-- CATEGORIES -->
     <section class="py-24 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <x-ui.section-title title="Competition Categories" subtitle="Choose Your Gear" centered="true" />
+            <x-ui.section-title title="Kategori Kompetisi" subtitle="Pilih Senjatamu" centered="true" />
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mt-16">
                 <x-ui.card-category 
@@ -73,7 +73,7 @@
                     image="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1780&auto=format&fit=crop"
                     link="{{ url('/categories#smartphone') }}"
                     delay="100">
-                    Accessible to everyone. Capture stunning moments using only the camera in your pocket.
+                    Bebas berekspresi dengan kamera bawaan Android atau iPhone di saku Anda.
                 </x-ui.card-category>
 
                 <x-ui.card-category 
@@ -81,7 +81,7 @@
                     image="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1964&auto=format&fit=crop"
                     link="{{ url('/categories#dslr') }}"
                     delay="300">
-                    For the enthusiasts and professionals. Unrestricted creative freedom with interchangeable lenses.
+                    Untuk antusias dan profesional. Kebebasan kreatif tanpa batas dengan lensa lepas tukar.
                 </x-ui.card-category>
             </div>
         </div>
@@ -95,23 +95,23 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
                 <div>
-                    <x-ui.section-title title="Journey to the Top" subtitle="Event Timeline" light="true">
-                        Mark your calendars. The journey to becoming the best photographer in Paser starts here.
+                    <x-ui.section-title title="Menuju Puncak" subtitle="Jadwal Acara" light="true">
+                        Tandai kalender Anda. Perjalanan untuk memamerkan karya terbaik Anda dimulai di sini.
                     </x-ui.section-title>
                     <a href="{{ url('/timeline') }}" class="inline-block mt-8 bg-gold text-dark px-8 py-3 rounded-full font-bold hover:bg-white transition-colors duration-300">
-                        View Full Timeline
+                        Lihat Jadwal Lengkap
                     </a>
                 </div>
                 
                 <div class="space-y-0 relative">
-                    <x-ui.timeline-item date="Aug 1, 2026" title="Registration Opens" active="true">
-                        Start submitting your best photos through our official portal.
+                    <x-ui.timeline-item date="13 Juli 2026" title="Pendaftaran Dibuka" active="true">
+                        Pengumpulan karya resmi dimulai melalui form website.
                     </x-ui.timeline-item>
-                    <x-ui.timeline-item date="Sep 15, 2026" title="Registration Closes">
-                        The final deadline for all photo submissions.
+                    <x-ui.timeline-item date="7 Agustus 2026" title="Batas Akhir Pengumpulan">
+                        Hari terakhir untuk mendaftarkan dan mengirimkan karya foto Anda.
                     </x-ui.timeline-item>
-                    <x-ui.timeline-item date="Oct 1, 2026" title="Top 10 Announcement" last="true">
-                        The judges reveal the finalists who will proceed to the voting phase.
+                    <x-ui.timeline-item date="17 Agustus 2026" title="Pengumuman Pemenang" last="true">
+                        Puncak acara pengumuman juara bertepatan dengan Hari Kemerdekaan.
                     </x-ui.timeline-item>
                 </div>
             </div>

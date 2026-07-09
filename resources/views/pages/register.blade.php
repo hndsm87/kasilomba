@@ -1,9 +1,9 @@
-<x-layouts.app title="Register | Kasiinfo Photo Challenge 2026">
+<x-layouts.app title="Daftar | Kasiinfo Photo Challenge 2026">
     <header class="pt-32 pb-20 bg-dark text-white text-center border-b border-gray-800">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <span class="text-gold font-bold tracking-wider text-sm uppercase mb-3 block" data-aos="fade-up">Join The Challenge</span>
-            <h1 class="font-heading text-5xl md:text-7xl mb-4" data-aos="fade-up" data-aos-delay="100">Submit Your Masterpiece</h1>
-            <p class="text-xl text-gray-300 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">Fill out the form below to officially enter the Kasiinfo Photo Challenge 2026. Make sure you have read the guidebook before proceeding.</p>
+            <span class="text-gold font-bold tracking-wider text-sm uppercase mb-3 block" data-aos="fade-up">Bergabunglah Dalam Kompetisi</span>
+            <h1 class="font-heading text-5xl md:text-7xl mb-4" data-aos="fade-up" data-aos-delay="100">Kirimkan Karya Terbaik Anda</h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">Isi formulir di bawah ini untuk mendaftar secara resmi dalam Kasiinfo Photo Challenge 2026. Pastikan Anda telah membaca buku panduan sebelum melanjutkan.</p>
         </div>
     </header>
 
@@ -20,7 +20,7 @@
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-yellow-800 font-medium">
-                            Attention: Prepare your KTP/Kartu Pelajar and your final photo (Max 10MB) before starting to fill out this form.
+                            Perhatian: Siapkan KTP/SIM/Kartu Pelajar dan file foto asli Anda (Maks. 10MB) sebelum mulai mengisi formulir ini.
                         </p>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                         <div class="w-3 h-3 rounded-full bg-green-400"></div>
                     </div>
                     <div class="mx-auto bg-white rounded-md px-4 py-1 text-xs text-gray-400 border border-gray-200 flex items-center">
-                        <i data-lucide="lock" class="w-3 h-3 mr-1 text-green-500"></i> Secure Fillout Form
+                        <i data-lucide="lock" class="w-3 h-3 mr-1 text-green-500"></i> Formulir Aman & Terenkripsi
                     </div>
                 </div>
 
@@ -49,10 +49,10 @@
 
             <!-- After Registration Instructions -->
             <div class="mt-16 text-center" data-aos="fade-up">
-                <h3 class="font-heading text-3xl text-dark mb-4">What's Next?</h3>
-                <p class="text-gray-600 mb-6">After submitting this form, do not forget to upload the exact same photo to your Instagram.</p>
+                <h3 class="font-heading text-3xl text-dark mb-4">Apa Selanjutnya?</h3>
+                <p class="text-gray-600 mb-6">Setelah men-submit formulir ini, jangan lupa untuk mengunggah foto yang sama persis ke akun Instagram Anda dengan hashtag yang telah ditentukan.</p>
                 <a href="{{ url('/join') }}" class="text-gold font-bold hover:text-yellow-600 transition-colors">
-                    Review "How To Join" Steps &rarr;
+                    Lihat Cara Bergabung (Langkah 2) &rarr;
                 </a>
             </div>
 

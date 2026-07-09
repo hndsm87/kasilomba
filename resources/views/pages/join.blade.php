@@ -1,99 +1,93 @@
-<x-layouts.app title="How to Join | Kasiinfo Photo Challenge 2026">
+<x-layouts.app title="Cara Bergabung | Kasiinfo Photo Challenge 2026">
     <header class="pt-32 pb-20 bg-dark text-white text-center border-b border-gray-800">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="font-heading text-5xl md:text-7xl mb-4" data-aos="fade-up">How To Join</h1>
-            <p class="text-xl text-gray-300" data-aos="fade-up" data-aos-delay="100">Follow these simple steps to enter the competition.</p>
+            <h1 class="font-heading text-5xl md:text-7xl mb-4" data-aos="fade-up">Cara Bergabung</h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">Ikuti dua langkah mudah ini untuk memastikan karya Anda terdaftar secara resmi dan sah untuk dinilai.</p>
         </div>
     </header>
 
-    <section class="py-24 bg-white" x-data="{ step: 1 }">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <!-- Stepper Navigation (Desktop) -->
-            <div class="hidden md:flex justify-between items-center mb-16 relative">
-                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-gray-200 z-0"></div>
-                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-gold z-0 transition-all duration-500" :style="'width: ' + ((step - 1) * 25) + '%'"></div>
-
-                <template x-for="i in 5" :key="i">
-                    <button @click="step = i" class="relative z-10 w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 focus:outline-none"
-                            :class="step >= i ? 'bg-gold text-dark shadow-[0_0_15px_rgba(212,175,55,0.6)] scale-110' : 'bg-white border-2 border-gray-300 text-gray-400 hover:border-gold'">
-                        <span x-text="i"></span>
-                    </button>
-                </template>
-            </div>
-
-            <!-- Stepper Content -->
-            <div class="bg-gray-50 rounded-3xl p-8 md:p-12 shadow-lg border border-gray-100 relative min-h-[400px]">
-                
-                <!-- Step 1 -->
-                <div x-show="step === 1" x-transition.opacity.duration.500ms class="absolute inset-0 p-8 md:p-12 flex flex-col justify-center text-center">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-                        <i data-lucide="book-open" class="w-10 h-10 text-dark"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Step 1: Website -->
+                <div class="bg-gray-50 rounded-3xl p-10 border border-gray-100 shadow-xl relative overflow-hidden" data-aos="fade-up">
+                    <div class="absolute top-0 right-0 bg-gold text-dark font-bold py-2 px-6 rounded-bl-3xl">LANGKAH 1</div>
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-8">
+                        <i data-lucide="globe" class="w-8 h-8 text-dark"></i>
                     </div>
-                    <h3 class="font-heading text-4xl text-dark mb-4">Read Guidebook</h3>
-                    <p class="text-gray-600 text-lg max-w-2xl mx-auto mb-8">Before doing anything else, make sure you thoroughly read the official guidebook. Understand the theme, rules, and requirements to avoid disqualification.</p>
-                    <div>
-                        <a href="{{ url('/guidebook') }}" class="inline-block bg-dark text-white px-8 py-3 rounded-full font-bold hover:bg-gold hover:text-dark transition-colors duration-300">Read Guidebook</a>
-                    </div>
+                    <h2 class="font-heading text-3xl mb-4 text-dark">Registrasi Melalui Website</h2>
+                    <p class="text-gray-600 mb-6">Sebagai pintu masuk utama, Anda diwajibkan untuk mengisi formulir pendaftaran secara lengkap dan valid.</p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-gold mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span class="text-gray-700">Akses halaman <a href="{{ url('/register') }}" class="font-bold hover:text-gold transition-colors">Register</a>.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-gold mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span class="text-gray-700">Mengisi biodata dengan melampirkan identitas resmi (KTP/SIM/Kartu Pelajar).</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-gold mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span class="text-gray-700">Mengunggah file foto (maks. 10MB) tanpa watermark.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-gold mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span class="text-gray-700">Menyertakan judul, lokasi, dan narasi/cerita foto maksimal 150 kata.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-gold mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span class="text-gray-700">Menyetujui seluruh syarat, ketentuan, serta pernyataan orisinalitas karya.</span>
+                        </li>
+                    </ul>
+                    <a href="{{ url('/register') }}" class="block w-full text-center bg-dark text-white py-3 rounded-xl font-bold hover:bg-gray-800 transition-colors">
+                        Mulai Registrasi
+                    </a>
                 </div>
 
-                <!-- Step 2 -->
-                <div x-show="step === 2" x-cloak x-transition.opacity.duration.500ms class="absolute inset-0 p-8 md:p-12 flex flex-col justify-center text-center">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-                        <i data-lucide="file-text" class="w-10 h-10 text-dark"></i>
+                <!-- Step 2: Instagram -->
+                <div class="bg-gray-50 rounded-3xl p-10 border border-gray-100 shadow-xl relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute top-0 right-0 bg-dark text-gold font-bold py-2 px-6 rounded-bl-3xl">LANGKAH 2</div>
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-8">
+                        <i data-lucide="instagram" class="w-8 h-8 text-pink-600"></i>
                     </div>
-                    <h3 class="font-heading text-4xl text-dark mb-4">Fill Registration Form</h3>
-                    <p class="text-gray-600 text-lg max-w-2xl mx-auto mb-8">Go to the registration page and fill out the official form. You will need to provide your personal details, category selection, and upload a photo of your KTP or Kartu Pelajar.</p>
-                </div>
-
-                <!-- Step 3 -->
-                <div x-show="step === 3" x-cloak x-transition.opacity.duration.500ms class="absolute inset-0 p-8 md:p-12 flex flex-col justify-center text-center">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-                        <i data-lucide="upload-cloud" class="w-10 h-10 text-dark"></i>
-                    </div>
-                    <h3 class="font-heading text-4xl text-dark mb-4">Upload Photo</h3>
-                    <p class="text-gray-600 text-lg max-w-2xl mx-auto mb-8">Within the same registration form, upload your final photo submission. Ensure the file size and format match the requirements stated in the form.</p>
-                </div>
-
-                <!-- Step 4 -->
-                <div x-show="step === 4" x-cloak x-transition.opacity.duration.500ms class="absolute inset-0 p-8 md:p-12 flex flex-col justify-center text-center">
-                    <div class="w-20 h-20 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-                        <i data-lucide="instagram" class="w-10 h-10 text-white"></i>
-                    </div>
-                    <h3 class="font-heading text-4xl text-dark mb-4">Upload to Instagram</h3>
-                    <p class="text-gray-600 text-lg max-w-2xl mx-auto mb-6">After submitting the form, post the exact same photo to your public Instagram account.</p>
-                    <div class="bg-white p-4 rounded-xl border border-gray-200 inline-block text-left mx-auto">
-                        <p class="font-bold text-dark mb-2">You must include:</p>
-                        <ul class="text-sm text-gray-600 space-y-1">
-                            <li>Tag: <span class="text-blue-600">@kasiinfo.id</span></li>
-                            <li>Hashtags: <span class="text-blue-600">#KasiinfoPhotoChallenge2026 #RodaJuangBumiPaser #KasiinfoID</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Step 5 -->
-                <div x-show="step === 5" x-cloak x-transition.opacity.duration.500ms class="absolute inset-0 p-8 md:p-12 flex flex-col justify-center text-center">
-                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-                        <i data-lucide="check-circle" class="w-10 h-10 text-green-600"></i>
-                    </div>
-                    <h3 class="font-heading text-4xl text-dark mb-4">Registration Complete</h3>
-                    <p class="text-gray-600 text-lg max-w-2xl mx-auto mb-8">You are all set! Your submission is now recorded. Keep an eye on your email and our Instagram for the Top 10 announcements.</p>
-                    <div>
-                        <a href="{{ url('/register') }}" class="inline-block bg-gold text-dark px-10 py-4 rounded-full font-bold text-lg hover:bg-yellow-500 hover:scale-105 transition-all duration-300 shadow-lg">Start Registration</a>
-                    </div>
+                    <h2 class="font-heading text-3xl mb-4 text-dark">Publikasi Instagram</h2>
+                    <p class="text-gray-600 mb-6">Agar karya Anda dapat dilihat oleh publik dan masuk bursa juara favorit, unggah foto tersebut di Instagram.</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-pink-600 mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span class="text-gray-700">Unggah file foto yang sama persis dengan yang dikirim melalui website.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-pink-600 mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span class="text-gray-700">Pastikan akun Instagram tidak terkunci (Public Account) hingga masa pengumuman.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-pink-600 mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span class="text-gray-700">Wajib memberikan <strong>Tag</strong> dan <strong>Mention</strong> ke akun resmi <a href="#" class="text-blue-500 font-bold hover:underline">@kasiinfo.id</a>.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-pink-600 mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span class="text-gray-700">Sertakan narasi Anda di caption dengan hashtag: <br>
+                                <span class="text-blue-500 text-sm font-bold block mt-1">#KasiinfoPhotoChallenge2026 #RodaJuangBumiPaser #KasiinfoID</span>
+                            </span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="alert-circle" class="w-5 h-5 text-red-500 mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span class="text-gray-700 text-sm italic">Postingan dilarang dihapus sebelum pengumuman pemenang pada 17 Agustus 2026.</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Stepper Controls -->
-            <div class="flex justify-between mt-8">
-                <button @click="if(step > 1) step--" :class="{ 'opacity-50 cursor-not-allowed': step === 1 }" class="flex items-center text-dark font-bold hover:text-gold transition-colors">
-                    <i data-lucide="arrow-left" class="w-5 h-5 mr-2"></i> Previous Step
-                </button>
-                <button @click="if(step < 5) step++" x-show="step < 5" class="flex items-center text-dark font-bold hover:text-gold transition-colors">
-                    Next Step <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
-                </button>
+            <!-- Validation Note -->
+            <div class="mt-16 bg-blue-50 border border-blue-100 p-6 rounded-2xl flex items-start shadow-sm" data-aos="fade-up">
+                <i data-lucide="info" class="w-6 h-6 text-blue-500 mr-4 mt-0.5 flex-shrink-0"></i>
+                <p class="text-blue-800 text-sm leading-relaxed">
+                    <strong>Penting:</strong> Karya baru dianggap valid apabila peserta telah melakukan <strong>kedua langkah di atas</strong> (mengisi formulir di website Kasiinfo.id DAN mempostingnya di Instagram dengan format yang benar). Panitia berhak mendiskualifikasi karya apabila salah satu syarat tidak dipenuhi.
+                </p>
             </div>
-
+            
         </div>
     </section>
 </x-layouts.app>

@@ -8,22 +8,22 @@
         <div class="flex justify-between items-center">
             <!-- Logo -->
             <div class="flex-shrink-0 flex items-center">
-                <a href="{{ url('/') }}" class="font-heading text-2xl tracking-widest font-bold">
-                    KASIINFO<span class="text-gold">.</span>
+                <a href="{{ url('/') }}" class="flex items-center">
+                    <img src="{{ asset('images/logo.png') }}" alt="Kasiinfo Logo" class="h-8 md:h-10">
                 </a>
             </div>
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-8 items-center">
-                <a href="{{ url('/about') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">About</a>
-                <a href="{{ url('/guidebook') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Guidebook</a>
-                <a href="{{ url('/timeline') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Timeline</a>
-                <a href="{{ url('/prizes') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Prizes</a>
-                <a href="{{ url('/categories') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Categories</a>
+                <a href="{{ url('/about') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Tentang</a>
+                <a href="{{ url('/guidebook') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Panduan</a>
+                <a href="{{ url('/timeline') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Jadwal</a>
+                <a href="{{ url('/prizes') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Hadiah</a>
+                <a href="{{ url('/categories') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Kategori</a>
                 <a href="{{ url('/faq') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">FAQ</a>
                 
                 <a href="{{ url('/register') }}" class="bg-gold text-dark px-6 py-2 rounded-full font-semibold text-sm hover:bg-yellow-500 transition-colors duration-200 shadow-[0_0_15px_rgba(212,175,55,0.4)]">
-                    Register Now
+                    Daftar Sekarang
                 </a>
             </div>
 
@@ -51,14 +51,14 @@
         x-cloak
     >
         <div class="px-4 pt-2 pb-6 space-y-1 text-center flex flex-col">
-            <a href="{{ url('/about') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">About</a>
-            <a href="{{ url('/guidebook') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Guidebook</a>
-            <a href="{{ url('/timeline') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Timeline</a>
-            <a href="{{ url('/prizes') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Prizes</a>
-            <a href="{{ url('/categories') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Categories</a>
+            <a href="{{ url('/about') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Tentang</a>
+            <a href="{{ url('/guidebook') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Panduan</a>
+            <a href="{{ url('/timeline') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Jadwal</a>
+            <a href="{{ url('/prizes') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Hadiah</a>
+            <a href="{{ url('/categories') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Kategori</a>
             <a href="{{ url('/faq') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">FAQ</a>
             
-            <a href="{{ url('/register') }}" class="block px-3 py-3 mt-4 text-base font-bold bg-gold text-dark rounded-md">Register Now</a>
+            <a href="{{ url('/register') }}" class="block px-3 py-3 mt-4 text-base font-bold bg-gold text-dark rounded-md">Daftar Sekarang</a>
         </div>
     </div>
 </nav>

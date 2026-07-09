@@ -1,60 +1,61 @@
 <footer class="bg-dark text-white pt-20 pb-10 border-t border-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 border-b border-gray-800 pb-12">
+            
             <!-- Brand -->
             <div class="col-span-1 md:col-span-1">
-                <a href="{{ url('/') }}" class="font-heading text-3xl tracking-widest font-bold mb-4 block">
-                    KASIINFO<span class="text-gold">.</span>
+                <a href="{{ url('/') }}" class="flex items-center mb-6">
+                    <img src="{{ asset('images/logo.png') }}" alt="Kasiinfo Logo" class="h-10">
                 </a>
                 <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                    "Dari tangan-tangan sederhana lahir kemajuan Bumi Paser."
+                    Platform informasi terdepan di Kabupaten Paser. Menghubungkan, menginspirasi, dan memberdayakan komunitas melalui konten yang relevan dan otentik.
                 </p>
                 <div class="flex space-x-4">
-                    <a href="#" class="text-gray-400 hover:text-gold transition-colors">
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-gold hover:text-dark transition-colors">
                         <i data-lucide="instagram" class="w-5 h-5"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-gold transition-colors">
-                        <i data-lucide="facebook" class="w-5 h-5"></i>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-gold hover:text-dark transition-colors">
+                        <i data-lucide="twitter" class="w-5 h-5"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-gold transition-colors">
-                        <i data-lucide="youtube" class="w-5 h-5"></i>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-gold hover:text-dark transition-colors">
+                        <i data-lucide="facebook" class="w-5 h-5"></i>
                     </a>
                 </div>
             </div>
 
             <!-- Quick Links -->
             <div>
-                <h4 class="font-heading text-xl mb-6 tracking-wide text-gray-200">Competition</h4>
-                <ul class="space-y-3">
-                    <li><a href="{{ url('/about') }}" class="text-gray-400 hover:text-white transition-colors text-sm">About Challenge</a></li>
-                    <li><a href="{{ url('/categories') }}" class="text-gray-400 hover:text-white transition-colors text-sm">Categories</a></li>
-                    <li><a href="{{ url('/prizes') }}" class="text-gray-400 hover:text-white transition-colors text-sm">Prizes</a></li>
-                    <li><a href="{{ url('/timeline') }}" class="text-gray-400 hover:text-white transition-colors text-sm">Timeline</a></li>
+                <h4 class="text-white font-bold mb-6 tracking-wider uppercase text-sm">Tautan Cepat</h4>
+                <ul class="space-y-4">
+                    <li><a href="{{ url('/about') }}" class="text-gray-400 hover:text-gold transition-colors text-sm flex items-center"><i data-lucide="chevron-right" class="w-4 h-4 mr-2"></i> Tentang Kompetisi</a></li>
+                    <li><a href="{{ url('/categories') }}" class="text-gray-400 hover:text-gold transition-colors text-sm flex items-center"><i data-lucide="chevron-right" class="w-4 h-4 mr-2"></i> Kategori</a></li>
+                    <li><a href="{{ url('/prizes') }}" class="text-gray-400 hover:text-gold transition-colors text-sm flex items-center"><i data-lucide="chevron-right" class="w-4 h-4 mr-2"></i> Hadiah</a></li>
+                    <li><a href="{{ url('/timeline') }}" class="text-gray-400 hover:text-gold transition-colors text-sm flex items-center"><i data-lucide="chevron-right" class="w-4 h-4 mr-2"></i> Jadwal</a></li>
                 </ul>
             </div>
 
             <!-- Support -->
             <div>
-                <h4 class="font-heading text-xl mb-6 tracking-wide text-gray-200">Support</h4>
-                <ul class="space-y-3">
-                    <li><a href="{{ url('/guidebook') }}" class="text-gray-400 hover:text-white transition-colors text-sm">Guidebook</a></li>
-                    <li><a href="{{ url('/join') }}" class="text-gray-400 hover:text-white transition-colors text-sm">How to Join</a></li>
-                    <li><a href="{{ url('/faq') }}" class="text-gray-400 hover:text-white transition-colors text-sm">FAQ</a></li>
-                    <li><a href="{{ url('/contact') }}" class="text-gray-400 hover:text-white transition-colors text-sm">Contact Us</a></li>
+                <h4 class="text-white font-bold mb-6 tracking-wider uppercase text-sm">Bantuan</h4>
+                <ul class="space-y-4">
+                    <li><a href="{{ url('/guidebook') }}" class="text-gray-400 hover:text-gold transition-colors text-sm flex items-center"><i data-lucide="chevron-right" class="w-4 h-4 mr-2"></i> Panduan Lengkap</a></li>
+                    <li><a href="{{ url('/join') }}" class="text-gray-400 hover:text-gold transition-colors text-sm flex items-center"><i data-lucide="chevron-right" class="w-4 h-4 mr-2"></i> Cara Bergabung</a></li>
+                    <li><a href="{{ url('/faq') }}" class="text-gray-400 hover:text-gold transition-colors text-sm flex items-center"><i data-lucide="chevron-right" class="w-4 h-4 mr-2"></i> FAQ</a></li>
+                    <li><a href="{{ url('/contact') }}" class="text-gray-400 hover:text-gold transition-colors text-sm flex items-center"><i data-lucide="chevron-right" class="w-4 h-4 mr-2"></i> Kontak Kami</a></li>
                 </ul>
             </div>
 
             <!-- Contact -->
             <div>
-                <h4 class="font-heading text-xl mb-6 tracking-wide text-gray-200">Contact</h4>
+                <h4 class="text-white font-bold mb-6 tracking-wider uppercase text-sm">Kontak</h4>
                 <ul class="space-y-4">
                     <li class="flex items-start">
                         <i data-lucide="map-pin" class="w-5 h-5 text-gold mr-3 mt-0.5 flex-shrink-0"></i>
-                        <span class="text-gray-400 text-sm">Kabupaten Paser, Kalimantan Timur, Indonesia</span>
+                        <span class="text-gray-400 text-sm">Tanah Grogot, Kabupaten Paser, Kalimantan Timur, Indonesia</span>
                     </li>
                     <li class="flex items-center">
                         <i data-lucide="mail" class="w-5 h-5 text-gold mr-3 flex-shrink-0"></i>
-                        <a href="mailto:hello@kasiinfo.id" class="text-gray-400 hover:text-white transition-colors text-sm">hello@kasiinfo.id</a>
+                        <span class="text-gray-400 text-sm">halo@kasiinfo.id</span>
                     </li>
                     <li class="flex items-center">
                         <i data-lucide="phone" class="w-5 h-5 text-gold mr-3 flex-shrink-0"></i>
@@ -66,11 +67,11 @@
 
         <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p class="text-gray-500 text-sm mb-4 md:mb-0">
-                &copy; {{ date('Y') }} Kasiinfo Photo Challenge. All rights reserved.
+                &copy; 2026 Kasiinfo.id. Hak Cipta Dilindungi Undang-Undang.
             </p>
-            <div class="flex space-x-6 text-sm text-gray-500">
-                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
-                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+            <div class="flex space-x-6 text-sm">
+                <a href="#" class="text-gray-500 hover:text-white transition-colors">Kebijakan Privasi</a>
+                <a href="#" class="text-gray-500 hover:text-white transition-colors">Syarat & Ketentuan</a>
             </div>
         </div>
     </div>
