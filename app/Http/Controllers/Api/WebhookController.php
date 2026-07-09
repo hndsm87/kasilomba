@@ -106,15 +106,15 @@ class WebhookController extends Controller
                 ]
             );
 
-            // Log successful sync
-            SyncLog::create([
-                'row_count' => 1,
-                // created_by is typically a user ID, but webhooks have no auth user. 
-                // In a real scenario, we might make this nullable or assign a system user ID.
-                // Assuming Admin user is ID 1 for automated webhook logs:
-                'created_by' => 1, 
-                'status' => 'success',
-            ]);
+            // Log successful sync if a user exists (prevent foreign key crash on empty DB)
+            $adminUser = \App\Models\User::first();
+            if ($adminUser) {
+                SyncLog::create([
+                    'row_count' => 1,
+                    'created_by' => $adminUser->id, 
+                    'status' => 'success',
+                ]);
+            }
 
             return response()->json([
                 'message' => 'Successfully processed webhook.',
@@ -124,12 +124,15 @@ class WebhookController extends Controller
         } catch (\Exception $e) {
             Log::error('Fillout Webhook Error', ['error' => $e->getMessage()]);
             
-            SyncLog::create([
-                'row_count' => 0,
-                'created_by' => 1,
-                'status' => 'failed',
-                'error_message' => $e->getMessage()
-            ]);
+            $adminUser = \App\Models\User::first();
+            if ($adminUser) {
+                SyncLog::create([
+                    'row_count' => 0,
+                    'created_by' => $adminUser->id,
+                    'status' => 'failed',
+                    'error_message' => $e->getMessage()
+                ]);
+            }
 
             return response()->json(['message' => 'Internal server error processing webhook.'], 500);
         }
