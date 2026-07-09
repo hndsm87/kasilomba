@@ -1,0 +1,64 @@
+<nav 
+    x-data="{ scrolled: false, mobileMenuOpen: false }"
+    @scroll.window="scrolled = (window.pageYOffset > 20) ? true : false"
+    :class="{ 'glass-dark text-white border-b border-gray-800/50 py-3 shadow-lg': scrolled, 'bg-transparent text-white py-5': !scrolled }"
+    class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out"
+>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex-shrink-0 flex items-center">
+                <a href="{{ url('/') }}" class="font-heading text-2xl tracking-widest font-bold">
+                    KASIINFO<span class="text-gold">.</span>
+                </a>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="{{ url('/about') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">About</a>
+                <a href="{{ url('/guidebook') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Guidebook</a>
+                <a href="{{ url('/timeline') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Timeline</a>
+                <a href="{{ url('/prizes') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Prizes</a>
+                <a href="{{ url('/categories') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Categories</a>
+                <a href="{{ url('/faq') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">FAQ</a>
+                
+                <a href="{{ url('/register') }}" class="bg-gold text-dark px-6 py-2 rounded-full font-semibold text-sm hover:bg-yellow-500 transition-colors duration-200 shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+                    Register Now
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="flex items-center md:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white hover:text-gold focus:outline-none">
+                    <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
+                    <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen" x-cloak></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div 
+        x-show="mobileMenuOpen" 
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-2"
+        @click.away="mobileMenuOpen = false"
+        class="md:hidden glass-dark border-t border-gray-800/50 absolute top-full left-0 w-full"
+        x-cloak
+    >
+        <div class="px-4 pt-2 pb-6 space-y-1 text-center flex flex-col">
+            <a href="{{ url('/about') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">About</a>
+            <a href="{{ url('/guidebook') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Guidebook</a>
+            <a href="{{ url('/timeline') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Timeline</a>
+            <a href="{{ url('/prizes') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Prizes</a>
+            <a href="{{ url('/categories') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Categories</a>
+            <a href="{{ url('/faq') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">FAQ</a>
+            
+            <a href="{{ url('/register') }}" class="block px-3 py-3 mt-4 text-base font-bold bg-gold text-dark rounded-md">Register Now</a>
+        </div>
+    </div>
+</nav>

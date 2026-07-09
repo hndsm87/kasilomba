@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import 'aos/dist/aos.css';
+@import 'swiper/css';
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../../node_modules/flowbite/**/*.js';
+
+@theme {
+    --color-dark: #111827;
+    --color-gold: #D4AF37;
+    --color-kasi-red: #DC2626;
+
+    --font-heading: 'Bebas Neue', sans-serif;
+    --font-sans: 'Poppins', sans-serif;
+}
+
+@layer base {
+    body {
+        @apply bg-white text-dark font-sans antialiased overflow-x-hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-heading tracking-wide uppercase;
+    }
+}
+
+@layer utilities {
+    .glass {
+        @apply bg-white/70 backdrop-blur-md border border-white/20;
+    }
+
+    .glass-dark {
+        @apply bg-dark/70 backdrop-blur-md border border-gray-800/50;
+    }
+
+    .text-shadow-premium {
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+    
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
