@@ -3,8 +3,8 @@
     <section class="relative h-screen flex items-center justify-center overflow-hidden">
         <!-- Parallax Background -->
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2070&auto=format&fit=crop" 
-                 alt="Hero Background" 
+            <img src="{{ asset('images/hero-paser.jpg') }}" 
+                 alt="Hero Background - Petani Sawit Paser" 
                  class="w-full h-full object-cover" 
                  x-data
                  x-init="window.addEventListener('scroll', () => { $el.style.transform = `translateY(${window.scrollY * 0.4}px)` })"
@@ -73,7 +73,7 @@
                     </x-ui.section-title>
                 </div>
                 <div class="relative rounded-2xl overflow-hidden shadow-2xl" data-aos="fade-left">
-                    <img src="https://images.unsplash.com/photo-1516383274235-5f42d6c6426d?q=80&w=2069&auto=format&fit=crop" alt="Photography" class="w-full h-auto object-cover aspect-[4/3] transform hover:scale-105 transition-transform duration-700">
+                    <img src="{{ asset('images/about-hero.jpg') }}" alt="Petugas Kebersihan Paser - Unsung Hero" class="w-full h-auto object-cover aspect-[4/3] transform hover:scale-105 transition-transform duration-700">
                 </div>
             </div>
         </div>

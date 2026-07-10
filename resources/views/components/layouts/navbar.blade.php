@@ -15,6 +15,9 @@
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-8 items-center">
+                <a href="https://kasiinfo.id" target="_blank" class="text-sm font-bold text-white hover:text-gold transition-colors duration-200 flex items-center">
+                    <i data-lucide="globe" class="w-4 h-4 mr-1"></i> Portal Utama
+                </a>
                 <a href="{{ url('/about') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Tentang</a>
                 <a href="{{ url('/guidebook') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Panduan</a>
                 <a href="{{ url('/timeline') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Jadwal</a>
@@ -63,6 +66,9 @@
         x-cloak
     >
         <div class="px-4 pt-2 pb-6 space-y-1 text-center flex flex-col">
+            <a href="https://kasiinfo.id" target="_blank" class="block px-3 py-3 text-base font-bold text-white hover:text-gold hover:bg-white/5 rounded-md flex items-center justify-center">
+                <i data-lucide="globe" class="w-5 h-5 mr-2"></i> Portal Utama
+            </a>
             <a href="{{ url('/about') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Tentang</a>
             <a href="{{ url('/guidebook') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Panduan</a>
             <a href="{{ url('/timeline') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Jadwal</a>
