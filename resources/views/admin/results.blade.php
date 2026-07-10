@@ -12,9 +12,19 @@
             </button>
         </div>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-2xl" data-aos="fade-up">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-gray-400">
+        <!-- Tabs -->
+        <div class="flex mb-6 space-x-2">
+            <a href="{{ route('admin.results', ['category' => 'smartphone']) }}" class="px-6 py-2 rounded-lg text-sm font-medium transition-colors {{ $category === 'smartphone' ? 'bg-gold text-dark font-bold' : 'bg-gray-900 text-gray-400 hover:text-white border border-gray-800' }}">
+                Smartphone Category
+            </a>
+            <a href="{{ route('admin.results', ['category' => 'dslr']) }}" class="px-6 py-2 rounded-lg text-sm font-medium transition-colors {{ $category === 'dslr' ? 'bg-gold text-dark font-bold' : 'bg-gray-900 text-gray-400 hover:text-white border border-gray-800' }}">
+                DSLR / Mirrorless
+            </a>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col" data-aos="fade-up">
+            <div class="overflow-x-auto flex-grow">
+                <table class="w-full text-left text-sm text-gray-400 border-collapse">
                     <thead class="text-xs text-gray-300 uppercase bg-gray-800 border-b border-gray-700">
                         <tr>
                             <th scope="col" class="px-6 py-4 text-center">Rank</th>
@@ -25,45 +35,59 @@
                             <th scope="col" class="px-6 py-4 text-center">Judges</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach($photos as $index => $photo)
-                            <tr class="bg-gray-900 border-b border-gray-800 hover:bg-gray-800/50 transition-colors {{ $index < 3 ? 'bg-gold/5' : '' }}">
+                    <tbody class="divide-y divide-gray-800/50">
+                        @forelse($photos as $index => $photo)
+                            @php
+                                $rank = $photos->firstItem() + $index;
+                            @endphp
+                            <tr class="bg-gray-900 hover:bg-gray-800/50 transition-colors {{ $rank <= 3 ? 'bg-gold/5' : '' }}">
                                 <td class="px-6 py-4 text-center">
-                                    @if($index == 0)
-                                        <i data-lucide="award" class="w-8 h-8 text-yellow-400 mx-auto"></i>
-                                    @elseif($index == 1)
-                                        <i data-lucide="award" class="w-8 h-8 text-gray-400 mx-auto"></i>
-                                    @elseif($index == 2)
-                                        <i data-lucide="award" class="w-8 h-8 text-amber-600 mx-auto"></i>
+                                    @if($rank == 1)
+                                        <i data-lucide="award" class="w-8 h-8 text-yellow-400 mx-auto" title="1st Place"></i>
+                                    @elseif($rank == 2)
+                                        <i data-lucide="award" class="w-8 h-8 text-gray-400 mx-auto" title="2nd Place"></i>
+                                    @elseif($rank == 3)
+                                        <i data-lucide="award" class="w-8 h-8 text-amber-600 mx-auto" title="3rd Place"></i>
                                     @else
-                                        <span class="text-xl font-bold text-gray-500">#{{ $index + 1 }}</span>
+                                        <span class="text-xl font-bold text-gray-500">#{{ $rank }}</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="w-20 h-20 rounded-lg overflow-hidden border border-gray-700 relative group cursor-pointer">
+                                    <div class="w-16 h-16 rounded-lg overflow-hidden border border-gray-700 relative group cursor-pointer">
                                         <img src="{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="Thumbnail" class="w-full h-full object-cover">
-                                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                                            <i data-lucide="zoom-in" class="w-5 h-5 text-white"></i>
-                                        </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 font-bold text-white">
                                     {{ $photo->title }}
                                 </td>
-                                <td class="px-6 py-4 text-center uppercase tracking-wider text-xs font-bold text-gray-300">
-                                    {{ $photo->category }}
+                                <td class="px-6 py-4 text-center uppercase tracking-wider text-[10px] font-bold text-gray-400">
+                                    <span class="px-2 py-1 bg-gray-800 border border-gray-700 rounded">{{ $photo->category }}</span>
                                 </td>
-                                <td class="px-6 py-4 text-center text-xl font-bold {{ $index < 3 ? 'text-gold' : 'text-white' }}">
+                                <td class="px-6 py-4 text-center text-xl font-bold {{ $rank <= 3 ? 'text-gold' : 'text-white' }}">
                                     {{ number_format($photo->final_score, 2) }}
                                 </td>
                                 <td class="px-6 py-4 text-center text-gray-500">
                                     {{ $photo->scores->pluck('judge_id')->unique()->count() }}
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                                    <i data-lucide="award" class="w-12 h-12 mx-auto mb-3 opacity-50"></i>
+                                    <p class="text-lg font-medium">No results available yet.</p>
+                                    <p class="text-sm mt-1">Photos must be judged to appear here.</p>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
+
+            @if($photos->hasPages())
+            <div class="p-4 border-t border-gray-800 bg-gray-900/50">
+                {{ $photos->appends(request()->query())->links() }}
+            </div>
+            @endif
         </div>
 
     </div>

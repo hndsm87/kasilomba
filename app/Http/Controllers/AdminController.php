@@ -25,10 +25,13 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('stats'));
     }
 
-    public function results()
+    public function results(Request $request)
     {
+        $category = $request->get('category', 'smartphone');
+        
         // For final results, we want photos that have been judged and are not disqualified
         $photos = Photo::where('is_disqualified', false)
+            ->where('category', $category)
             ->whereHas('scores')
             ->with(['scores.criteria', 'scores.judge'])
             ->get();
@@ -55,7 +58,22 @@ class AdminController extends Controller
         // Sort by final score descending
         $photos = $photos->sortByDesc('final_score')->values();
 
-        return view('admin.results', compact('photos'));
+        // Paginate the collection
+        $page = $request->get('page', 1);
+        $perPage = 20;
+        $paginatedPhotos = new \Illuminate\Pagination\LengthAwarePaginator(
+            $photos->forPage($page, $perPage),
+            $photos->count(),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+        return view('admin.results', [
+            'photos' => $paginatedPhotos,
+            'category' => $category,
+            'total' => $photos->count()
+        ]);
     }
 
 }
