@@ -22,6 +22,9 @@
                     </p>
                 </div>
                 <div class="flex space-x-2">
+                    <a href="{{ $photo->original_url ?? $photo->google_drive_link }}" target="_blank" class="p-2 bg-black/50 hover:bg-gold text-white hover:text-dark rounded-full transition-colors backdrop-blur-md" title="Open Original File">
+                        <i data-lucide="external-link" class="w-5 h-5"></i>
+                    </a>
                     <button @click="toggleFullscreen()" class="p-2 bg-black/50 hover:bg-gold text-white hover:text-dark rounded-full transition-colors backdrop-blur-md" title="Fullscreen (F)">
                         <i data-lucide="maximize" class="w-5 h-5"></i>
                     </button>

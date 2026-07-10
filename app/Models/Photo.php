@@ -57,14 +57,24 @@ class Photo extends Model
     {
         $base = $this->getBasePreviewUrl();
         if (!$base) return null;
-        return $this->isGoogleUrl($base) ? $base . '=w400' : $base;
+        
+        if ($this->isGoogleUrl($base)) {
+            return $base . '=w400';
+        }
+        
+        return 'https://images.weserv.nl/?url=' . urlencode($base) . '&w=400&fit=cover';
     }
 
     public function getMediumUrlAttribute()
     {
         $base = $this->getBasePreviewUrl();
         if (!$base) return null;
-        return $this->isGoogleUrl($base) ? $base . '=w1600' : $base;
+        
+        if ($this->isGoogleUrl($base)) {
+            return $base . '=w1600';
+        }
+
+        return 'https://images.weserv.nl/?url=' . urlencode($base) . '&w=1600';
     }
 
     public function getOriginalUrlAttribute()
