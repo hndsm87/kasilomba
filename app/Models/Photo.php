@@ -48,23 +48,30 @@ class Photo extends Model
         return $url;
     }
 
+    private function isGoogleUrl($url)
+    {
+        return strpos($url, 'googleusercontent.com') !== false;
+    }
+
     public function getThumbnailUrlAttribute()
     {
         $base = $this->getBasePreviewUrl();
-        return $base ? $base . '=w400' : null;
+        if (!$base) return null;
+        return $this->isGoogleUrl($base) ? $base . '=w400' : $base;
     }
 
     public function getMediumUrlAttribute()
     {
         $base = $this->getBasePreviewUrl();
-        return $base ? $base . '=w1600' : null;
+        if (!$base) return null;
+        return $this->isGoogleUrl($base) ? $base . '=w1600' : $base;
     }
 
     public function getOriginalUrlAttribute()
     {
-        // For full size, we can use =s0
         $base = $this->getBasePreviewUrl();
-        return $base ? $base . '=s0' : null;
+        if (!$base) return null;
+        return $this->isGoogleUrl($base) ? $base . '=s0' : $base;
     }
 
     public function getAverageScoreAttribute()
