@@ -66,9 +66,12 @@
         </div>
 
         <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p class="text-gray-500 text-sm mb-4 md:mb-0">
-                &copy; 2026 Kasiinfo.id. Hak Cipta Dilindungi Undang-Undang.
-            </p>
+            <div class="text-gray-500 text-sm mb-4 md:mb-0 max-w-2xl">
+                <p>&copy; 2026 Kasiinfo.id. Hak Cipta Dilindungi Undang-Undang.</p>
+                <p class="text-[10px] text-gray-600 mt-2 leading-relaxed italic">
+                    *Disklaimer: Beberapa gambar atau aset visual yang digunakan pada antarmuka website ini diproduksi menggunakan kecerdasan buatan (AI) semata-mata untuk kebutuhan ilustrasi desain. Sesuai dengan aturan kompetisi, peserta <strong>tetap dilarang keras</strong> menggunakan AI (Generative Fill/AI Generation) pada karya foto yang dilombakan.
+                </p>
+            </div>
             <div class="flex space-x-6 text-sm">
                 <a href="#" class="text-gray-500 hover:text-white transition-colors">Kebijakan Privasi</a>
                 <a href="#" class="text-gray-500 hover:text-white transition-colors">Syarat & Ketentuan</a>
