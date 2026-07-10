@@ -54,6 +54,13 @@ Route::middleware(['auth'])->group(function () {
     // Admin Routes
     Route::middleware(['role:Admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
+        
+        // Verification Routes
+        Route::get('/submissions', [\App\Http\Controllers\VerificationController::class, 'index'])->name('submissions.index');
+        Route::get('/submissions/{photo}', [\App\Http\Controllers\VerificationController::class, 'show'])->name('submissions.show');
+        Route::post('/submissions/{photo}/approve', [\App\Http\Controllers\VerificationController::class, 'approve'])->name('submissions.approve');
+        Route::post('/submissions/{photo}/reject', [\App\Http\Controllers\VerificationController::class, 'reject'])->name('submissions.reject');
+
         Route::get('/results', [\App\Http\Controllers\AdminController::class, 'results'])->name('results');
         Route::get('/criteria', [\App\Http\Controllers\AdminController::class, 'criteria'])->name('criteria');
     });

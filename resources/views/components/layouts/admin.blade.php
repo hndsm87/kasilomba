@@ -17,6 +17,7 @@
             @hasrole('Admin')
             <div class="hidden md:flex space-x-4 border-l border-gray-700 pl-6">
                 <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium hover:text-gold transition-colors {{ request()->routeIs('admin.dashboard') ? 'text-gold' : 'text-gray-400' }}">Dashboard</a>
+                <a href="{{ route('admin.submissions.index') }}" class="text-sm font-medium hover:text-gold transition-colors {{ request()->routeIs('admin.submissions.*') ? 'text-gold' : 'text-gray-400' }}">Verification Queue</a>
                 <a href="{{ route('admin.results') }}" class="text-sm font-medium hover:text-gold transition-colors {{ request()->routeIs('admin.results') ? 'text-gold' : 'text-gray-400' }}">Results</a>
             </div>
             @endhasrole

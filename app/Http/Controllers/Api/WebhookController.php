@@ -69,7 +69,7 @@ class WebhookController extends Controller
                 return $value;
             };
 
-            // Extract data
+            // Extract Photo data
             $title = $getFieldValue('Judul Foto', 'Untitled Photo');
             $story = $getFieldValue('Cerita atau Deskripsi', 'No story provided.');
             $categoryRaw = strtolower($getFieldValue('Pilih Kategori Lomba', 'smartphone'));
@@ -77,13 +77,56 @@ class WebhookController extends Controller
             
             $location = $getFieldValue('Lokasi Pengambilan', 'Unknown');
             $driveLink = $getFieldValue('Upload Foto', null);
+
+            // Extract Identity Data
+            $participant_name = $getFieldValue('Nama Lengkap', null);
+            
+            // Handle removed fields (set to null)
+            $birth_place = null;
+            $birth_date = null;
+            $gender = null;
+            $id_card_link = null;
+            $coordinates = null;
+
+            $address = $getFieldValue('Alamat Lengkap', null);
+            $district = $getFieldValue('Kecamatan', null);
+            $village = $getFieldValue('Desa/Kelurahan', null);
+            $whatsapp = $getFieldValue('Nomor WhatsApp', null);
+            $instagram = $getFieldValue('Akun Instagram', null);
+            $email = null;
+
+            // Extract Agreements
+            $agreements = [
+                'warga_paser' => $getFieldValue('Saya adalah warga Kabupaten Paser.', null) ? true : false,
+                'karya_sendiri' => $getFieldValue('Foto merupakan karya saya sendiri.', null) ? true : false,
+                'tahun_2026' => $getFieldValue('Foto diambil pada tahun 2026.', null) ? true : false,
+                'belum_juara' => $getFieldValue('Foto belum pernah menjadi juara pada perlombaan fotografi.', null) ? true : false,
+                'satu_kategori' => $getFieldValue('Saya hanya mengikuti satu kategori.', null) ? true : false,
+                'satu_karya' => $getFieldValue('Saya hanya mengirim satu karya.', null) ? true : false,
+                'izin_subjek' => $getFieldValue('Saya telah memperoleh izin dari subjek foto.', null) ? true : false,
+                'hak_publikasi' => $getFieldValue('Saya memberikan hak kepada panitia', null) ? true : false,
+                'setuju_syarat' => $getFieldValue('Saya telah membaca dan menyetujui seluruh syarat', null) ? true : false,
+            ];
+
+            // Calculate Health Score based on required fields + agreements
+            $healthFields = [
+                $title, $story, $category, $location, $driveLink,
+                $participant_name, $address, $district, $village, $whatsapp, $instagram
+            ];
+            
+            $filledFieldsCount = count(array_filter($healthFields, fn($v) => !empty($v)));
+            $agreementsCount = count(array_filter($agreements)); // count true values
+            
+            $totalFields = count($healthFields) + count($agreements);
+            $totalFilled = $filledFieldsCount + $agreementsCount;
+            
+            $healthScore = round(($totalFilled / $totalFields) * 100);
             
             // Map the drive link to preview/thumbnail fields
             $drivePreview = $driveLink;
             $driveThumbnail = $driveLink;
 
             // If it's a standard Google Drive view link, we can attempt to extract the ID
-            // Format: https://drive.google.com/file/d/1a2b3c4d5e/view
             if ($driveLink && preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $driveLink, $matches)) {
                 $fileId = $matches[1];
                 $drivePreview = "https://lh3.googleusercontent.com/d/{$fileId}";
@@ -98,10 +141,25 @@ class WebhookController extends Controller
                     'story' => $story,
                     'category' => $category,
                     'location' => $location,
+                    'coordinates' => null,
                     'google_drive_link' => $driveLink,
                     'google_drive_preview' => $drivePreview,
                     'google_drive_thumbnail' => $driveThumbnail,
                     'taken_at' => now(), // Default to now if not provided
+                    'participant_name' => $participant_name,
+                    'birth_place' => null,
+                    'birth_date' => null,
+                    'gender' => null,
+                    'address' => $address,
+                    'district' => $district,
+                    'village' => $village,
+                    'whatsapp' => $whatsapp,
+                    'email' => null,
+                    'instagram' => $instagram,
+                    'id_card_link' => null,
+                    'agreements' => json_encode($agreements),
+                    'health_score' => $healthScore,
+                    'verification_status' => 'Waiting Verification',
                     'status' => 'pending'
                 ]
             );
