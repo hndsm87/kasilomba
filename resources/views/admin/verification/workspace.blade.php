@@ -87,6 +87,25 @@
                     <div class="w-1/3 h-full bg-gray-900 border-l border-gray-800 overflow-y-auto p-6 pb-28">
                         <h3 class="text-lg font-bold mb-6 text-white border-b border-gray-800 pb-4">Participant Data</h3>
                         
+                        @if($photo->is_duplicate)
+                        <div class="mb-6 p-4 bg-red-900/30 border border-red-500/30 rounded-xl">
+                            <div class="flex items-center text-red-400 font-bold mb-2">
+                                <i data-lucide="alert-triangle" class="w-5 h-5 mr-2"></i> Duplicate Detected
+                            </div>
+                            <p class="text-xs text-gray-400 mb-3 leading-relaxed">This participant has submitted multiple photos, potentially violating the rule of one submission per category.</p>
+                            <div class="space-y-2 border-t border-red-900/50 pt-3 mt-3">
+                                <span class="text-xs text-red-300 font-semibold uppercase tracking-wider block mb-1">Other Submissions:</span>
+                                @foreach($photo->duplicatePhotos()->get() as $dup)
+                                    <a href="{{ route('admin.submissions.show', $dup->id) }}" target="_blank" class="text-sm font-medium text-blue-400 hover:text-blue-300 hover:underline flex items-center bg-gray-900/50 px-3 py-2 rounded-lg border border-gray-800">
+                                        <i data-lucide="external-link" class="w-4 h-4 mr-2 flex-shrink-0"></i> 
+                                        <span class="truncate">{{ $dup->title }}</span>
+                                        <span class="ml-2 text-[10px] px-1.5 py-0.5 bg-gray-800 text-gray-400 rounded uppercase tracking-wider">{{ $dup->category }}</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+                        
                         <div class="space-y-5">
                             <x-verification-field label="Full Name" value="{{ $photo->participant_name }}" />
                             <x-verification-field label="Address" value="{{ $photo->address }}" />

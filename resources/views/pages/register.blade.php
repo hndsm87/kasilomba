@@ -20,7 +20,7 @@
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-yellow-800 font-medium">
-                            Perhatian: Siapkan KTP/SIM/Kartu Pelajar dan file foto asli Anda (Maks. 10MB) sebelum mulai mengisi formulir ini.
+                            Perhatian: Siapkan file foto asli Anda (Maks. 10MB) beserta rincian informasi karya sebelum mulai mengisi formulir ini.
                         </p>
                     </div>
                 </div>

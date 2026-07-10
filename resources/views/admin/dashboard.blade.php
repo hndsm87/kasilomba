@@ -17,17 +17,40 @@
         </div>
 
         <!-- Statistics Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-lg">
                 <div class="flex justify-between items-start mb-4">
                     <div class="p-3 bg-blue-500/10 rounded-xl">
                         <i data-lucide="image" class="w-6 h-6 text-blue-500"></i>
                     </div>
-                    <span class="text-xs font-medium px-2 py-1 bg-gray-800 text-gray-300 rounded-full">Total</span>
+                    <span class="text-xs font-medium px-2 py-1 bg-gray-800 text-gray-300 rounded-full">Total Submissions</span>
                 </div>
                 <h3 class="text-4xl font-bold text-white mb-1">{{ number_format($stats['total_photos']) }}</h3>
                 <p class="text-sm text-gray-400">Total Photos Synced</p>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-lg">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-purple-500/10 rounded-xl">
+                        <i data-lucide="users" class="w-6 h-6 text-purple-500"></i>
+                    </div>
+                    <span class="text-xs font-medium px-2 py-1 bg-gray-800 text-gray-300 rounded-full">Unique</span>
+                </div>
+                <h3 class="text-4xl font-bold text-white mb-1">{{ number_format($stats['unique_participants']) }}</h3>
+                <p class="text-sm text-gray-400">Unique Participants</p>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-lg relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-gold/10 rounded-full blur-xl"></div>
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <div class="p-3 bg-gold/10 rounded-xl">
+                        <i data-lucide="zap" class="w-6 h-6 text-gold"></i>
+                    </div>
+                    <span class="text-xs font-medium px-2 py-1 bg-gold/20 text-gold rounded-full border border-gold/30">Today</span>
+                </div>
+                <h3 class="text-4xl font-bold text-white mb-1 relative z-10">+{{ number_format($stats['new_today']) }}</h3>
+                <p class="text-sm text-gray-400 relative z-10">New Registrants Today</p>
             </div>
 
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-lg">
@@ -94,10 +117,12 @@
             <!-- Quick Actions -->
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-lg lg:col-span-2 flex flex-col justify-center">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <a href="{{ route('admin.criteria') }}" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl p-6 text-center transition-colors group">
+                    @hasrole('Admin')
+                    <a href="{{ route('admin.criteria.index') }}" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl p-6 text-center transition-colors group">
                         <i data-lucide="settings-2" class="w-8 h-8 text-gold mx-auto mb-3 group-hover:scale-110 transition-transform"></i>
                         <span class="block text-sm font-bold text-white">Manage Criteria</span>
                     </a>
+                    @endhasrole
                     <a href="{{ route('admin.results') }}" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl p-6 text-center transition-colors group">
                         <i data-lucide="award" class="w-8 h-8 text-gold mx-auto mb-3 group-hover:scale-110 transition-transform"></i>
                         <span class="block text-sm font-bold text-white">View Final Results</span>

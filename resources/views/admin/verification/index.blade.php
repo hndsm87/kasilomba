@@ -23,11 +23,30 @@
                 @endforeach
             </div>
 
-            <div class="flex-shrink-0 ml-4">
-                <form action="{{ route('admin.submissions.index') }}" method="GET" class="relative">
+            <div class="flex-shrink-0 ml-4 w-full md:w-auto mt-4 md:mt-0">
+                <form action="{{ route('admin.submissions.index') }}" method="GET" class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3" id="filterForm">
                     <input type="hidden" name="status" value="{{ $status }}">
-                    <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search name, village..." class="w-64 pl-9 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-xl text-sm text-white focus:ring-gold focus:border-gold placeholder-gray-500 transition-colors">
+                    
+                    <select name="category" onchange="document.getElementById('filterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2 focus:ring-gold focus:border-gold">
+                        <option value="">All Categories</option>
+                        <option value="smartphone" {{ request('category') === 'smartphone' ? 'selected' : '' }}>Smartphone</option>
+                        <option value="dslr" {{ request('category') === 'dslr' ? 'selected' : '' }}>DSLR</option>
+                    </select>
+
+                    <input type="date" name="date" value="{{ request('date') }}" onchange="document.getElementById('filterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2 focus:ring-gold focus:border-gold" title="Filter by submission date">
+                    
+                    <select name="per_page" onchange="document.getElementById('filterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2 focus:ring-gold focus:border-gold">
+                        <option value="20" {{ request('per_page') == 20 ? 'selected' : '' }}>20 per page</option>
+                        <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50 per page</option>
+                        <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100 per page</option>
+                    </select>
+
+                    <div class="relative flex-grow md:w-64">
+                        <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search name, village..." class="w-full pl-9 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-xl text-sm text-white focus:ring-gold focus:border-gold placeholder-gray-500 transition-colors">
+                    </div>
+                    <!-- Submit button for text search, hidden since enter key works -->
+                    <button type="submit" class="hidden">Search</button>
                 </form>
             </div>
 
@@ -57,7 +76,14 @@
                                 </div>
                             </td>
                             <td class="py-3 px-6">
-                                <div class="font-bold text-white">{{ $photo->participant_name ?? 'Unknown' }}</div>
+                                <div class="font-bold text-white flex items-center">
+                                    {{ $photo->participant_name ?? 'Unknown' }}
+                                    @if($photo->is_duplicate)
+                                        <span class="ml-2 px-2 py-0.5 bg-red-500/20 border border-red-500/30 text-red-400 text-[10px] uppercase font-bold rounded-full inline-flex items-center" title="Multiple photos found with this WhatsApp/Instagram">
+                                            <i data-lucide="alert-triangle" class="w-3 h-3 mr-1"></i> Duplicate
+                                        </span>
+                                    @endif
+                                </div>
                                 <div class="text-xs text-gray-500 mt-0.5 truncate max-w-[200px]">{{ $photo->title }}</div>
                             </td>
                             <td class="py-3 px-6">

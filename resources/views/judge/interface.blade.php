@@ -87,8 +87,12 @@
                     @endforeach
 
                     <div class="mt-6">
+                        @php
+                            $firstScore = $existingScores->first();
+                            $existingNote = $firstScore ? $firstScore->notes : '';
+                        @endphp
                         <label class="text-sm font-bold text-gray-400 mb-2 block">Judge Notes (Optional)</label>
-                        <textarea name="notes" rows="3" class="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 text-sm text-gray-300 focus:ring-gold focus:border-gold" placeholder="Add specific feedback for this photo..."></textarea>
+                        <textarea name="notes" rows="3" class="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 text-sm text-gray-300 focus:ring-gold focus:border-gold" placeholder="Add specific feedback for this photo...">{{ $existingNote }}</textarea>
                     </div>
                 </div>
 

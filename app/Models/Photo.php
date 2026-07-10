@@ -88,4 +88,32 @@ class Photo extends Model
     {
         return $this->scores()->avg('score') ?? 0;
     }
+
+    /**
+     * Duplicate Detection
+     */
+    public function duplicatePhotos()
+    {
+        return Photo::where('id', '!=', $this->id)
+            ->where(function ($query) {
+                $query->where(function ($q) {
+                    $q->whereNotNull('whatsapp')
+                      ->where('whatsapp', '!=', '')
+                      ->where('whatsapp', $this->whatsapp);
+                })->orWhere(function ($q) {
+                    $q->whereNotNull('instagram')
+                      ->where('instagram', '!=', '')
+                      ->where('instagram', $this->instagram);
+                });
+            });
+    }
+
+    public function getIsDuplicateAttribute()
+    {
+        if (empty($this->whatsapp) && empty($this->instagram)) {
+            return false;
+        }
+        
+        return $this->duplicatePhotos()->exists();
+    }
 }

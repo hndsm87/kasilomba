@@ -14,25 +14,39 @@ class JudgeController extends Controller
 {
     public function dashboard()
     {
-        $judge = Auth::user();
+        $judgeId = Auth::id();
 
-        // Get count of photos judged by this judge
-        $judgedCount = Score::where('judge_id', $judge->id)->distinct('photo_id')->count('photo_id');
+        // Get all verified and non-disqualified photos
+        $photos = Photo::where('is_disqualified', false)
+            ->where('verification_status', 'Verified')
+            ->with(['scores' => function($query) use ($judgeId) {
+                $query->where('judge_id', $judgeId);
+            }])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Group by category
+        $categories = $photos->groupBy('category');
+
+        $totalPhotos = $photos->count();
         
-        // Get total photos available for judging (not disqualified)
-        $totalPhotos = Photo::where('is_disqualified', false)->count();
+        // Count photos that have at least one score from this judge
+        $judgedCount = $photos->filter(function($photo) {
+            return $photo->scores->isNotEmpty();
+        })->count();
         
         $pendingCount = $totalPhotos - $judgedCount;
 
-        return view('judge.dashboard', compact('judgedCount', 'totalPhotos', 'pendingCount'));
+        return view('judge.dashboard', compact('categories', 'judgedCount', 'totalPhotos', 'pendingCount'));
     }
 
     public function judgeNext()
     {
         $judgeId = Auth::id();
 
-        // Query for unjudged photos
+        // Query for unjudged AND verified photos
         $query = Photo::where('is_disqualified', false)
+            ->where('verification_status', 'Verified')
             ->whereDoesntHave('scores', function ($query) use ($judgeId) {
                 $query->where('judge_id', $judgeId);
             });
@@ -44,9 +58,10 @@ class JudgeController extends Controller
 
         $photo = $query->first();
 
-        // If skipped and reached the end, loop back to the beginning to find remaining unjudged ones
+        // If skipped and reached the end, loop back to the beginning
         if (!$photo && request()->has('skip_id')) {
              $photo = Photo::where('is_disqualified', false)
+                ->where('verification_status', 'Verified')
                 ->whereDoesntHave('scores', function ($query) use ($judgeId) {
                     $query->where('judge_id', $judgeId);
                 })->first();
@@ -63,6 +78,10 @@ class JudgeController extends Controller
     {
         if ($photo->is_disqualified) {
             return redirect()->route('judge.next')->with('error', 'This photo has been disqualified.');
+        }
+
+        if ($photo->verification_status !== 'Verified') {
+            return redirect()->route('judge.dashboard')->with('error', 'This photo is not verified yet.');
         }
 
         $criterias = Criteria::where('is_active', true)
@@ -126,13 +145,35 @@ class JudgeController extends Controller
         return redirect()->route('judge.next')->with('success', 'Photo flagged for administrative review.');
     }
 
-    public function myScores()
+    public function myScores(Request $request)
     {
-        $scores = Score::where('judge_id', Auth::id())
-            ->with(['photo', 'criteria'])
-            ->get()
-            ->groupBy('photo_id');
+        $judgeId = Auth::id();
+        $query = Photo::whereHas('scores', function($q) use ($judgeId) {
+            $q->where('judge_id', $judgeId);
+        })->with(['scores' => function($q) use ($judgeId) {
+            $q->where('judge_id', $judgeId)->with('criteria');
+        }]);
 
-        return view('judge.scores', compact('scores'));
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->has('date') && $request->date != '') {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('participant_name', 'like', "%{$search}%")
+                  ->orWhere('village', 'like', "%{$search}%")
+                  ->orWhere('title', 'like', "%{$search}%");
+            });
+        }
+        
+        $perPage = $request->get('per_page', 20);
+        $photos = $query->orderBy('created_at', 'desc')->paginate($perPage)->appends($request->query());
+
+        return view('judge.scores', compact('photos'));
     }
 }

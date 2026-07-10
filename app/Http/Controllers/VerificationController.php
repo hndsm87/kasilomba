@@ -12,10 +12,22 @@ class VerificationController extends Controller
     {
         $status = $request->get('status', 'Waiting Verification');
         
-        $query = Photo::where('verification_status', $status);
+        $query = Photo::query();
+
+        if ($status === 'Judged') {
+            $query->where('verification_status', 'Verified')->has('scores');
+        } elseif ($status === 'Verified') {
+            $query->where('verification_status', 'Verified')->doesntHave('scores');
+        } else {
+            $query->where('verification_status', $status);
+        }
         
         if ($request->has('category') && $request->category != '') {
             $query->where('category', $request->category);
+        }
+
+        if ($request->has('date') && $request->date != '') {
+            $query->whereDate('created_at', $request->date);
         }
 
         if ($request->has('search') && $request->search != '') {
@@ -26,16 +38,15 @@ class VerificationController extends Controller
                   ->orWhere('title', 'like', "%{$search}%");
             });
         }
-
-        $photos = $query->orderBy('created_at', 'desc')->paginate(20);
+        
+        $perPage = $request->get('per_page', 20);
+        $photos = $query->orderBy('created_at', 'desc')->paginate($perPage)->appends($request->query());
 
         // Stats for tabs
         $stats = [
             'Waiting Verification' => Photo::where('verification_status', 'Waiting Verification')->count(),
-            'Verified' => Photo::where('verification_status', 'Verified')->count(),
-            'Ready for Judging' => Photo::where('verification_status', 'Ready for Judging')->count(),
-            'Judging' => Photo::where('verification_status', 'Judging')->count(),
-            'Finished' => Photo::where('verification_status', 'Finished')->count(),
+            'Verified' => Photo::where('verification_status', 'Verified')->doesntHave('scores')->count(),
+            'Judged' => Photo::where('verification_status', 'Verified')->has('scores')->count(),
             'Disqualified' => Photo::where('verification_status', 'Disqualified')->count(),
         ];
 

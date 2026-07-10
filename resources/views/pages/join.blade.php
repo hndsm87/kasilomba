@@ -25,7 +25,7 @@
                         </li>
                         <li class="flex items-start">
                             <i data-lucide="check" class="w-5 h-5 text-gold mr-3 mt-0.5 flex-shrink-0"></i>
-                            <span class="text-gray-700">Mengisi biodata dengan melampirkan identitas resmi (KTP/SIM/Kartu Pelajar).</span>
+                            <span class="text-gray-700">Mengisi formulir biodata yang diperlukan secara lengkap dan benar.</span>
                         </li>
                         <li class="flex items-start">
                             <i data-lucide="check" class="w-5 h-5 text-gold mr-3 mt-0.5 flex-shrink-0"></i>

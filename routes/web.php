@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
-    return view('pages.home');
+    $totalSubmissions = \App\Models\Photo::count();
+    return view('pages.home', compact('totalSubmissions'));
 });
 
 Route::get('/about', function () {
@@ -51,8 +52,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // Protected Routes (Placeholders for now)
 Route::middleware(['auth'])->group(function () {
     
-    // Admin Routes
-    Route::middleware(['role:Admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Shared Admin Routes (Admin & Admin Verifikasi)
+    Route::middleware(['role:Admin|Admin Verifikasi'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
         
         // Verification Routes
@@ -62,7 +63,21 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/submissions/{photo}/reject', [\App\Http\Controllers\VerificationController::class, 'reject'])->name('submissions.reject');
 
         Route::get('/results', [\App\Http\Controllers\AdminController::class, 'results'])->name('results');
-        Route::get('/criteria', [\App\Http\Controllers\AdminController::class, 'criteria'])->name('criteria');
+        
+        // Super Admin Only Routes
+        Route::middleware(['role:Admin'])->group(function () {
+            // Criteria Management
+            Route::get('/criteria', [\App\Http\Controllers\CriteriaController::class, 'index'])->name('criteria.index');
+            Route::post('/criteria', [\App\Http\Controllers\CriteriaController::class, 'store'])->name('criteria.store');
+            Route::put('/criteria/{criteria}', [\App\Http\Controllers\CriteriaController::class, 'update'])->name('criteria.update');
+            Route::delete('/criteria/{criteria}', [\App\Http\Controllers\CriteriaController::class, 'destroy'])->name('criteria.destroy');
+
+            // User Management
+            Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+            Route::post('/users', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
+            Route::put('/users/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
+            Route::delete('/users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+        });
     });
 
     // Judge Routes

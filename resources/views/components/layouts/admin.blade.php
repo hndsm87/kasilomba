@@ -14,13 +14,17 @@
             <a href="{{ url('/') }}" class="font-heading text-2xl tracking-widest text-white">
                 KASIINFO<span class="text-gold">.</span>
             </a>
-            @hasrole('Admin')
+            @hasanyrole('Admin|Admin Verifikasi')
             <div class="hidden md:flex space-x-4 border-l border-gray-700 pl-6">
                 <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium hover:text-gold transition-colors {{ request()->routeIs('admin.dashboard') ? 'text-gold' : 'text-gray-400' }}">Dashboard</a>
                 <a href="{{ route('admin.submissions.index') }}" class="text-sm font-medium hover:text-gold transition-colors {{ request()->routeIs('admin.submissions.*') ? 'text-gold' : 'text-gray-400' }}">Verification Queue</a>
                 <a href="{{ route('admin.results') }}" class="text-sm font-medium hover:text-gold transition-colors {{ request()->routeIs('admin.results') ? 'text-gold' : 'text-gray-400' }}">Results</a>
+                @hasrole('Admin')
+                <a href="{{ route('admin.criteria.index') }}" class="text-sm font-medium hover:text-gold transition-colors {{ request()->routeIs('admin.criteria.*') ? 'text-gold' : 'text-gray-400' }}">Scoring Criteria</a>
+                <a href="{{ route('admin.users.index') }}" class="text-sm font-medium hover:text-gold transition-colors {{ request()->routeIs('admin.users.*') ? 'text-gold' : 'text-gray-400' }}">Users</a>
+                @endhasrole
             </div>
-            @endhasrole
+            @endhasanyrole
             @hasrole('Judge')
             <div class="hidden md:flex space-x-4 border-l border-gray-700 pl-6">
                 <a href="{{ route('judge.dashboard') }}" class="text-sm font-medium hover:text-gold transition-colors {{ request()->routeIs('judge.dashboard') ? 'text-gold' : 'text-gray-400' }}">Dashboard</a>

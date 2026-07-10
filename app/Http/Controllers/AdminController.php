@@ -18,6 +18,8 @@ class AdminController extends Controller
             'pending' => Photo::doesntHave('scores')->count(),
             'reported' => Report::where('status', 'pending')->count(),
             'disqualified' => Photo::where('is_disqualified', true)->count(),
+            'unique_participants' => Photo::whereNotNull('whatsapp')->where('whatsapp', '!=', '')->distinct('whatsapp')->count('whatsapp'),
+            'new_today' => Photo::whereDate('created_at', now()->toDateString())->count(),
         ];
 
         return view('admin.dashboard', compact('stats'));
@@ -56,9 +58,4 @@ class AdminController extends Controller
         return view('admin.results', compact('photos'));
     }
 
-    public function criteria()
-    {
-        $criterias = \App\Models\Criteria::orderBy('order')->get();
-        return view('admin.criteria', compact('criterias'));
-    }
 }

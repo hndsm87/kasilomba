@@ -31,6 +31,23 @@
                     Baca Panduan
                 </a>
             </div>
+
+            @if(isset($totalSubmissions) && $totalSubmissions >= 50)
+            <div class="mt-12 flex items-center justify-center space-x-4" data-aos="fade-up" data-aos-delay="1000">
+                <div class="flex -space-x-3">
+                    <img class="w-10 h-10 rounded-full border-2 border-dark object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" alt="Photographer 1">
+                    <img class="w-10 h-10 rounded-full border-2 border-dark object-cover" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" alt="Photographer 2">
+                    <img class="w-10 h-10 rounded-full border-2 border-dark object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Photographer 3">
+                    <div class="w-10 h-10 rounded-full border-2 border-dark bg-gray-800 flex items-center justify-center text-white text-xs font-bold shadow-inner">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-left">
+                    <div class="text-gray-300 font-medium text-sm">Bergabunglah bersama</div>
+                    <div class="text-white font-bold text-lg"><span class="text-gold text-xl">{{ number_format($totalSubmissions) }}+</span> fotografer lainnya</div>
+                </div>
+            </div>
+            @endif
         </div>
 
         <!-- Scroll Indicator -->
