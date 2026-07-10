@@ -22,9 +22,21 @@
                 <a href="{{ url('/categories') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Kategori</a>
                 <a href="{{ url('/faq') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">FAQ</a>
                 
-                <a href="{{ url('/register') }}" class="bg-gold text-dark px-6 py-2 rounded-full font-semibold text-sm hover:bg-yellow-500 transition-colors duration-200 shadow-[0_0_15px_rgba(212,175,55,0.4)]">
-                    Daftar Sekarang
-                </a>
+                @auth
+                    @if(auth()->user()->hasRole('Judge'))
+                        <a href="{{ route('judge.dashboard') }}" class="bg-gray-800 text-white px-6 py-2 rounded-full font-semibold text-sm hover:bg-gray-700 transition-colors duration-200 border border-gray-700">Dashboard Juri</a>
+                    @else
+                        <a href="{{ route('admin.dashboard') }}" class="bg-gray-800 text-white px-6 py-2 rounded-full font-semibold text-sm hover:bg-gray-700 transition-colors duration-200 border border-gray-700">Dashboard Admin</a>
+                    @endif
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="text-sm font-medium hover:text-red-500 text-gray-400 transition-colors duration-200 ml-4">Logout</button>
+                    </form>
+                @else
+                    <a href="{{ url('/register') }}" class="bg-gold text-dark px-6 py-2 rounded-full font-semibold text-sm hover:bg-yellow-500 transition-colors duration-200 shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+                        Daftar Sekarang
+                    </a>
+                @endauth
             </div>
 
             <!-- Mobile Menu Button -->
@@ -58,7 +70,19 @@
             <a href="{{ url('/categories') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Kategori</a>
             <a href="{{ url('/faq') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">FAQ</a>
             
-            <a href="{{ url('/register') }}" class="block px-3 py-3 mt-4 text-base font-bold bg-gold text-dark rounded-md">Daftar Sekarang</a>
+            @auth
+                @if(auth()->user()->hasRole('Judge'))
+                    <a href="{{ route('judge.dashboard') }}" class="block px-3 py-3 mt-4 text-base font-bold bg-gray-800 border border-gray-700 text-white rounded-md">Dashboard Juri</a>
+                @else
+                    <a href="{{ route('admin.dashboard') }}" class="block px-3 py-3 mt-4 text-base font-bold bg-gray-800 border border-gray-700 text-white rounded-md">Dashboard Admin</a>
+                @endif
+                <form action="{{ route('logout') }}" method="POST" class="w-full">
+                    @csrf
+                    <button type="submit" class="w-full text-left px-3 py-3 mt-2 text-base font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-md">Logout</button>
+                </form>
+            @else
+                <a href="{{ url('/register') }}" class="block px-3 py-3 mt-4 text-base font-bold bg-gold text-dark rounded-md">Daftar Sekarang</a>
+            @endauth
         </div>
     </div>
 </nav>
