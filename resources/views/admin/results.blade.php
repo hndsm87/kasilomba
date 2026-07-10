@@ -40,7 +40,12 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
-                                    <img src="{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}" alt="Thumbnail" class="w-16 h-16 object-cover rounded-lg border border-gray-700">
+                                    <div class="w-20 h-20 rounded-lg overflow-hidden border border-gray-700 relative group cursor-pointer">
+                                        <img src="{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="Thumbnail" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                            <i data-lucide="zoom-in" class="w-5 h-5 text-white"></i>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 font-bold text-white">
                                     {{ $photo->title }}

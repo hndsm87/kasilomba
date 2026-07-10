@@ -30,7 +30,7 @@
                             @endphp
                             <tr class="bg-gray-900 border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
                                 <td class="px-6 py-4">
-                                    <img src="{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}" alt="Thumbnail" class="w-16 h-16 object-cover rounded-lg border border-gray-700">
+                                    <img src="{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="Thumbnail" class="w-16 h-16 object-cover rounded-lg border border-gray-700">
                                 </td>
                                 <td class="px-6 py-4 font-bold text-white">
                                     {{ $photo->title }}

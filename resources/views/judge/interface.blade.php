@@ -30,7 +30,7 @@
 
             <!-- The Image -->
             <div class="flex-grow flex items-center justify-center p-4 overflow-hidden" x-ref="photoContainer">
-                <img src="{{ $photo->medium_url ?? $photo->google_drive_preview }}" alt="{{ $photo->title }}" class="max-h-full max-w-full object-contain transition-transform duration-300" :class="{'scale-150 cursor-zoom-out': isZoomed, 'cursor-zoom-in': !isZoomed}" @click="isZoomed = !isZoomed">
+                <img src="{{ $photo->medium_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="{{ $photo->title }}" class="max-h-full max-w-full object-contain transition-transform duration-300" :class="{'scale-150 cursor-zoom-out': isZoomed, 'cursor-zoom-in': !isZoomed}" @click="isZoomed = !isZoomed">
             </div>
             
             <!-- Bottom Bar Over Image (Story) -->
@@ -45,7 +45,7 @@
                 <button @click="toggleFullscreen()" class="absolute top-6 right-6 p-3 bg-black/50 hover:bg-gold text-white hover:text-dark rounded-full transition-colors backdrop-blur-md z-[110]">
                     <i data-lucide="minimize" class="w-6 h-6"></i>
                 </button>
-                <img src="{{ $photo->original_url ?? $photo->google_drive_preview }}" alt="{{ $photo->title }}" class="max-h-screen max-w-screen object-contain">
+                <img src="{{ $photo->original_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="{{ $photo->title }}" class="max-h-screen max-w-screen object-contain">
             </div>
 
         </div>
@@ -96,7 +96,7 @@
                     </button>
                     
                     <div class="flex space-x-3">
-                        <a href="{{ route('judge.next') }}" class="w-1/2 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-xl border border-gray-700 transition-colors text-center text-sm">
+                        <a href="{{ route('judge.next', ['skip_id' => $photo->id]) }}" class="w-1/2 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-xl border border-gray-700 transition-colors text-center text-sm">
                             Skip
                         </a>
                         <button type="button" @click="showReportDialog = true" class="w-1/2 py-3 bg-gray-800 hover:bg-kasi-red/20 hover:text-kasi-red text-gray-400 hover:border-kasi-red/50 font-medium rounded-xl border border-gray-700 transition-colors flex justify-center items-center text-sm">

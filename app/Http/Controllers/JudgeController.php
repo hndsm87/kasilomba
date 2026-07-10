@@ -31,12 +31,26 @@ class JudgeController extends Controller
     {
         $judgeId = Auth::id();
 
-        // Find the first photo that is not disqualified and hasn't been judged by this judge yet
-        $photo = Photo::where('is_disqualified', false)
+        // Query for unjudged photos
+        $query = Photo::where('is_disqualified', false)
             ->whereDoesntHave('scores', function ($query) use ($judgeId) {
                 $query->where('judge_id', $judgeId);
-            })
-            ->first();
+            });
+
+        // If skipping, get the next ID
+        if (request()->has('skip_id')) {
+            $query->where('id', '>', request()->skip_id);
+        }
+
+        $photo = $query->first();
+
+        // If skipped and reached the end, loop back to the beginning to find remaining unjudged ones
+        if (!$photo && request()->has('skip_id')) {
+             $photo = Photo::where('is_disqualified', false)
+                ->whereDoesntHave('scores', function ($query) use ($judgeId) {
+                    $query->where('judge_id', $judgeId);
+                })->first();
+        }
 
         if (!$photo) {
             return redirect()->route('judge.dashboard')->with('success', 'You have successfully judged all available photos!');

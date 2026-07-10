@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:Admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/results', [\App\Http\Controllers\AdminController::class, 'results'])->name('results');
+        Route::get('/criteria', [\App\Http\Controllers\AdminController::class, 'criteria'])->name('criteria');
     });
 
     // Judge Routes

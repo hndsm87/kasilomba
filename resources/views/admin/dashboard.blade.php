@@ -94,11 +94,11 @@
             <!-- Quick Actions -->
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-lg lg:col-span-2 flex flex-col justify-center">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <a href="#" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl p-6 text-center transition-colors group">
+                    <a href="{{ route('admin.criteria') }}" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl p-6 text-center transition-colors group">
                         <i data-lucide="settings-2" class="w-8 h-8 text-gold mx-auto mb-3 group-hover:scale-110 transition-transform"></i>
                         <span class="block text-sm font-bold text-white">Manage Criteria</span>
                     </a>
-                    <a href="#" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl p-6 text-center transition-colors group">
+                    <a href="{{ route('admin.results') }}" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl p-6 text-center transition-colors group">
                         <i data-lucide="award" class="w-8 h-8 text-gold mx-auto mb-3 group-hover:scale-110 transition-transform"></i>
                         <span class="block text-sm font-bold text-white">View Final Results</span>
                     </a>

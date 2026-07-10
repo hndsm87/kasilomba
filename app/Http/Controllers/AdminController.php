@@ -25,26 +25,40 @@ class AdminController extends Controller
 
     public function results()
     {
-        // Get all approved photos with their average scores
+        // For final results, we want photos that have been judged and are not disqualified
         $photos = Photo::where('is_disqualified', false)
-            ->with(['scores.criteria'])
-            ->get()
-            ->map(function ($photo) {
-                $totalScore = 0;
-                foreach ($photo->scores as $score) {
-                    $totalScore += $score->score * ($score->criteria->weight / 100);
+            ->whereHas('scores')
+            ->with(['scores.criteria', 'scores.judge'])
+            ->get();
+
+        // Calculate average scores
+        foreach ($photos as $photo) {
+            $totalWeightedScore = 0;
+            $judgeCount = $photo->scores->groupBy('judge_id')->count();
+
+            if ($judgeCount > 0) {
+                // Group scores by criteria to apply weights
+                $scoresByCriteria = $photo->scores->groupBy('criteria_id');
+                
+                foreach ($scoresByCriteria as $criteriaId => $scores) {
+                    $criteria = $scores->first()->criteria;
+                    $avgScoreForCriteria = $scores->avg('score');
+                    $totalWeightedScore += $avgScoreForCriteria * ($criteria->weight / 100);
                 }
-                
-                // If there are multiple judges, we average the total score
-                $judgeCount = $photo->scores->pluck('judge_id')->unique()->count();
-                $finalScore = $judgeCount > 0 ? $totalScore / $judgeCount : 0;
-                
-                $photo->final_score = $finalScore;
-                return $photo;
-            })
-            ->sortByDesc('final_score')
-            ->values();
+            }
+
+            $photo->final_score = $totalWeightedScore;
+        }
+
+        // Sort by final score descending
+        $photos = $photos->sortByDesc('final_score')->values();
 
         return view('admin.results', compact('photos'));
+    }
+
+    public function criteria()
+    {
+        $criterias = \App\Models\Criteria::orderBy('order')->get();
+        return view('admin.criteria', compact('criterias'));
     }
 }
