@@ -41,8 +41,8 @@
                     </div>
                 </div>
                 <div class="relative" data-aos="fade-left">
-                    <div class="aspect-square rounded-full overflow-hidden shadow-2xl relative z-10">
-                        <img src="https://images.unsplash.com/photo-1541888014768-45e0fb14b1cc?q=80&w=1974&auto=format&fit=crop" alt="Pekerja Paser" class="w-full h-full object-cover">
+                    <div class="aspect-square rounded-full overflow-hidden shadow-2xl relative z-10 border-4 border-white">
+                        <img src="{{ asset('images/about-theme.jpg') }}" alt="Pekerja Paser" class="w-full h-full object-cover">
                     </div>
                     <div class="absolute -bottom-10 -left-10 w-48 h-48 bg-gold rounded-full filter blur-3xl opacity-30 -z-0"></div>
                 </div>
