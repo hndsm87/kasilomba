@@ -48,7 +48,7 @@ class AdminController extends Controller
                 foreach ($scoresByCriteria as $criteriaId => $scores) {
                     $criteria = $scores->first()->criteria;
                     $avgScoreForCriteria = $scores->avg('score');
-                    $totalWeightedScore += $avgScoreForCriteria * ($criteria->weight / 100);
+                    $totalWeightedScore += $avgScoreForCriteria;
                 }
             }
 

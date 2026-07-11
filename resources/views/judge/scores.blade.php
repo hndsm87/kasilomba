@@ -1,5 +1,5 @@
 <x-layouts.admin title="My Scores | Judge Dashboard">
-    <div class="p-8 max-w-7xl mx-auto flex flex-col h-full">
+    <div class="p-8 max-w-7xl mx-auto flex flex-col h-full" x-data="{ openLightbox: false, activeImage: '' }" @keydown.escape.window="openLightbox = false">
         
         <div class="mb-8" data-aos="fade-down">
             <h1 class="text-3xl font-heading text-white tracking-widest mb-2">MY SCORES</h1>
@@ -53,12 +53,17 @@
                                 $photoScores = $photo->scores;
                                 $totalScore = 0;
                                 foreach($photoScores as $score) {
-                                    $totalScore += $score->score * ($score->criteria->weight / 100);
+                                    $totalScore += $score->score;
                                 }
                             @endphp
                             <tr class="bg-gray-900 hover:bg-gray-800/50 transition-colors">
                                 <td class="px-6 py-4">
-                                    <img src="{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="Thumbnail" class="w-16 h-16 object-cover rounded-lg border border-gray-700">
+                                    <button type="button" @click="activeImage = '{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}'; openLightbox = true" class="w-16 h-16 rounded-xl overflow-hidden border border-gray-700 relative group focus:outline-none focus:ring-2 focus:ring-gold block">
+                                        <img src="{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="Thumbnail" class="w-full h-full object-cover transition-transform group-hover:scale-110">
+                                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <i data-lucide="zoom-in" class="w-5 h-5 text-white"></i>
+                                        </div>
+                                    </button>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="font-bold text-white mb-1">{{ $photo->title }}</div>
@@ -96,6 +101,14 @@
                 {{ $photos->links() }}
             </div>
             @endif
+        </div>
+
+        <!-- Lightbox Modal -->
+        <div x-show="openLightbox" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm" style="display: none;" x-transition.opacity>
+            <button @click="openLightbox = false" class="absolute top-6 right-6 p-3 bg-gray-900/50 hover:bg-gold text-white hover:text-dark rounded-full transition-colors z-50">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <img :src="activeImage" referrerpolicy="no-referrer" alt="Thumbnail Preview" class="max-w-[400px] w-full object-contain shadow-2xl rounded-lg border border-gray-800" @click.away="openLightbox = false">
         </div>
 
     </div>
