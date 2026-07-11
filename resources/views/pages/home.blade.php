@@ -23,11 +23,14 @@
                 "Dari tangan-tangan sederhana lahir kemajuan Bumi Paser."
             </p>
             
-            <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6" data-aos="fade-up" data-aos-delay="800">
-                <a href="{{ url('/register') }}" class="bg-gold text-dark px-10 py-4 rounded-full font-bold text-lg hover:bg-yellow-500 hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.5)] w-full sm:w-auto">
+            <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 flex-wrap" data-aos="fade-up" data-aos-delay="800">
+                <a href="{{ url('/register') }}" class="bg-gold text-dark px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-500 hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.5)] w-full sm:w-auto text-center mb-4 sm:mb-0">
                     Daftar Sekarang
                 </a>
-                <a href="{{ url('/guidebook') }}" class="bg-white/10 backdrop-blur-md border border-white/30 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 w-full sm:w-auto">
+                <a href="{{ route('track.index') }}" class="bg-gray-900/50 backdrop-blur-md border border-gray-700 hover:border-gold text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-800 transition-all duration-300 w-full sm:w-auto text-center flex items-center justify-center mb-4 sm:mb-0">
+                    <i data-lucide="search" class="w-5 h-5 mr-2"></i> Cek Status Karya
+                </a>
+                <a href="{{ url('/guidebook') }}" class="bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 w-full sm:w-auto text-center">
                     Baca Panduan
                 </a>
             </div>

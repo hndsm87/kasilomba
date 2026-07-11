@@ -40,6 +40,9 @@ Route::get('/contact', function () {
     return view('pages.contact');
 });
 
+Route::get('/track', [\App\Http\Controllers\TrackController::class, 'index'])->name('track.index');
+Route::post('/track', [\App\Http\Controllers\TrackController::class, 'search'])->name('track.search');
+
 Route::get('/register', function () {
     return view('pages.register');
 });

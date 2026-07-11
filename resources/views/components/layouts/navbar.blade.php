@@ -24,6 +24,9 @@
                 <a href="{{ url('/prizes') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Hadiah</a>
                 <a href="{{ url('/categories') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">Kategori</a>
                 <a href="{{ url('/faq') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200">FAQ</a>
+                <a href="{{ route('track.index') }}" class="text-sm font-medium hover:text-gold transition-colors duration-200 flex items-center bg-gray-800/50 px-3 py-1.5 rounded-full border border-gray-700/50">
+                    <i data-lucide="search" class="w-3.5 h-3.5 mr-1.5 text-gold"></i> Cek Status
+                </a>
                 
                 @auth
                     @if(auth()->user()->hasRole('Judge'))
@@ -75,6 +78,9 @@
             <a href="{{ url('/prizes') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Hadiah</a>
             <a href="{{ url('/categories') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">Kategori</a>
             <a href="{{ url('/faq') }}" class="block px-3 py-3 text-base font-medium text-white hover:text-gold hover:bg-white/5 rounded-md">FAQ</a>
+            <a href="{{ route('track.index') }}" class="block px-3 py-3 text-base font-bold text-gold hover:bg-white/5 rounded-md flex items-center justify-center bg-gray-800/30 mt-2">
+                <i data-lucide="search" class="w-4 h-4 mr-2"></i> Cek Status Karya
+            </a>
             
             @auth
                 @if(auth()->user()->hasRole('Judge'))
