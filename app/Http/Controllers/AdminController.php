@@ -109,4 +109,25 @@ class AdminController extends Controller
             return back()->with('success', 'Report dismissed. Photo remains active.');
         }
     }
+
+    public function resetSystem(Request $request)
+    {
+        // Require the exact string confirmation
+        $confirmation = $request->input('confirmation');
+        if ($confirmation !== 'HAPUS SEMUA DATA') {
+            return back()->with('error', 'Konfirmasi tidak valid. Sistem gagal direset.');
+        }
+
+        // Disable foreign key checks temporarily to allow truncating
+        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        
+        // Truncate tables to reset IDs to 1
+        \App\Models\Score::truncate();
+        \App\Models\Report::truncate();
+        \App\Models\Photo::truncate();
+        
+        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        return back()->with('success', 'SEMUA DATA PESERTA BERHASIL DIHAPUS. Sistem telah direset ke kondisi awal.');
+    }
 }

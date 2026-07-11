@@ -134,5 +134,52 @@
                 </div>
             </div>
         </div>
+
+        <!-- DANGER ZONE -->
+        @hasrole('Admin')
+        <div class="mt-8 bg-red-900/20 border border-red-900/50 rounded-2xl p-6 shadow-lg flex flex-col md:flex-row justify-between items-center" x-data="{ openResetModal: false }">
+            <div>
+                <h4 class="font-bold text-red-500 mb-1 flex items-center">
+                    <i data-lucide="alert-triangle" class="w-5 h-5 mr-2"></i> Danger Zone
+                </h4>
+                <p class="text-gray-400 text-sm">Hapus seluruh data peserta, laporan, dan skor. Tindakan ini tidak dapat dibatalkan.</p>
+            </div>
+            <button @click="openResetModal = true" class="mt-4 md:mt-0 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors flex items-center shadow-lg">
+                <i data-lucide="trash-2" class="w-4 h-4 mr-2"></i> Reset Sistem
+            </button>
+
+            <!-- Reset Confirmation Modal -->
+            <div x-show="openResetModal" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" x-transition>
+                <div class="bg-gray-900 border border-red-500/30 rounded-2xl p-8 max-w-md w-full shadow-2xl relative" @click.away="openResetModal = false">
+                    <button @click="openResetModal = false" class="absolute top-4 right-4 text-gray-500 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <div class="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-500/50">
+                        <i data-lucide="alert-triangle" class="w-8 h-8 text-red-500"></i>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold text-white text-center mb-2">Reset Seluruh Data?</h3>
+                    <p class="text-gray-400 text-sm text-center mb-6 leading-relaxed">
+                        Tindakan ini akan menghapus permanen <strong>semua foto, skor juri, dan laporan</strong> yang ada di database. Sistem akan kembali kosong seperti semula.
+                    </p>
+
+                    <form action="{{ route('admin.system.reset') }}" method="POST" class="space-y-4">
+                        @csrf
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2 text-center">Ketik <span class="text-red-400 font-bold">HAPUS SEMUA DATA</span> untuk melanjutkan</label>
+                            <input type="text" name="confirmation" required autocomplete="off" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white text-center font-bold focus:ring-2 focus:ring-red-500 focus:border-red-500 uppercase">
+                        </div>
+                        <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl transition-colors mt-2">
+                            Ya, Hapus Semuanya
+                        </button>
+                        <button type="button" @click="openResetModal = false" class="w-full bg-transparent text-gray-400 hover:text-white font-medium py-2 px-4 transition-colors">
+                            Batal
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @endhasrole
     </div>
 </x-layouts.admin>
