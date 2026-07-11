@@ -30,9 +30,9 @@ class JudgeController extends Controller
 
         $totalPhotos = $photos->count();
         
-        // Count photos that have at least one score from this judge
-        $judgedCount = $photos->filter(function($photo) {
-            return $photo->scores->isNotEmpty();
+        // Count photos that have at least one score or an active (non-dismissed) report from this judge
+        $judgedCount = $photos->filter(function($photo) use ($judgeId) {
+            return $photo->scores->isNotEmpty() || $photo->reports()->where('judge_id', $judgeId)->where('status', '!=', 'dismissed')->exists();
         })->count();
         
         $pendingCount = $totalPhotos - $judgedCount;
@@ -49,6 +49,9 @@ class JudgeController extends Controller
             ->where('verification_status', 'Verified')
             ->whereDoesntHave('scores', function ($query) use ($judgeId) {
                 $query->where('judge_id', $judgeId);
+            })
+            ->whereDoesntHave('reports', function ($query) use ($judgeId) {
+                $query->where('judge_id', $judgeId)->where('status', '!=', 'dismissed');
             });
 
         // If skipping, get the next ID
@@ -64,6 +67,9 @@ class JudgeController extends Controller
                 ->where('verification_status', 'Verified')
                 ->whereDoesntHave('scores', function ($query) use ($judgeId) {
                     $query->where('judge_id', $judgeId);
+                })
+                ->whereDoesntHave('reports', function ($query) use ($judgeId) {
+                    $query->where('judge_id', $judgeId)->where('status', '!=', 'dismissed');
                 })->first();
         }
 

@@ -76,4 +76,37 @@ class AdminController extends Controller
         ]);
     }
 
+    public function reports(Request $request)
+    {
+        $status = $request->get('status', 'pending');
+        $query = Report::with(['photo', 'judge'])->where('status', $status);
+        
+        $reports = $query->orderBy('created_at', 'desc')->paginate(20);
+        
+        $stats = [
+            'pending' => Report::where('status', 'pending')->count(),
+            'resolved' => Report::where('status', 'resolved')->count(),
+            'dismissed' => Report::where('status', 'dismissed')->count(),
+        ];
+        
+        return view('admin.reports', compact('reports', 'status', 'stats'));
+    }
+
+    public function resolveReport(Request $request, Report $report)
+    {
+        $action = $request->get('action'); // 'disqualify' or 'dismiss'
+        
+        if ($action === 'disqualify') {
+            $report->update(['status' => 'resolved']);
+            $report->photo->update([
+                'is_disqualified' => true,
+                'verification_notes' => "Reason: Disqualified from Judge Report (" . $report->reason . ")\n" . $report->notes,
+                'verification_status' => 'Disqualified' // Also update status just in case
+            ]);
+            return back()->with('success', 'Photo has been disqualified based on the report.');
+        } else {
+            $report->update(['status' => 'dismissed']);
+            return back()->with('success', 'Report dismissed. Photo remains active.');
+        }
+    }
 }

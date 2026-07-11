@@ -127,7 +127,7 @@
                         <i data-lucide="award" class="w-8 h-8 text-gold mx-auto mb-3 group-hover:scale-110 transition-transform"></i>
                         <span class="block text-sm font-bold text-white">View Final Results</span>
                     </a>
-                    <a href="#" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl p-6 text-center transition-colors group">
+                    <a href="{{ route('admin.reports') }}" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl p-6 text-center transition-colors group">
                         <i data-lucide="shield-alert" class="w-8 h-8 text-gold mx-auto mb-3 group-hover:scale-110 transition-transform"></i>
                         <span class="block text-sm font-bold text-white">Review Reports</span>
                     </a>
