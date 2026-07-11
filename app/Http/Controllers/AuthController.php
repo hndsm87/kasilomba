@@ -24,7 +24,7 @@ class AuthController extends Controller
             
             activity()->causedBy(Auth::user())->log('Logged in');
 
-            if (Auth::user()->hasRole('Admin')) {
+            if (Auth::user()->hasAnyRole(['Admin', 'Admin Verifikasi'])) {
                 return redirect()->intended('/admin/dashboard');
             }
             return redirect()->intended('/judge/dashboard');

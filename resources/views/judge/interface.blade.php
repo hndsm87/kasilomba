@@ -15,10 +15,14 @@
                         {{ ucfirst($photo->category) }}
                     </span>
                     <h2 class="text-2xl font-bold text-white shadow-sm">{{ $photo->title }}</h2>
-                    <p class="text-gray-300 text-sm flex items-center mt-1">
+                    <p class="text-gray-300 text-sm flex items-center mt-1 flex-wrap gap-y-2">
                         <i data-lucide="map-pin" class="w-4 h-4 mr-1"></i> {{ $photo->location ?? 'Unknown Location' }} 
-                        <span class="mx-2">•</span> 
+                        <span class="mx-2 hidden md:inline">•</span> 
                         <i data-lucide="calendar" class="w-4 h-4 mr-1"></i> {{ $photo->taken_at ? $photo->taken_at->format('d M Y') : 'Unknown Date' }}
+                        @if($photo->device_used)
+                            <span class="mx-2 hidden md:inline">•</span> 
+                            <i data-lucide="camera" class="w-4 h-4 mr-1"></i> {{ $photo->device_used }}
+                        @endif
                     </p>
                 </div>
                 <div class="flex space-x-2">

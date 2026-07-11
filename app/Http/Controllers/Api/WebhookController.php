@@ -76,6 +76,7 @@ class WebhookController extends Controller
             $category = str_contains($categoryRaw, 'dslr') ? 'dslr' : 'smartphone';
             
             $location = $getFieldValue('Lokasi Pengambilan', 'Unknown');
+            $deviceUsed = $getFieldValue('Diambil Menggunakan', null);
             $driveLink = $getFieldValue('Upload Foto', null);
 
             // Extract Identity Data
@@ -141,6 +142,7 @@ class WebhookController extends Controller
                     'story' => $story,
                     'category' => $category,
                     'location' => $location,
+                    'device_used' => $deviceUsed,
                     'coordinates' => null,
                     'google_drive_link' => $driveLink,
                     'google_drive_preview' => $drivePreview,

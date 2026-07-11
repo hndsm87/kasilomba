@@ -122,6 +122,9 @@
                                         <i data-lucide="external-link" class="w-4 h-4 mr-2 flex-shrink-0"></i> 
                                         <span class="truncate">{{ $dup->title }}</span>
                                         <span class="ml-2 text-[10px] px-1.5 py-0.5 bg-gray-800 text-gray-400 rounded uppercase tracking-wider">{{ $dup->category }}</span>
+                                        @if($dup->is_disqualified)
+                                            <span class="ml-2 text-[10px] px-1.5 py-0.5 bg-red-900/50 text-red-400 border border-red-500/50 rounded uppercase tracking-wider">Disqualified</span>
+                                        @endif
                                     </a>
                                 @endforeach
                             </div>
@@ -138,6 +141,15 @@
                                 <h4 class="text-xs uppercase tracking-wider text-gray-500 font-bold mb-4">Contact Info</h4>
                                 <x-verification-field label="WhatsApp" value="{{ $photo->whatsapp }}" />
                                 <x-verification-field label="Instagram" value="{{ $photo->instagram }}" />
+                            </div>
+                            
+                            <div class="pt-6 mt-6 border-t border-gray-800">
+                                <button @click="markChecked('identity')" 
+                                        :class="checks.identity ? 'bg-green-900/40 text-green-400 border-green-500/50' : 'bg-gray-800 text-white hover:bg-gray-700 border-gray-700'" 
+                                        class="w-full py-3 px-4 rounded-xl font-bold border transition-colors flex items-center justify-center">
+                                    <i data-lucide="check-circle-2" class="w-5 h-5 mr-2" :class="{'text-green-500': checks.identity}"></i>
+                                    <span x-text="checks.identity ? 'Identity Terverifikasi' : 'Tandai Identity Telah Dicek'"></span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -182,6 +194,15 @@
                             <x-verification-field label="Taken At" value="{{ $photo->taken_at ? $photo->taken_at->format('d M Y') : 'Unknown' }}" />
                             <x-verification-field label="Submission Date" value="{{ $photo->created_at->format('d M Y, H:i') }}" />
                         </div>
+                        
+                        <div class="pt-6 mt-6 border-t border-gray-800">
+                            <button @click="markChecked('photo')" 
+                                    :class="checks.photo ? 'bg-green-900/40 text-green-400 border-green-500/50' : 'bg-gray-800 text-white hover:bg-gray-700 border-gray-700'" 
+                                    class="w-full py-3 px-4 rounded-xl font-bold border transition-colors flex items-center justify-center">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 mr-2" :class="{'text-green-500': checks.photo}"></i>
+                                <span x-text="checks.photo ? 'Photo Terverifikasi' : 'Tandai Photo Telah Dicek'"></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -193,12 +214,24 @@
                                 {{ $photo->category }}
                             </div>
                             <h1 class="text-4xl font-heading font-bold text-white mb-6 leading-tight">{{ $photo->title }}</h1>
-                            <div class="flex items-center text-sm text-gray-400 mb-10 space-x-4 border-b border-gray-800 pb-6">
+                            <div class="flex items-center text-sm text-gray-400 mb-10 space-x-4 border-b border-gray-800 pb-6 flex-wrap gap-y-2">
                                 <div class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-2"></i> {{ $photo->location ?? 'Unknown Location' }}</div>
                                 <div class="flex items-center"><i data-lucide="calendar" class="w-4 h-4 mr-2"></i> {{ $photo->taken_at ? $photo->taken_at->format('d M Y') : 'Unknown Date' }}</div>
+                                @if($photo->device_used)
+                                    <div class="flex items-center"><i data-lucide="camera" class="w-4 h-4 mr-2"></i> {{ $photo->device_used }}</div>
+                                @endif
                             </div>
                             
                             <div class="prose prose-invert prose-lg max-w-none text-gray-300 leading-relaxed whitespace-pre-wrap">{{ $photo->story }}</div>
+                            
+                            <div class="pt-8 mt-12 border-t border-gray-800 flex justify-end">
+                                <button @click="markChecked('story')" 
+                                        :class="checks.story ? 'bg-green-900/40 text-green-400 border-green-500/50' : 'bg-gray-800 text-white hover:bg-gray-700 border-gray-700'" 
+                                        class="py-3 px-6 rounded-xl font-bold border transition-colors flex items-center justify-center shadow-lg">
+                                    <i data-lucide="check-circle-2" class="w-5 h-5 mr-2" :class="{'text-green-500': checks.story}"></i>
+                                    <span x-text="checks.story ? 'Story Terverifikasi' : 'Tandai Story Telah Dicek'"></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -258,11 +291,21 @@
                 <button @click="showReject = true" class="px-6 py-2.5 bg-gray-800 hover:bg-kasi-red hover:text-white text-gray-300 font-bold rounded-xl transition-colors flex items-center border border-gray-700">
                     <i data-lucide="x" class="w-4 h-4 mr-2"></i> Reject
                 </button>
-                <form action="{{ route('admin.submissions.approve', $photo->id) }}" method="POST">
+                <form action="{{ route('admin.submissions.approve', $photo->id) }}" method="POST" class="relative group">
                     @csrf
-                    <button type="submit" class="px-6 py-2.5 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-colors flex items-center shadow-lg shadow-green-900/50">
+                    <button type="submit" 
+                            :disabled="!canApprove" 
+                            :class="canApprove ? 'bg-green-600 hover:bg-green-500 text-white shadow-lg shadow-green-900/50' : 'bg-gray-800 text-gray-600 cursor-not-allowed border border-gray-700'" 
+                            class="px-6 py-2.5 font-bold rounded-xl transition-all duration-300 flex items-center">
                         <i data-lucide="check" class="w-4 h-4 mr-2"></i> Approve Submission
                     </button>
+                    <!-- Tooltip Hint -->
+                    <div x-show="!canApprove" class="absolute bottom-full right-0 mb-3 w-56 bg-gray-800 text-gray-300 text-xs rounded-xl p-3 border border-gray-700 text-center shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                        <div class="font-bold text-white mb-1">Tombol Terkunci</div>
+                        Silakan buka ketiga tab (Identity, Photo, Story) dan klik tombol Verifikasi di masing-masing tab.
+                        <!-- Arrow pointer -->
+                        <div class="absolute -bottom-2 right-12 w-4 h-4 bg-gray-800 border-b border-r border-gray-700 transform rotate-45"></div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -322,14 +365,34 @@
                 isFullscreen: false,
                 showReject: false,
                 
+                checks: {
+                    photo: false,
+                    identity: false,
+                    story: false
+                },
+                
+                get canApprove() {
+                    return this.checks.photo && this.checks.identity && this.checks.story;
+                },
+
+                markChecked(tabName) {
+                    this.checks[tabName] = true;
+                    // Auto advance to next unverified tab
+                    if (tabName === 'photo' && !this.checks.identity) this.tab = 'identity';
+                    else if (tabName === 'identity' && !this.checks.story) this.tab = 'story';
+                    else if (tabName === 'story' && !this.checks.photo) this.tab = 'photo';
+                },
+                
                 handleKeydown(e) {
                     // Don't trigger if typing in an input/textarea
                     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
                     
                     if (e.key === 'a' || e.key === 'A') {
                         // Approve form submit
-                        const approveBtn = document.querySelector('form[action*="approve"] button');
-                        if(approveBtn && !this.showReject) approveBtn.click();
+                        if(this.canApprove) {
+                            const approveBtn = document.querySelector('form[action*="approve"] button');
+                            if(approveBtn && !this.showReject) approveBtn.click();
+                        }
                     }
                     if (e.key === 'r' || e.key === 'R') {
                         // Open reject modal
