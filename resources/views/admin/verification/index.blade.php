@@ -9,9 +9,10 @@
         </div>
 
         <!-- Filters & Search -->
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 mb-6 flex justify-between items-center shadow-lg">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 mb-6 flex flex-col space-y-4 shadow-lg">
             
-            <div class="flex space-x-2 overflow-x-auto custom-scrollbar pb-2 md:pb-0">
+            <!-- Tabs -->
+            <div class="flex flex-wrap gap-2">
                 @foreach($stats as $tabStatus => $count)
                     <a href="{{ route('admin.submissions.index', ['status' => $tabStatus]) }}" 
                        class="px-4 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap {{ $status === $tabStatus ? 'bg-gold text-dark' : 'bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700' }}">
@@ -23,8 +24,9 @@
                 @endforeach
             </div>
 
-            <div class="flex-shrink-0 ml-4 w-full md:w-auto mt-4 md:mt-0">
-                <form action="{{ route('admin.submissions.index') }}" method="GET" class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3" id="filterForm">
+            <!-- Filters -->
+            <div class="w-full border-t border-gray-800 pt-4">
+                <form action="{{ route('admin.submissions.index') }}" method="GET" class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3 w-full" id="filterForm">
                     <input type="hidden" name="status" value="{{ $status }}">
                     
                     <select name="category" onchange="document.getElementById('filterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2 focus:ring-gold focus:border-gold">
@@ -41,7 +43,7 @@
                         <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100 per page</option>
                     </select>
 
-                    <div class="relative flex-grow md:w-64">
+                    <div class="relative flex-grow md:max-w-md">
                         <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Search name, village..." class="w-full pl-9 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-xl text-sm text-white focus:ring-gold focus:border-gold placeholder-gray-500 transition-colors">
                     </div>
@@ -85,6 +87,16 @@
                                     @endif
                                 </div>
                                 <div class="text-xs text-gray-500 mt-0.5 truncate max-w-[200px]">{{ $photo->title }}</div>
+                                @if($status === 'Disqualified' && $photo->verification_notes)
+                                    @php
+                                        preg_match('/Reason: (.*?)\n/', $photo->verification_notes, $matches);
+                                        $reason = $matches[1] ?? 'Disqualified';
+                                    @endphp
+                                    <div class="mt-2 inline-flex items-center px-2.5 py-1 bg-red-900/30 border border-red-800 text-red-400 text-[11px] rounded-lg font-medium">
+                                        <i data-lucide="x-circle" class="w-3 h-3 mr-1.5"></i>
+                                        {{ $reason }}
+                                    </div>
+                                @endif
                             </td>
                             <td class="py-3 px-6">
                                 <span class="px-2 py-1 bg-gray-800 border border-gray-700 text-gray-300 rounded text-xs uppercase tracking-wider font-bold">
@@ -108,7 +120,7 @@
                             </td>
                             <td class="py-3 px-6 text-right">
                                 <a href="{{ route('admin.submissions.show', $photo->id) }}" class="inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gold hover:text-dark text-white text-xs font-bold rounded-lg border border-gray-700 transition-colors">
-                                    Verify <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                                    {{ $status === 'Disqualified' ? 'View Details' : 'Verify' }} <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
                                 </a>
                             </td>
                         </tr>
@@ -135,19 +147,4 @@
         </div>
     </div>
     
-    <style>
-        .custom-scrollbar::-webkit-scrollbar {
-            height: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent; 
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #374151; 
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #4B5563; 
-        }
-    </style>
 </x-layouts.admin>

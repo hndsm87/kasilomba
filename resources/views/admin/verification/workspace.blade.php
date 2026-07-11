@@ -34,6 +34,28 @@
             </div>
         </div>
 
+        <!-- Disqualified Banner -->
+        @if($photo->is_disqualified)
+            @php
+                $notesStr = $photo->verification_notes ?? '';
+                preg_match('/Reason: (.*?)\n/', $notesStr, $matches);
+                $reason = $matches[1] ?? 'Unknown Reason';
+                $notes = trim(preg_replace('/Reason: .*?\nNotes:/', '', $notesStr));
+            @endphp
+            <div class="bg-red-900 border-b border-red-500/50 p-4 px-6 z-30 relative shadow-lg">
+                <div class="flex items-start max-w-7xl">
+                    <i data-lucide="x-octagon" class="w-6 h-6 text-red-400 mr-4 flex-shrink-0 mt-0.5"></i>
+                    <div>
+                        <h3 class="text-white font-bold text-base mb-1">Peserta Ini Telah Didiskualifikasi</h3>
+                        <p class="text-red-200 text-sm leading-relaxed">
+                            <strong class="text-white">Alasan:</strong> {{ $reason }}<br>
+                            <strong class="text-white">Catatan Tambahan:</strong> {{ $notes ?: '-' }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         <!-- Main Workspace Area -->
         <div class="flex-grow flex overflow-hidden">
             
@@ -41,7 +63,7 @@
             <div class="flex-grow flex flex-col h-full bg-black relative">
                 
                 <!-- TAB: IDENTITY & AGREEMENTS -->
-                <div x-show="tab === 'identity'" class="absolute inset-0 flex" x-transition.opacity>
+                <div x-show="tab === 'identity'" class="absolute inset-0 flex" style="display: none;" x-transition.opacity>
                     <!-- Agreements Viewer -->
                     <div class="w-2/3 h-full bg-black relative flex flex-col p-12 overflow-y-auto pb-28">
                         <div class="max-w-2xl mx-auto w-full">
@@ -122,7 +144,7 @@
                 </div>
 
                 <!-- TAB: PHOTO -->
-                <div x-show="tab === 'photo'" class="absolute inset-0 flex" style="display: none;" x-transition.opacity>
+                <div x-show="tab === 'photo'" class="absolute inset-0 flex" x-transition.opacity>
                     <!-- Main Photo Viewer -->
                     <div class="w-2/3 h-full bg-black relative flex items-center justify-center p-8 group">
                         <img src="{{ $photo->medium_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="Competition Photo" class="max-w-full max-h-full object-contain transition-transform duration-300" :class="{ 'scale-150 cursor-move': zoomPhoto }">
@@ -294,7 +316,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('verificationWorkspace', () => ({
-                tab: 'identity', // identity, photo, story
+                tab: 'photo', // identity, photo, story
                 zoomCard: false,
                 zoomPhoto: false,
                 isFullscreen: false,
