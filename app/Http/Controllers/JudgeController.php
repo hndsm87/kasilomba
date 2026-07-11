@@ -102,7 +102,7 @@ class JudgeController extends Controller
     {
         $request->validate([
             'scores' => 'required|array',
-            'scores.*' => 'required|numeric|min:0|max:100',
+            'scores.*' => 'required|numeric|min:0',
             'notes' => 'nullable|string'
         ]);
 

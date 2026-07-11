@@ -76,17 +76,20 @@
                     <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700/50">
                         <div class="flex justify-between items-center mb-2">
                             <label class="text-sm font-bold text-gray-200">{{ $criteria->name }}</label>
-                            <span class="text-xs font-bold text-gray-500 bg-gray-800 px-2 py-1 rounded">{{ $criteria->weight }}%</span>
+                            <span class="text-xs font-bold text-gray-500 bg-gray-800 px-2 py-1 rounded">Max {{ $criteria->weight }}</span>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <input type="range" min="0" max="100" step="1" 
+                        <div class="flex items-center space-x-4 mb-3">
+                            <input type="range" min="0" max="{{ $criteria->weight }}" step="1" 
                                    name="scores[{{ $criteria->id }}]" 
                                    x-model.number="scores[{{ $criteria->id }}]" 
                                    class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-gold">
-                            <input type="number" min="0" max="100" 
+                            <input type="number" min="0" max="{{ $criteria->weight }}" 
                                    x-model.number="scores[{{ $criteria->id }}]" 
                                    class="w-16 bg-gray-900 border border-gray-700 rounded text-white text-center text-sm py-1 focus:ring-gold focus:border-gold">
                         </div>
+                        @if($criteria->description)
+                        <div class="mt-2 text-[11px] text-gray-400 whitespace-pre-wrap leading-relaxed bg-gray-900/50 p-3 rounded-lg border border-gray-800">{{ $criteria->description }}</div>
+                        @endif
                     </div>
                     @endforeach
 
@@ -181,8 +184,7 @@
                     let total = 0;
                     for (const id in this.scores) {
                         const score = parseFloat(this.scores[id]) || 0;
-                        const weight = parseFloat(this.weights[id]) || 0;
-                        total += score * (weight / 100);
+                        total += score;
                     }
                     return total;
                 },
