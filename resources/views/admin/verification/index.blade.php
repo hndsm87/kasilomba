@@ -1,5 +1,5 @@
 <x-layouts.admin title="Verification Queue">
-    <div class="p-4 md:p-8 max-w-7xl mx-auto flex flex-col h-full min-h-0"> x-data="{ openLightbox: false, activeImage: '' }" @keydown.escape.window="openLightbox = false">
+    <div class="p-4 md:p-8 max-w-7xl mx-auto flex flex-col h-full min-h-0" x-data="{ openLightbox: false, activeImage: '' }" @keydown.escape.window="openLightbox = false">
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <div>
