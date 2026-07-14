@@ -145,14 +145,30 @@
             
             <div class="swiper sponsors-swiper">
                 <div class="swiper-wrapper items-center">
-                    @for ($i = 1; $i <= 6; $i++)
-                        <div class="swiper-slide text-center flex justify-center opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-                            <!-- Placeholder Sponsor Logo -->
-                            <div class="h-16 flex items-center justify-center font-bold text-2xl text-gray-400 font-heading">
-                                SPONSOR {{ $i }}
-                            </div>
-                        </div>
-                    @endfor
+                    <!-- ABC Net -->
+                    <div class="swiper-slide text-center flex justify-center opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                        <img src="{{ asset('images/sponsor/logo_abcnet.png') }}" alt="ABC Net Logo" class="h-12 w-auto object-contain">
+                    </div>
+                    <!-- Hotto -->
+                    <div class="swiper-slide text-center flex justify-center opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                        <img src="{{ asset('images/sponsor/logo_hotto.png') }}" alt="Hotto Logo" class="h-12 w-auto object-contain">
+                    </div>
+                    <!-- ABC Net (Repeated for loop smoothness) -->
+                    <div class="swiper-slide text-center flex justify-center opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                        <img src="{{ asset('images/sponsor/logo_abcnet.png') }}" alt="ABC Net Logo" class="h-12 w-auto object-contain">
+                    </div>
+                    <!-- Hotto (Repeated for loop smoothness) -->
+                    <div class="swiper-slide text-center flex justify-center opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                        <img src="{{ asset('images/sponsor/logo_hotto.png') }}" alt="Hotto Logo" class="h-12 w-auto object-contain">
+                    </div>
+                    <!-- ABC Net (Repeated for loop smoothness) -->
+                    <div class="swiper-slide text-center flex justify-center opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                        <img src="{{ asset('images/sponsor/logo_abcnet.png') }}" alt="ABC Net Logo" class="h-12 w-auto object-contain">
+                    </div>
+                    <!-- Hotto (Repeated for loop smoothness) -->
+                    <div class="swiper-slide text-center flex justify-center opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                        <img src="{{ asset('images/sponsor/logo_hotto.png') }}" alt="Hotto Logo" class="h-12 w-auto object-contain">
+                    </div>
                 </div>
             </div>
         </div>
