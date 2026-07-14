@@ -51,7 +51,9 @@
             <!-- Contoh Profesi -->
             <div class="mb-12" data-aos="fade-up">
                 <h3 class="text-2xl font-bold text-white text-center mb-2">Contoh Pilihan Profesi</h3>
-                <p class="text-sm text-gray-500 text-center mb-8">Setiap profesi punya cerita. Abadikan wajah dan kisah perjuangan mereka.</p>
+                <p class="text-sm text-gray-400 text-center mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Yang kami cari bukan sekadar profesinya, tetapi kisah manusia di balik profesi tersebut. Contoh di bawah hanya sebagian kecil dari banyak pejuang sehari-hari di Bumi Paser.
+                </p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bg-gray-900/50 border border-gray-800/80 rounded-2xl p-5 flex items-start space-x-4">
@@ -116,12 +118,15 @@
                     </div>
                     <div>
                         <h4 class="font-bold text-gold text-sm uppercase tracking-wider mb-4 flex items-center">
-                            <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Menulis Cerita Foto
+                            <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Tips Menulis Cerita Foto
                         </h4>
                         <ul class="space-y-3 text-sm text-gray-300">
-                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5"></i> Ceritakan jujur siapa subjeknya & kegiatannya.</li>
-                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5"></i> Tulis narasi minimal 3-5 kalimat.</li>
-                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5"></i> Pastikan menyertakan lokasi pengambilan foto di Paser.</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5"></i> Tulis dengan jujur dan apa adanya.</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5"></i> Ceritakan siapa subjeknya dan apa yang dilakukannya.</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5"></i> Jelaskan makna atau pesan yang ingin disampaikan.</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5"></i> Gunakan bahasa yang sederhana, jelas, dan menyentuh.</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5"></i> Tulis minimal 3–5 kalimat.</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5"></i> Sertakan lokasi pengambilan foto.</li>
                         </ul>
                     </div>
                 </div>
