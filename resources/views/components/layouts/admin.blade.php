@@ -6,7 +6,7 @@
     <title>{{ $title ?? 'Judging System' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-dark text-white font-sans antialiased h-screen overflow-hidden flex flex-col">
+<body class="bg-dark text-white font-sans antialiased md:h-screen md:overflow-hidden flex flex-col min-h-screen">
 
     <!-- Top Navbar -->
     <nav class="bg-gray-900 border-b border-gray-800 px-6 py-4 flex justify-between items-center z-50 relative" x-data="{ mobileMenuOpen: false }">
@@ -82,7 +82,7 @@
     </nav>
 
     <!-- Main Content Area -->
-    <main class="flex-grow overflow-auto relative">
+    <main class="flex-grow md:overflow-auto relative">
         {{ $slot }}
     </main>
 

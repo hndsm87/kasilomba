@@ -1,5 +1,5 @@
 <x-layouts.admin title="Verification Queue">
-    <div class="p-4 md:p-8 max-w-7xl mx-auto flex flex-col h-full min-h-0" x-data="{ openLightbox: false, activeImage: '' }" @keydown.escape.window="openLightbox = false">
+    <div class="p-4 md:p-8 max-w-7xl mx-auto flex flex-col md:h-full min-h-0" x-data="{ openLightbox: false, activeImage: '' }" @keydown.escape.window="openLightbox = false">
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <div>
@@ -55,8 +55,8 @@
         </div>
 
         <!-- Table -->
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl flex-1 min-h-0 shadow-lg flex flex-col">
-            <div class="flex-1 overflow-auto">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl md:flex-grow md:overflow-hidden shadow-lg flex flex-col">
+            <div class="md:flex-1 overflow-x-auto overflow-y-visible md:overflow-y-auto">
                 <table class="min-w-[980px] w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-800/50 border-b border-gray-800 text-gray-400 text-xs uppercase tracking-wider">

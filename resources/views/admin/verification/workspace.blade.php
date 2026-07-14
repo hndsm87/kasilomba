@@ -1,5 +1,5 @@
 <x-layouts.admin title="Verification Workspace | {{ $photo->participant_name ?? 'Unknown' }}">
-    <div x-data="verificationWorkspace()" class="flex flex-col h-full bg-dark text-white overflow-hidden relative">
+    <div x-data="verificationWorkspace()" class="flex flex-col h-[calc(100dvh-66px)] md:h-full bg-dark text-white overflow-hidden relative">
         
         <!-- Top Bar -->
         <div class="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-6 py-4 flex justify-between items-center z-40 relative">

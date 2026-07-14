@@ -1,5 +1,5 @@
 <x-layouts.admin title="My Scores | Judge Dashboard">
-    <div class="p-8 max-w-7xl mx-auto flex flex-col h-full" x-data="{ openLightbox: false, activeImage: '' }" @keydown.escape.window="openLightbox = false">
+    <div class="p-4 md:p-8 max-w-7xl mx-auto flex flex-col md:h-full min-h-0" x-data="{ openLightbox: false, activeImage: '' }" @keydown.escape.window="openLightbox = false">
         
         <div class="mb-8" data-aos="fade-down">
             <h1 class="text-3xl font-heading text-white tracking-widest mb-2">MY SCORES</h1>
@@ -35,8 +35,8 @@
             </div>
         </div>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl flex-grow overflow-hidden shadow-2xl flex flex-col" data-aos="fade-up">
-            <div class="overflow-x-auto">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl md:flex-grow overflow-hidden shadow-2xl flex flex-col" data-aos="fade-up">
+            <div class="overflow-x-auto overflow-y-visible md:overflow-y-auto">
                 <table class="w-full text-left text-sm text-gray-400 border-collapse">
                     <thead class="text-xs text-gray-300 uppercase bg-gray-800 border-b border-gray-700">
                         <tr>
