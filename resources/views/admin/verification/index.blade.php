@@ -56,7 +56,7 @@
 
         <!-- Table -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl flex-grow overflow-hidden shadow-lg flex flex-col">
-            <div class="overflow-x-auto">
+            <div class="overflow-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-800/50 border-b border-gray-800 text-gray-400 text-xs uppercase tracking-wider">
