@@ -40,6 +40,7 @@
                                 <li>Waktu pengambilan foto adalah antara periode 1 Januari 2026 sampai dengan penutupan lomba.</li>
                                 <li>Foto boleh pernah dipublikasikan atau diikutsertakan pada lomba lain sebelumnya, <strong>kecuali</strong> jika karya tersebut pernah menjadi juara atau pemenang favorit.</li>
                                 <li>Peserta wajib menyertakan Judul Foto, Lokasi Pengambilan, dan Cerita/Narasi maksimal 150 kata.</li>
+                                <li>Lomba ini berfokus pada sosok yang melalui profesi, pekerjaan, atau pengabdiannya menjadi bagian dari roda penggerak kehidupan masyarakat Kabupaten Paser. Oleh karena itu, karya yang semata-mata menampilkan aktivitas kompetisi olahraga atau prestasi atlet sebagai subjek utama tidak menjadi ruang lingkup tema lomba.</li>
                             </ul>
                         </div>
 
