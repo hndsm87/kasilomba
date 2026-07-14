@@ -14,10 +14,11 @@
             </div>
 
             <!-- Tabs Navigation -->
-            <div class="flex bg-gray-800 p-1 rounded-xl">
-                <button @click="tab = 'identity'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'identity', 'text-gray-400 hover:text-gray-200': tab !== 'identity' }" class="px-6 py-2 rounded-lg text-sm font-medium transition-all">Identity</button>
-                <button @click="tab = 'photo'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'photo', 'text-gray-400 hover:text-gray-200': tab !== 'photo' }" class="px-6 py-2 rounded-lg text-sm font-medium transition-all">Photo</button>
-                <button @click="tab = 'story'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'story', 'text-gray-400 hover:text-gray-200': tab !== 'story' }" class="px-6 py-2 rounded-lg text-sm font-medium transition-all">Story</button>
+            <div class="flex bg-gray-800 p-1 rounded-xl overflow-x-auto max-w-[55%] md:max-w-none scrollbar-none">
+                <button @click="tab = 'identity'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'identity', 'text-gray-400 hover:text-gray-200': tab !== 'identity' }" class="px-3 md:px-6 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap">Identity</button>
+                <button @click="tab = 'photo'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'photo', 'text-gray-400 hover:text-gray-200': tab !== 'photo' }" class="px-3 md:px-6 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap">Photo</button>
+                <button @click="tab = 'story'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'story', 'text-gray-400 hover:text-gray-200': tab !== 'story' }" class="px-3 md:px-6 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap">Story</button>
+                <button @click="tab = 'checklist'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'checklist', 'text-gray-400 hover:text-gold': tab !== 'checklist' }" class="md:hidden px-3 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap text-gold border border-gold/20">Checklist</button>
             </div>
 
             <!-- Health Score -->
@@ -57,15 +58,15 @@
         @endif
 
         <!-- Main Workspace Area -->
-        <div class="flex-grow flex overflow-hidden">
+        <div class="flex-grow flex flex-col md:flex-row overflow-hidden">
             
             <!-- Left Side: Dynamic Tab Content -->
-            <div class="flex-grow flex flex-col h-full bg-black relative">
+            <div x-show="!isMobile || tab !== 'checklist'" class="flex-grow flex flex-col h-full bg-black relative">
                 
                 <!-- TAB: IDENTITY & AGREEMENTS -->
-                <div x-show="tab === 'identity'" class="absolute inset-0 flex" style="display: none;" x-transition.opacity>
+                <div x-show="tab === 'identity'" class="absolute inset-0 flex flex-col md:flex-row" style="display: none;" x-transition.opacity>
                     <!-- Agreements Viewer -->
-                    <div class="w-2/3 h-full bg-black relative flex flex-col p-12 overflow-y-auto pb-28">
+                    <div class="w-full md:w-2/3 h-1/2 md:h-full bg-black relative flex flex-col p-6 md:p-12 overflow-y-auto pb-20 md:pb-28">
                         <div class="max-w-2xl mx-auto w-full">
                             <h3 class="text-2xl font-heading font-bold text-white mb-2">Participant Agreements</h3>
                             <p class="text-gray-400 mb-8">The participant has checked the following disclaimers during submission.</p>
@@ -106,7 +107,7 @@
                     </div>
                     
                     <!-- Participant Details -->
-                    <div class="w-1/3 h-full bg-gray-900 border-l border-gray-800 overflow-y-auto p-6 pb-28">
+                    <div class="w-full md:w-1/3 h-1/2 md:h-full bg-gray-900 border-t md:border-t-0 md:border-l border-gray-800 overflow-y-auto p-6 pb-20 md:pb-28">
                         <h3 class="text-lg font-bold mb-6 text-white border-b border-gray-800 pb-4">Participant Data</h3>
                         
                         @if($photo->is_duplicate)
@@ -156,9 +157,9 @@
                 </div>
 
                 <!-- TAB: PHOTO -->
-                <div x-show="tab === 'photo'" class="absolute inset-0 flex" x-transition.opacity>
+                <div x-show="tab === 'photo'" class="absolute inset-0 flex flex-col md:flex-row" x-transition.opacity>
                     <!-- Main Photo Viewer -->
-                    <div class="w-2/3 h-full bg-black relative flex items-center justify-center p-8 group">
+                    <div class="w-full md:w-2/3 h-1/2 md:h-full bg-black relative flex items-center justify-center p-4 md:p-8 group">
                         <img src="{{ $photo->medium_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="Competition Photo" class="max-w-full max-h-full object-contain transition-transform duration-300" :class="{ 'scale-150 cursor-move': zoomPhoto }">
                         
                         <!-- Toolbar overlay -->
@@ -176,7 +177,7 @@
                     </div>
                     
                     <!-- EXIF Details -->
-                    <div class="w-1/3 h-full bg-gray-900 border-l border-gray-800 overflow-y-auto p-6 pb-28">
+                    <div class="w-full md:w-1/3 h-1/2 md:h-full bg-gray-900 border-t md:border-t-0 md:border-l border-gray-800 overflow-y-auto p-6 pb-20 md:pb-28">
                         <h3 class="text-lg font-bold mb-6 text-white border-b border-gray-800 pb-4">EXIF Metadata</h3>
                         
                         @if($photo->exif_data)
@@ -208,7 +209,7 @@
 
                 <!-- TAB: STORY -->
                 <div x-show="tab === 'story'" class="absolute inset-0 flex" style="display: none;" x-transition.opacity>
-                    <div class="w-full h-full bg-gray-900 overflow-y-auto p-12 pb-28">
+                    <div class="w-full h-full bg-gray-900 overflow-y-auto p-6 md:p-12 pb-20 md:pb-28">
                         <div class="max-w-3xl mx-auto">
                             <div class="mb-4 inline-block px-3 py-1 bg-gray-800 border border-gray-700 text-gray-300 rounded text-xs uppercase tracking-wider font-bold">
                                 {{ $photo->category }}
@@ -239,7 +240,7 @@
             </div>
             
             <!-- Right Side: Checklist Panel -->
-            <div class="w-80 flex-shrink-0 bg-gray-900 border-l border-gray-800 flex flex-col h-full z-30">
+            <div x-show="!isMobile || tab === 'checklist'" class="w-full md:w-80 flex-shrink-0 bg-gray-900 border-t md:border-t-0 md:border-l border-gray-800 flex flex-col h-full z-30">
                 <div class="p-5 border-b border-gray-800">
                     <h3 class="font-bold text-white uppercase tracking-wider text-sm flex items-center">
                         <i data-lucide="check-square" class="w-4 h-4 mr-2 text-gold"></i> Verification Checklist
@@ -364,11 +365,18 @@
                 zoomPhoto: false,
                 isFullscreen: false,
                 showReject: false,
+                isMobile: window.innerWidth < 768,
                 
                 checks: {
                     photo: false,
                     identity: false,
                     story: false
+                },
+                
+                init() {
+                    window.addEventListener('resize', () => {
+                        this.isMobile = window.innerWidth < 768;
+                    });
                 },
                 
                 get canApprove() {
@@ -381,6 +389,11 @@
                     if (tabName === 'photo' && !this.checks.identity) this.tab = 'identity';
                     else if (tabName === 'identity' && !this.checks.story) this.tab = 'story';
                     else if (tabName === 'story' && !this.checks.photo) this.tab = 'photo';
+                    
+                    // Auto open checklist tab on mobile when all checks are completed
+                    if (this.canApprove && this.isMobile) {
+                        this.tab = 'checklist';
+                    }
                 },
                 
                 handleKeydown(e) {
