@@ -2,32 +2,44 @@
     <div x-data="verificationWorkspace()" class="flex flex-col h-[calc(100dvh-66px)] md:h-full bg-dark text-white overflow-hidden relative">
         
         <!-- Top Bar -->
-        <div class="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-6 py-4 flex justify-between items-center z-40 relative">
-            <div class="flex items-center space-x-4">
-                <a href="{{ route('admin.submissions.index') }}" class="p-2 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white transition-colors" title="Back to Queue">
-                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
-                </a>
-                <div>
-                    <h2 class="text-xl font-bold">{{ $photo->participant_name ?? 'Unknown Participant' }}</h2>
-                    <p class="text-xs text-gray-500 uppercase tracking-widest mt-0.5">{{ $photo->category }} • {{ $photo->village ?? 'Unknown Village' }}</p>
+        <div class="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-4 md:px-6 py-3 md:py-4 flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0 z-40 relative">
+            <div class="flex items-center justify-between w-full md:w-auto">
+                <div class="flex items-center space-x-4">
+                    <a href="{{ route('admin.submissions.index') }}" class="p-2 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white transition-colors" title="Back to Queue">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </a>
+                    <div>
+                        <h2 class="text-lg md:text-xl font-bold">{{ $photo->participant_name ?? 'Unknown Participant' }}</h2>
+                        <p class="text-xs text-gray-500 uppercase tracking-widest mt-0.5">{{ $photo->category }} • {{ $photo->village ?? 'Unknown Village' }}</p>
+                    </div>
+                </div>
+                
+                <!-- Health Score (Mobile view, shown inline) -->
+                <div class="md:hidden flex items-center space-x-2">
+                    <div class="text-right">
+                        <div class="text-[10px] text-gray-400 uppercase tracking-wider">Health</div>
+                        @php
+                            $health = $photo->health_score;
+                            $healthColor = $health >= 90 ? 'text-green-400' : ($health >= 70 ? 'text-yellow-400' : 'text-red-400');
+                        @endphp
+                        <div class="font-bold text-sm {{ $healthColor }}">{{ $health }}%</div>
+                    </div>
                 </div>
             </div>
 
             <!-- Tabs Navigation -->
-            <div class="flex bg-gray-800 p-1 rounded-xl overflow-x-auto max-w-[55%] md:max-w-none scrollbar-none">
-                <button @click="tab = 'identity'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'identity', 'text-gray-400 hover:text-gray-200': tab !== 'identity' }" class="px-3 md:px-6 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap">Identity</button>
-                <button @click="tab = 'photo'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'photo', 'text-gray-400 hover:text-gray-200': tab !== 'photo' }" class="px-3 md:px-6 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap">Photo</button>
-                <button @click="tab = 'story'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'story', 'text-gray-400 hover:text-gray-200': tab !== 'story' }" class="px-3 md:px-6 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap">Story</button>
-                <button @click="tab = 'checklist'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'checklist', 'text-gray-400 hover:text-gold': tab !== 'checklist' }" class="md:hidden px-3 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap text-gold border border-gold/20">Checklist</button>
+            <div class="flex bg-gray-800 p-1 rounded-xl overflow-x-auto max-w-full md:max-w-none scrollbar-none w-full md:w-auto justify-center">
+                <button @click="tab = 'identity'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'identity', 'text-gray-400 hover:text-gray-200': tab !== 'identity' }" class="flex-1 md:flex-initial px-3 md:px-6 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap">Identity</button>
+                <button @click="tab = 'photo'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'photo', 'text-gray-400 hover:text-gray-200': tab !== 'photo' }" class="flex-1 md:flex-initial px-3 md:px-6 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap">Photo</button>
+                <button @click="tab = 'story'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'story', 'text-gray-400 hover:text-gray-200': tab !== 'story' }" class="flex-1 md:flex-initial px-3 md:px-6 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap">Story</button>
+                <button @click="tab = 'checklist'" :class="{ 'bg-gray-700 text-white shadow-sm': tab === 'checklist', 'text-gold': tab !== 'checklist' }" class="md:hidden flex-1 px-3 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap text-gold border border-gold/20">Checklist</button>
             </div>
 
-            <!-- Health Score -->
-            <div class="flex items-center space-x-3">
+            <!-- Health Score (Desktop view only) -->
+            <div class="hidden md:flex items-center space-x-3">
                 <div class="text-right">
                     <div class="text-xs text-gray-400 uppercase tracking-wider">Health Score</div>
                     @php
-                        $health = $photo->health_score;
-                        $healthColor = $health >= 90 ? 'text-green-400' : ($health >= 70 ? 'text-yellow-400' : 'text-red-400');
                         $healthText = $health >= 90 ? 'Excellent' : ($health >= 70 ? 'Needs Review' : 'High Risk');
                     @endphp
                     <div class="font-bold {{ $healthColor }}">{{ $health }}% <span class="text-gray-500 text-xs ml-1 font-normal">({{ $healthText }})</span></div>
@@ -281,23 +293,23 @@
         </div>
 
         <!-- Floating Bottom Action Bar -->
-        <div class="absolute bottom-0 left-0 right-80 bg-gray-900 border-t border-gray-800 p-4 px-6 flex justify-between items-center z-40 backdrop-blur-md bg-opacity-90">
-            <div class="flex items-center space-x-2 text-xs text-gray-500 font-medium tracking-wider">
+        <div class="absolute bottom-0 left-0 right-0 md:right-80 bg-gray-900 border-t border-gray-800 p-4 px-4 md:px-6 flex justify-between items-center z-40 backdrop-blur-md bg-opacity-90">
+            <div class="hidden md:flex items-center space-x-2 text-xs text-gray-500 font-medium tracking-wider">
                 <span class="px-2 py-1 bg-gray-800 rounded">A</span> Approve
                 <span class="px-2 py-1 bg-gray-800 rounded ml-2">R</span> Reject
                 <span class="px-2 py-1 bg-gray-800 rounded ml-2">F</span> Fullscreen
             </div>
 
-            <div class="flex space-x-3">
-                <button @click="showReject = true" class="px-6 py-2.5 bg-gray-800 hover:bg-kasi-red hover:text-white text-gray-300 font-bold rounded-xl transition-colors flex items-center border border-gray-700">
+            <div class="flex space-x-3 w-full md:w-auto justify-between md:justify-end">
+                <button @click="showReject = true" class="flex-1 md:flex-initial px-6 py-2.5 bg-gray-800 hover:bg-kasi-red hover:text-white text-gray-300 font-bold rounded-xl transition-colors flex items-center justify-center border border-gray-700">
                     <i data-lucide="x" class="w-4 h-4 mr-2"></i> Reject
                 </button>
-                <form action="{{ route('admin.submissions.approve', $photo->id) }}" method="POST" class="relative group">
+                <form action="{{ route('admin.submissions.approve', $photo->id) }}" method="POST" class="relative group flex-1 md:flex-initial">
                     @csrf
                     <button type="submit" 
                             :disabled="!canApprove" 
                             :class="canApprove ? 'bg-green-600 hover:bg-green-500 text-white shadow-lg shadow-green-900/50' : 'bg-gray-800 text-gray-600 cursor-not-allowed border border-gray-700'" 
-                            class="px-6 py-2.5 font-bold rounded-xl transition-all duration-300 flex items-center">
+                            class="w-full px-6 py-2.5 font-bold rounded-xl transition-all duration-300 flex items-center justify-center">
                         <i data-lucide="check" class="w-4 h-4 mr-2"></i> Approve Submission
                     </button>
                     <!-- Tooltip Hint -->
