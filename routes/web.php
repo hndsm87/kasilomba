@@ -44,8 +44,12 @@ Route::get('/track', [\App\Http\Controllers\TrackController::class, 'index'])->n
 Route::post('/track', [\App\Http\Controllers\TrackController::class, 'search'])->name('track.search');
 
 Route::get('/register', function () {
+    return view('pages.register_guidelines');
+})->name('register.guidelines');
+
+Route::get('/register/form', function () {
     return view('pages.register');
-});
+})->name('register.form');
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
