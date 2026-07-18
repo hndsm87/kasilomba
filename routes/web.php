@@ -68,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/submissions/{photo}', [\App\Http\Controllers\VerificationController::class, 'show'])->name('submissions.show');
         Route::post('/submissions/{photo}/approve', [\App\Http\Controllers\VerificationController::class, 'approve'])->name('submissions.approve');
         Route::post('/submissions/{photo}/reject', [\App\Http\Controllers\VerificationController::class, 'reject'])->name('submissions.reject');
+        Route::post('/submissions/{photo}/extract-exif', [\App\Http\Controllers\VerificationController::class, 'extractExif'])->name('submissions.extract_exif');
 
         Route::get('/reports', [\App\Http\Controllers\AdminController::class, 'reports'])->name('reports');
         Route::post('/reports/{report}/resolve', [\App\Http\Controllers\AdminController::class, 'resolveReport'])->name('reports.resolve');

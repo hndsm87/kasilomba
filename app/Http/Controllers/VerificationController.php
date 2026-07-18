@@ -116,4 +116,54 @@ class VerificationController extends Controller
 
         return redirect()->route('admin.submissions.index')->with('success', $message . ' Queue is now empty.');
     }
+
+    public function extractExif(Photo $photo)
+    {
+        $url = $photo->google_drive_link;
+        if (empty($url)) {
+            return redirect()->back()->with('error', 'No photo URL available to extract EXIF.');
+        }
+
+        $exifData = Photo::extractExifFromUrl($url);
+
+        if (!$exifData) {
+            return redirect()->back()->with('error', 'Failed to extract EXIF data. Make sure the file is a valid image and EXIF metadata is present.');
+        }
+
+        // Update photo record
+        $updateData = [
+            'exif_data' => $exifData
+        ];
+
+        // If taken_at is default or not set, try to update with EXIF date
+        if (!empty($exifData['DateTimeOriginal'])) {
+            try {
+                $updateData['taken_at'] = \Carbon\Carbon::createFromFormat('Y:m:d H:i:s', $exifData['DateTimeOriginal']);
+            } catch (\Exception $e) {
+                // ignore
+            }
+        }
+
+        // If device_used is empty, update with EXIF device
+        if (empty($photo->device_used)) {
+            $make = $exifData['Make'] ?? '';
+            $model = $exifData['Model'] ?? '';
+            if (!empty($make) || !empty($model)) {
+                $updateData['device_used'] = trim("$make $model");
+            }
+        }
+
+        // If coordinates are empty, update with EXIF coordinates
+        if (empty($photo->coordinates) && isset($exifData['GPSLatitude'], $exifData['GPSLatitudeRef'], $exifData['GPSLongitude'], $exifData['GPSLongitudeRef'])) {
+            $lat = Photo::gpsToDecimal($exifData['GPSLatitude'], $exifData['GPSLatitudeRef']);
+            $lon = Photo::gpsToDecimal($exifData['GPSLongitude'], $exifData['GPSLongitudeRef']);
+            if ($lat !== null && $lon !== null) {
+                $updateData['coordinates'] = "$lat, $lon";
+            }
+        }
+
+        $photo->update($updateData);
+
+        return redirect()->back()->with('success', 'EXIF data extracted successfully.');
+    }
 }

@@ -149,6 +149,7 @@
                             <x-verification-field label="Address" value="{{ $photo->address }}" />
                             <x-verification-field label="Village" value="{{ $photo->village }}" />
                             <x-verification-field label="District" value="{{ $photo->district }}" />
+                            <x-verification-field label="Device Used (Form/EXIF)" value="{{ $photo->device_used ?? 'Not Provided/Detected' }}" />
                             
                             <div class="pt-4 border-t border-gray-800">
                                 <h4 class="text-xs uppercase tracking-wider text-gray-500 font-bold mb-4">Contact Info</h4>
@@ -190,7 +191,17 @@
                     
                     <!-- EXIF Details -->
                     <div class="w-full md:w-1/3 h-1/2 md:h-full bg-gray-900 border-t md:border-t-0 md:border-l border-gray-800 overflow-y-auto p-6 pb-20 md:pb-28">
-                        <h3 class="text-lg font-bold mb-6 text-white border-b border-gray-800 pb-4">EXIF Metadata</h3>
+                        <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-4">
+                            <h3 class="text-lg font-bold text-white">EXIF Metadata</h3>
+                            @if($photo->exif_data)
+                                <form action="{{ route('admin.submissions.extract_exif', $photo->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="text-xs text-gold hover:text-yellow-500 flex items-center bg-transparent border-0 cursor-pointer" title="Tarik Ulang EXIF">
+                                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5 mr-1"></i> Tarik Ulang
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
                         
                         @if($photo->exif_data)
                             <!-- Will implement EXIF UI later if needed -->
@@ -200,10 +211,18 @@
                                 <i data-lucide="camera-off" class="w-10 h-10 mx-auto text-gray-500 mb-3"></i>
                                 <h4 class="text-gray-300 font-medium">No EXIF Metadata Found</h4>
                                 <p class="text-xs text-gray-500 mt-2">The uploaded file does not contain readable camera settings.</p>
+                                <form action="{{ route('admin.submissions.extract_exif', $photo->id) }}" method="POST" class="mt-4">
+                                    @csrf
+                                    <button type="submit" class="w-full py-2.5 px-4 bg-gold hover:bg-yellow-500 text-dark font-bold rounded-xl text-xs flex items-center justify-center transition-all">
+                                        <i data-lucide="refresh-cw" class="w-4 h-4 mr-2"></i> Tarik EXIF Metadata
+                                    </button>
+                                </form>
                             </div>
                         @endif
 
                         <div class="mt-8 pt-6 border-t border-gray-800 space-y-4">
+                            <x-verification-field label="Device Used" value="{{ $photo->device_used ?? 'Not Detected' }}" />
+                            <x-verification-field label="GPS Coordinates" value="{{ $photo->coordinates ?? 'Not Detected' }}" />
                             <x-verification-field label="Taken At" value="{{ $photo->taken_at ? $photo->taken_at->format('d M Y') : 'Unknown' }}" />
                             <x-verification-field label="Submission Date" value="{{ $photo->created_at->format('d M Y, H:i') }}" />
                         </div>

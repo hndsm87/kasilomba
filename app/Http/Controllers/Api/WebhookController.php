@@ -134,6 +134,42 @@ class WebhookController extends Controller
                 $driveThumbnail = "https://lh3.googleusercontent.com/d/{$fileId}";
             }
 
+            // Extract EXIF data from URL
+            $exifData = null;
+            $extractedCoordinates = null;
+            $extractedTakenAt = null;
+            $extractedDevice = null;
+
+            if (!empty($driveLink)) {
+                $exifData = Photo::extractExifFromUrl($driveLink);
+                if ($exifData) {
+                    // Extract DateTimeOriginal
+                    if (!empty($exifData['DateTimeOriginal'])) {
+                        try {
+                            $extractedTakenAt = \Carbon\Carbon::createFromFormat('Y:m:d H:i:s', $exifData['DateTimeOriginal']);
+                        } catch (\Exception $e) {
+                            // ignore invalid format
+                        }
+                    }
+                    
+                    // Extract Device Model
+                    $make = $exifData['Make'] ?? '';
+                    $model = $exifData['Model'] ?? '';
+                    if (!empty($make) || !empty($model)) {
+                        $extractedDevice = trim("$make $model");
+                    }
+
+                    // Extract coordinates
+                    if (isset($exifData['GPSLatitude'], $exifData['GPSLatitudeRef'], $exifData['GPSLongitude'], $exifData['GPSLongitudeRef'])) {
+                        $lat = Photo::gpsToDecimal($exifData['GPSLatitude'], $exifData['GPSLatitudeRef']);
+                        $lon = Photo::gpsToDecimal($exifData['GPSLongitude'], $exifData['GPSLongitudeRef']);
+                        if ($lat !== null && $lon !== null) {
+                            $extractedCoordinates = "$lat, $lon";
+                        }
+                    }
+                }
+            }
+
             // Create or update the photo record
             $photo = Photo::updateOrCreate(
                 ['sync_id' => $submissionId],
@@ -142,12 +178,12 @@ class WebhookController extends Controller
                     'story' => $story,
                     'category' => $category,
                     'location' => $location,
-                    'device_used' => $deviceUsed,
-                    'coordinates' => null,
+                    'device_used' => (!empty($deviceUsed) && trim($deviceUsed) !== '') ? $deviceUsed : $extractedDevice,
+                    'coordinates' => $extractedCoordinates,
                     'google_drive_link' => $driveLink,
                     'google_drive_preview' => $drivePreview,
                     'google_drive_thumbnail' => $driveThumbnail,
-                    'taken_at' => now(), // Default to now if not provided
+                    'taken_at' => $extractedTakenAt ?? now(), // Default to now if not provided
                     'participant_name' => $participant_name,
                     'birth_place' => null,
                     'birth_date' => null,
@@ -160,6 +196,7 @@ class WebhookController extends Controller
                     'instagram' => $instagram,
                     'id_card_link' => null,
                     'agreements' => json_encode($agreements),
+                    'exif_data' => $exifData,
                     'health_score' => $healthScore,
                     'verification_status' => 'Waiting Verification',
                     'status' => 'pending'

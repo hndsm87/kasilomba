@@ -71,6 +71,30 @@
                     </div>
                 </div>
 
+                <!-- Photo Meta Information (Always Visible) -->
+                <div class="mb-6 bg-gray-800/40 p-4 rounded-xl border border-gray-700/50 space-y-3">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2.5">
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Kategori Lomba</span>
+                        <span class="px-2 py-0.5 bg-gold/10 text-gold text-xs font-bold uppercase tracking-wider rounded border border-gold/20">
+                            {{ ucfirst($photo->category) }}
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-start gap-4">
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider mt-0.5">Perangkat</span>
+                        <div class="text-right text-xs text-gray-200 font-medium flex items-center justify-end">
+                            <i data-lucide="camera" class="w-3.5 h-3.5 mr-1 text-gold"></i>
+                            <span class="truncate max-w-[150px]" title="{{ $photo->device_used ?? 'Tidak Terdeteksi' }}">{{ $photo->device_used ?? 'Tidak Terdeteksi' }}</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Waktu Foto</span>
+                        <div class="text-right text-xs text-gray-300 font-medium flex items-center justify-end">
+                            <i data-lucide="calendar" class="w-3.5 h-3.5 mr-1 text-gold"></i>
+                            <span>{{ $photo->taken_at ? $photo->taken_at->format('d M Y') : 'Unknown Date' }}</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="space-y-6 flex-grow">
                     @foreach($criterias as $criteria)
                     <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700/50">
