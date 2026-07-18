@@ -29,6 +29,11 @@ class Photo extends Model
         return $this->hasMany(Report::class);
     }
 
+    public function judgeCollections()
+    {
+        return $this->belongsToMany(JudgeCollection::class, 'judge_collection_photo');
+    }
+
     /**
      * Accessors for Google Drive image sizes
      */

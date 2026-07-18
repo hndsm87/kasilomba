@@ -101,6 +101,45 @@
                         <label class="text-sm font-bold text-gray-400 mb-2 block">Judge Notes (Optional)</label>
                         <textarea name="notes" rows="3" class="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 text-sm text-gray-300 focus:ring-gold focus:border-gold" placeholder="Add specific feedback for this photo...">{{ $existingNote }}</textarea>
                     </div>
+
+                    <!-- Custom Collections Section -->
+                    <div class="mt-6 border-t border-gray-800 pt-6">
+                        <label class="text-sm font-bold text-gray-400 mb-3 block flex items-center">
+                            <i data-lucide="folder" class="w-4 h-4 mr-2 text-gold"></i> Kelompokkan Foto Ini (Koleksi)
+                        </label>
+                        
+                        <!-- List of Collections -->
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <template x-for="collection in collections" :key="collection.id">
+                                <button type="button" 
+                                        @click="toggleCollection(collection.id)"
+                                        :class="isInCollection(collection.id) ? 'bg-gold/20 text-gold border-gold' : 'bg-gray-800 text-gray-400 border-gray-700 hover:border-gray-600'"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-medium border transition-all flex items-center">
+                                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" x-show="isInCollection(collection.id)">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span x-text="collection.name"></span>
+                                </button>
+                            </template>
+                            <template x-if="collections.length === 0">
+                                <span class="text-xs text-gray-500 italic block py-1">Belum ada kelompok foto. Buat di bawah ini.</span>
+                            </template>
+                        </div>
+
+                        <!-- Add New Collection Form -->
+                        <div class="flex space-x-2">
+                            <input type="text" 
+                                   x-model="newCollectionName" 
+                                   @keydown.enter.prevent="createNewCollection()"
+                                   placeholder="Tambah kelompok baru..." 
+                                   class="flex-grow bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-xs text-white focus:ring-gold focus:border-gold">
+                            <button type="button" 
+                                    @click="createNewCollection()"
+                                    class="bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-gray-600 text-white px-3 py-2 rounded-lg text-xs font-bold transition-all">
+                                Tambah
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Bottom Actions -->
@@ -178,6 +217,59 @@
                     @foreach($criterias as $criteria)
                         {{ $criteria->id }}: {{ $criteria->weight }},
                     @endforeach
+                },
+                collections: @json($judgeCollections),
+                activeCollectionIds: @json($activeCollectionIds),
+                newCollectionName: '',
+
+                isInCollection(id) {
+                    return this.activeCollectionIds.includes(id);
+                },
+
+                toggleCollection(id) {
+                    fetch('{{ route("judge.collections.toggle_photo", $photo->id) }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ collection_id: id })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            if (data.status === 'added') {
+                                this.activeCollectionIds.push(id);
+                            } else {
+                                this.activeCollectionIds = this.activeCollectionIds.filter(x => x !== id);
+                            }
+                        }
+                    });
+                },
+
+                createNewCollection() {
+                    if (!this.newCollectionName.trim()) return;
+                    fetch('{{ route("judge.collections.store") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ name: this.newCollectionName })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            const newCol = data.collection;
+                            if (!this.collections.some(x => x.id === newCol.id)) {
+                                this.collections.push(newCol);
+                            }
+                            this.toggleCollection(newCol.id);
+                            this.newCollectionName = '';
+                        }
+                    });
                 },
                 
                 get totalScore() {

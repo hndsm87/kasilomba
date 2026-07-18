@@ -6,6 +6,7 @@ use App\Models\Photo;
 use App\Models\Criteria;
 use App\Models\Score;
 use App\Models\Report;
+use App\Models\JudgeCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -101,7 +102,14 @@ class JudgeController extends Controller
             ->get()
             ->keyBy('criteria_id');
 
-        return view('judge.interface', compact('photo', 'criterias', 'existingScores'));
+        // Fetch collections for this judge and get active collection IDs for this photo
+        $judgeCollections = Auth::user()->judgeCollections()->orderBy('name')->get();
+        $activeCollectionIds = $photo->judgeCollections()
+            ->where('judge_id', Auth::id())
+            ->pluck('judge_collections.id')
+            ->toArray();
+
+        return view('judge.interface', compact('photo', 'criterias', 'existingScores', 'judgeCollections', 'activeCollectionIds'));
     }
 
     public function storeScore(Request $request, Photo $photo)
@@ -158,7 +166,17 @@ class JudgeController extends Controller
             $q->where('judge_id', $judgeId);
         })->with(['scores' => function($q) use ($judgeId) {
             $q->where('judge_id', $judgeId)->with('criteria');
+        }, 'judgeCollections' => function($q) use ($judgeId) {
+            $q->where('judge_id', $judgeId);
         }]);
+
+        // Filter by collection
+        if ($request->has('collection_id') && $request->collection_id != '') {
+            $query->whereHas('judgeCollections', function($q) use ($request, $judgeId) {
+                $q->where('judge_collections.id', $request->collection_id)
+                  ->where('judge_collections.judge_id', $judgeId);
+            });
+        }
 
         if ($request->has('category') && $request->category != '') {
             $query->where('category', $request->category);
@@ -180,6 +198,66 @@ class JudgeController extends Controller
         $perPage = $request->get('per_page', 20);
         $photos = $query->orderBy('created_at', 'desc')->paginate($perPage)->appends($request->query());
 
-        return view('judge.scores', compact('photos'));
+        // Get collections for this judge
+        $judgeCollections = JudgeCollection::where('judge_id', $judgeId)
+            ->withCount('photos')
+            ->orderBy('name')
+            ->get();
+
+        return view('judge.scores', compact('photos', 'judgeCollections'));
+    }
+
+    public function storeCollection(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'color' => 'nullable|string|max:7',
+        ]);
+
+        $judgeId = Auth::id();
+
+        $collection = JudgeCollection::firstOrCreate([
+            'judge_id' => $judgeId,
+            'name' => trim($request->name),
+        ], [
+            'color' => $request->color ?? '#D4AF37',
+        ]);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'collection' => $collection
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Collection "' . $collection->name . '" created successfully.');
+    }
+
+    public function togglePhotoCollection(Request $request, Photo $photo)
+    {
+        $request->validate([
+            'collection_id' => 'required|exists:judge_collections,id',
+        ]);
+
+        $collection = JudgeCollection::where('id', $request->collection_id)
+            ->where('judge_id', Auth::id())
+            ->firstOrFail();
+
+        $detached = $collection->photos()->detach($photo->id);
+        if (!$detached) {
+            $collection->photos()->attach($photo->id);
+            $status = 'added';
+        } else {
+            $status = 'removed';
+        }
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'status' => $status
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Photo ' . ($status === 'added' ? 'added to' : 'removed from') . ' collection "' . $collection->name . '".');
     }
 }

@@ -35,4 +35,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Score::class, 'judge_id');
     }
+
+    public function judgeCollections()
+    {
+        return $this->hasMany(JudgeCollection::class, 'judge_id');
+    }
 }

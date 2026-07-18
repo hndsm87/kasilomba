@@ -1,9 +1,16 @@
 <x-layouts.admin title="My Scores | Judge Dashboard">
-    <div class="p-4 md:p-8 max-w-7xl mx-auto flex flex-col md:h-full min-h-0" x-data="{ openLightbox: false, activeImage: '' }" @keydown.escape.window="openLightbox = false">
+    <div class="p-4 md:p-8 max-w-7xl mx-auto flex flex-col md:h-full min-h-0" x-data="{ openLightbox: false, activeImage: '', showCreateCollectionModal: false }" @keydown.escape.window="openLightbox = false; showCreateCollectionModal = false">
         
-        <div class="mb-8" data-aos="fade-down">
-            <h1 class="text-3xl font-heading text-white tracking-widest mb-2">MY SCORES</h1>
-            <p class="text-gray-400">Review and edit your previous evaluations.</p>
+        <div class="mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4" data-aos="fade-down">
+            <div>
+                <h1 class="text-3xl font-heading text-white tracking-widest mb-2">MY SCORES</h1>
+                <p class="text-gray-400">Review and edit your previous evaluations.</p>
+            </div>
+            <div>
+                <button @click="showCreateCollectionModal = true" class="px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-xl border border-gray-700 text-sm flex items-center transition-colors">
+                    <i data-lucide="folder-plus" class="w-4 h-4 mr-2 text-gold"></i> Kelompok Baru
+                </button>
+            </div>
         </div>
 
         <!-- Filters & Search -->
@@ -11,6 +18,15 @@
             <div class="flex-shrink-0 w-full md:w-auto">
                 <form action="{{ route('judge.my_scores') }}" method="GET" class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3" id="filterForm">
                     
+                    <select name="collection_id" onchange="document.getElementById('filterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2 focus:ring-gold focus:border-gold w-full md:w-auto">
+                        <option value="">All Collections</option>
+                        @foreach($judgeCollections as $collection)
+                            <option value="{{ $collection->id }}" {{ request('collection_id') == $collection->id ? 'selected' : '' }}>
+                                {{ $collection->name }} ({{ $collection->photos_count }})
+                            </option>
+                        @endforeach
+                    </select>
+
                     <select name="category" onchange="document.getElementById('filterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2 focus:ring-gold focus:border-gold w-full md:w-auto">
                         <option value="">All Categories</option>
                         <option value="smartphone" {{ request('category') === 'smartphone' ? 'selected' : '' }}>Smartphone</option>
@@ -67,9 +83,17 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="font-bold text-white mb-1">{{ $photo->title }}</div>
-                                    <span class="px-2 py-1 bg-gray-800 border border-gray-700 text-gray-300 rounded text-[10px] uppercase tracking-wider font-bold">
-                                        {{ $photo->category }}
-                                    </span>
+                                    <div class="flex flex-wrap gap-1.5 items-center mt-1.5">
+                                        <span class="px-2 py-0.5 bg-gray-800 border border-gray-700 text-gray-300 rounded text-[9px] uppercase tracking-wider font-bold">
+                                            {{ $photo->category }}
+                                        </span>
+                                        @foreach($photo->judgeCollections as $col)
+                                            <span class="px-2 py-0.5 bg-gold/10 border border-gold/30 text-gold rounded text-[9px] font-medium flex items-center">
+                                                <i data-lucide="folder" class="w-2.5 h-2.5 mr-1"></i>
+                                                {{ $col->name }}
+                                            </span>
+                                        @endforeach
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 text-center text-lg font-bold text-gold">
                                     {{ number_format($totalScore, 1) }}
@@ -109,6 +133,31 @@
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
             <img :src="activeImage" referrerpolicy="no-referrer" alt="Thumbnail Preview" class="max-w-[400px] w-full object-contain shadow-2xl rounded-lg border border-gray-800" @click.away="openLightbox = false">
+        </div>
+
+        <!-- Create Collection Modal -->
+        <div x-show="showCreateCollectionModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" style="display: none;" x-transition.opacity>
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-md shadow-2xl p-6" @click.away="showCreateCollectionModal = false">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-white flex items-center">
+                        <i data-lucide="folder-plus" class="w-5 h-5 text-gold mr-2"></i> Buat Kelompok Baru
+                    </h3>
+                    <button @click="showCreateCollectionModal = false" class="text-gray-400 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <form action="{{ route('judge.collections.store') }}" method="POST">
+                    @csrf
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Nama Kelompok</label>
+                        <input type="text" name="name" required placeholder="Contoh: Nelayan, Petani, Kandidat Juara" class="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 text-white focus:ring-gold focus:border-gold text-sm">
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" @click="showCreateCollectionModal = false" class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 text-sm">Batal</button>
+                        <button type="submit" class="px-4 py-2 bg-gold text-dark font-bold rounded-lg hover:bg-yellow-500 text-sm">Buat Kelompok</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
     </div>

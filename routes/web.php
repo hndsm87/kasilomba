@@ -102,6 +102,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/photo/{photo}/score', [\App\Http\Controllers\JudgeController::class, 'storeScore'])->name('store_score');
         Route::post('/photo/{photo}/report', [\App\Http\Controllers\JudgeController::class, 'reportPhoto'])->name('report_photo');
         Route::get('/my-scores', [\App\Http\Controllers\JudgeController::class, 'myScores'])->name('my_scores');
+        
+        // Custom collections
+        Route::post('/collections', [\App\Http\Controllers\JudgeController::class, 'storeCollection'])->name('collections.store');
+        Route::post('/photo/{photo}/collections/toggle', [\App\Http\Controllers\JudgeController::class, 'togglePhotoCollection'])->name('collections.toggle_photo');
     });
 });
 
