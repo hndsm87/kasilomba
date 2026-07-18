@@ -155,7 +155,7 @@
                                 <h4 class="text-xs uppercase tracking-wider text-gray-500 font-bold mb-4">Contact Info</h4>
                                 
                                 <!-- WhatsApp with Shortcut -->
-                                <div class="mb-2">
+                                <div class="mb-3">
                                     <span class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">WhatsApp</span>
                                     <span class="flex items-center text-sm text-gray-200 break-words {{ empty($photo->whatsapp) ? 'italic text-gray-600' : '' }}">
                                         @if(!empty($photo->whatsapp))
@@ -167,9 +167,9 @@
                                                     $waLink = $waNumber;
                                                 }
                                             @endphp
-                                            {{ $photo->whatsapp }}
-                                            <a href="https://wa.me/{{ $waLink }}" target="_blank" class="ml-2 text-gold hover:text-yellow-500 transition-colors inline-flex items-center" title="Chat via WhatsApp">
-                                                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                            <span>{{ $photo->whatsapp }}</span>
+                                            <a href="https://wa.me/{{ $waLink }}" target="_blank" class="ml-3 px-2 py-0.5 bg-gold/10 hover:bg-gold hover:text-dark text-gold text-[10px] font-bold uppercase tracking-wider rounded border border-gold/20 transition-all flex items-center" title="Chat via WhatsApp">
+                                                Chat
                                             </a>
                                         @else
                                             Not Provided
@@ -178,16 +178,16 @@
                                 </div>
 
                                 <!-- Instagram with Shortcut -->
-                                <div class="mb-2">
+                                <div class="mb-3">
                                     <span class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Instagram</span>
                                     <span class="flex items-center text-sm text-gray-200 break-words {{ empty($photo->instagram) ? 'italic text-gray-600' : '' }}">
                                         @if(!empty($photo->instagram))
                                             @php
                                                 $igUsername = ltrim(trim($photo->instagram), '@');
                                             @endphp
-                                            {{ $photo->instagram }}
-                                            <a href="https://instagram.com/{{ $igUsername }}" target="_blank" class="ml-2 text-gold hover:text-yellow-500 transition-colors inline-flex items-center" title="View Instagram Profile">
-                                                <i data-lucide="instagram" class="w-4 h-4"></i>
+                                            <span>{{ $photo->instagram }}</span>
+                                            <a href="https://instagram.com/{{ $igUsername }}" target="_blank" class="ml-3 px-2 py-0.5 bg-gold/10 hover:bg-gold hover:text-dark text-gold text-[10px] font-bold uppercase tracking-wider rounded border border-gold/20 transition-all flex items-center" title="View Instagram Profile">
+                                                Profil
                                             </a>
                                         @else
                                             Not Provided
