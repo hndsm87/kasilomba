@@ -153,8 +153,47 @@
                             
                             <div class="pt-4 border-t border-gray-800">
                                 <h4 class="text-xs uppercase tracking-wider text-gray-500 font-bold mb-4">Contact Info</h4>
-                                <x-verification-field label="WhatsApp" value="{{ $photo->whatsapp }}" />
-                                <x-verification-field label="Instagram" value="{{ $photo->instagram }}" />
+                                
+                                <!-- WhatsApp with Shortcut -->
+                                <div class="mb-2">
+                                    <span class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">WhatsApp</span>
+                                    <span class="flex items-center text-sm text-gray-200 break-words {{ empty($photo->whatsapp) ? 'italic text-gray-600' : '' }}">
+                                        @if(!empty($photo->whatsapp))
+                                            @php
+                                                $waNumber = preg_replace('/[^0-9]/', '', $photo->whatsapp);
+                                                if (strpos($waNumber, '0') === 0) {
+                                                    $waLink = '62' . substr($waNumber, 1);
+                                                } else {
+                                                    $waLink = $waNumber;
+                                                }
+                                            @endphp
+                                            {{ $photo->whatsapp }}
+                                            <a href="https://wa.me/{{ $waLink }}" target="_blank" class="ml-2 text-gold hover:text-yellow-500 transition-colors inline-flex items-center" title="Chat via WhatsApp">
+                                                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                            </a>
+                                        @else
+                                            Not Provided
+                                        @endif
+                                    </span>
+                                </div>
+
+                                <!-- Instagram with Shortcut -->
+                                <div class="mb-2">
+                                    <span class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Instagram</span>
+                                    <span class="flex items-center text-sm text-gray-200 break-words {{ empty($photo->instagram) ? 'italic text-gray-600' : '' }}">
+                                        @if(!empty($photo->instagram))
+                                            @php
+                                                $igUsername = ltrim(trim($photo->instagram), '@');
+                                            @endphp
+                                            {{ $photo->instagram }}
+                                            <a href="https://instagram.com/{{ $igUsername }}" target="_blank" class="ml-2 text-gold hover:text-yellow-500 transition-colors inline-flex items-center" title="View Instagram Profile">
+                                                <i data-lucide="instagram" class="w-4 h-4"></i>
+                                            </a>
+                                        @else
+                                            Not Provided
+                                        @endif
+                                    </span>
+                                </div>
                             </div>
                             
                             <div class="pt-6 mt-6 border-t border-gray-800">
