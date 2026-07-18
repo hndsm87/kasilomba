@@ -3,6 +3,7 @@
          x-data="{ 
             selectedPhotos: [], 
             bulkCollectionId: '',
+            showCreateCollectionModal: false,
             bulkAssign(collectionId) {
                 if (this.selectedPhotos.length === 0 || !collectionId) return;
                 fetch('{{ route('judge.collections.bulk_assign') }}', {
@@ -70,11 +71,11 @@
         </div>
 
         <!-- Filters & Groups Selector -->
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-12 shadow-lg" data-aos="fade-up">
-            <form action="{{ route('judge.dashboard') }}" method="GET" class="flex flex-col md:flex-row gap-4 w-full" id="dashboardFilterForm">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-12 shadow-lg flex flex-col lg:flex-row lg:items-end justify-between gap-6" data-aos="fade-up">
+            <form action="{{ route('judge.dashboard') }}" method="GET" class="flex flex-col md:flex-row gap-4 flex-grow" id="dashboardFilterForm">
                 
                 <!-- Status Filter -->
-                <div class="flex-1">
+                <div class="flex-grow">
                     <label class="block text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1.5">Status Penilaian</label>
                     <select name="status" onchange="document.getElementById('dashboardFilterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2.5 focus:ring-gold focus:border-gold w-full cursor-pointer">
                         <option value="">Semua Status</option>
@@ -84,7 +85,7 @@
                 </div>
 
                 <!-- Category Filter -->
-                <div class="flex-1">
+                <div class="flex-grow">
                     <label class="block text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1.5">Kategori Kamera</label>
                     <select name="category" onchange="document.getElementById('dashboardFilterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2.5 focus:ring-gold focus:border-gold w-full cursor-pointer">
                         <option value="">Semua Kategori</option>
@@ -94,7 +95,7 @@
                 </div>
 
                 <!-- Collection Filter -->
-                <div class="flex-1">
+                <div class="flex-grow">
                     <label class="block text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1.5">Kelompok Foto (Koleksi)</label>
                     <select name="collection_id" onchange="document.getElementById('dashboardFilterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2.5 focus:ring-gold focus:border-gold w-full cursor-pointer">
                         <option value="">Semua Kelompok</option>
@@ -107,6 +108,12 @@
                 </div>
 
             </form>
+            
+            <div class="flex-shrink-0 w-full lg:w-auto">
+                <button @click="showCreateCollectionModal = true" class="w-full lg:w-auto px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-xl border border-gray-700 text-sm flex items-center justify-center transition-colors">
+                    <i data-lucide="folder-plus" class="w-4 h-4 mr-2 text-gold"></i> Kelompok Baru
+                </button>
+            </div>
         </div>
 
         <!-- Category Grids -->
@@ -202,6 +209,31 @@
                 <button type="button" @click="selectedPhotos = []" class="text-gray-400 hover:text-white text-xs font-medium pl-2">
                     Batal
                 </button>
+            </div>
+        </div>
+
+        <!-- Create Collection Modal -->
+        <div x-show="showCreateCollectionModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" style="display: none;" x-transition.opacity>
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-md shadow-2xl p-6" @click.away="showCreateCollectionModal = false">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-white flex items-center">
+                        <i data-lucide="folder-plus" class="w-5 h-5 text-gold mr-2"></i> Buat Kelompok Baru
+                    </h3>
+                    <button @click="showCreateCollectionModal = false" class="text-gray-400 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <form action="{{ route('judge.collections.store') }}" method="POST">
+                    @csrf
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Nama Kelompok</label>
+                        <input type="text" name="name" required placeholder="Contoh: Nelayan, Petani, Kandidat Juara" class="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 text-white focus:ring-gold focus:border-gold text-sm">
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" @click="showCreateCollectionModal = false" class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 text-sm">Batal</button>
+                        <button type="submit" class="px-4 py-2 bg-gold text-dark font-bold rounded-lg hover:bg-yellow-500 text-sm">Buat Kelompok</button>
+                    </div>
+                </form>
             </div>
         </div>
 
