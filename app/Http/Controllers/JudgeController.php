@@ -13,32 +13,60 @@ use Illuminate\Support\Facades\DB;
 
 class JudgeController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $judgeId = Auth::id();
 
         // Get all verified and non-disqualified photos
-        $photos = Photo::where('is_disqualified', false)
+        $query = Photo::where('is_disqualified', false)
             ->where('verification_status', 'Verified')
             ->with(['scores' => function($query) use ($judgeId) {
                 $query->where('judge_id', $judgeId);
-            }])
-            ->orderBy('created_at', 'desc')
-            ->get();
+            }]);
+
+        // Filter by Category
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category', $request->category);
+        }
+
+        // Filter by Collection
+        if ($request->has('collection_id') && $request->collection_id != '') {
+            $query->whereHas('judgeCollections', function($q) use ($request, $judgeId) {
+                $q->where('judge_collections.id', $request->collection_id)
+                  ->where('judge_collections.judge_id', $judgeId);
+            });
+        }
+
+        // Filter by Status (Judged vs Pending)
+        if ($request->has('status') && $request->status != '') {
+            if ($request->status === 'judged') {
+                $query->whereHas('scores', function($q) use ($judgeId) {
+                    $q->where('judge_id', $judgeId);
+                });
+            } elseif ($request->status === 'pending') {
+                $query->whereDoesntHave('scores', function($q) use ($judgeId) {
+                    $q->where('judge_id', $judgeId);
+                });
+            }
+        }
+
+        $photos = $query->orderBy('created_at', 'desc')->get();
 
         // Group by category
         $categories = $photos->groupBy('category');
 
-        $totalPhotos = $photos->count();
-        
-        // Count photos that have at least one score or an active (non-dismissed) report from this judge
-        $judgedCount = $photos->filter(function($photo) use ($judgeId) {
-            return $photo->scores->isNotEmpty() || $photo->reports()->where('judge_id', $judgeId)->where('status', '!=', 'dismissed')->exists();
+        // Total metrics (these remain global for status cards)
+        $totalPhotosQuery = Photo::where('is_disqualified', false)->where('verification_status', 'Verified');
+        $totalPhotos = $totalPhotosQuery->count();
+        $judgedCount = $totalPhotosQuery->whereHas('scores', function($q) use ($judgeId) {
+            $q->where('judge_id', $judgeId);
         })->count();
-        
         $pendingCount = $totalPhotos - $judgedCount;
 
-        return view('judge.dashboard', compact('categories', 'judgedCount', 'totalPhotos', 'pendingCount'));
+        // Fetch collections for dropdown
+        $judgeCollections = JudgeCollection::where('judge_id', $judgeId)->orderBy('name')->get();
+
+        return view('judge.dashboard', compact('categories', 'judgedCount', 'totalPhotos', 'pendingCount', 'judgeCollections'));
     }
 
     public function judgeNext()

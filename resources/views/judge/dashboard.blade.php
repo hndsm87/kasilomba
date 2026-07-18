@@ -43,6 +43,46 @@
             @endif
         </div>
 
+        <!-- Filters & Groups Selector -->
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-12 shadow-lg" data-aos="fade-up">
+            <form action="{{ route('judge.dashboard') }}" method="GET" class="flex flex-col md:flex-row gap-4 w-full" id="dashboardFilterForm">
+                
+                <!-- Status Filter -->
+                <div class="flex-1">
+                    <label class="block text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1.5">Status Penilaian</label>
+                    <select name="status" onchange="document.getElementById('dashboardFilterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2.5 focus:ring-gold focus:border-gold w-full cursor-pointer">
+                        <option value="">Semua Status</option>
+                        <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Belum Dinilai (Pending)</option>
+                        <option value="judged" {{ request('status') === 'judged' ? 'selected' : '' }}>Sudah Dinilai (Judged)</option>
+                    </select>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="flex-1">
+                    <label class="block text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1.5">Kategori Kamera</label>
+                    <select name="category" onchange="document.getElementById('dashboardFilterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2.5 focus:ring-gold focus:border-gold w-full cursor-pointer">
+                        <option value="">Semua Kategori</option>
+                        <option value="smartphone" {{ request('category') === 'smartphone' ? 'selected' : '' }}>Smartphone</option>
+                        <option value="dslr" {{ request('category') === 'dslr' ? 'selected' : '' }}>DSLR / Mirrorless</option>
+                    </select>
+                </div>
+
+                <!-- Collection Filter -->
+                <div class="flex-1">
+                    <label class="block text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1.5">Kelompok Foto (Koleksi)</label>
+                    <select name="collection_id" onchange="document.getElementById('dashboardFilterForm').submit()" class="bg-gray-800 border border-gray-700 rounded-xl text-sm text-white px-4 py-2.5 focus:ring-gold focus:border-gold w-full cursor-pointer">
+                        <option value="">Semua Kelompok</option>
+                        @foreach($judgeCollections as $collection)
+                            <option value="{{ $collection->id }}" {{ request('collection_id') == $collection->id ? 'selected' : '' }}>
+                                {{ $collection->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+            </form>
+        </div>
+
         <!-- Category Grids -->
         <div class="space-y-16">
             @forelse($categories as $categoryName => $photos)
