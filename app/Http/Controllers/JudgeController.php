@@ -288,4 +288,28 @@ class JudgeController extends Controller
 
         return redirect()->back()->with('success', 'Photo ' . ($status === 'added' ? 'added to' : 'removed from') . ' collection "' . $collection->name . '".');
     }
+
+    public function bulkAssignToCollection(Request $request)
+    {
+        $request->validate([
+            'collection_id' => 'required|exists:judge_collections,id',
+            'photo_ids' => 'required|array',
+            'photo_ids.*' => 'exists:photos,id',
+        ]);
+
+        $collection = JudgeCollection::where('id', $request->collection_id)
+            ->where('judge_id', Auth::id())
+            ->firstOrFail();
+
+        $collection->photos()->syncWithoutDetaching($request->photo_ids);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => count($request->photo_ids) . ' photos successfully added to ' . $collection->name
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Photos added to collection "' . $collection->name . '".');
+    }
 }

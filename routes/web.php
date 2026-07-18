@@ -106,6 +106,7 @@ Route::middleware(['auth'])->group(function () {
         // Custom collections
         Route::post('/collections', [\App\Http\Controllers\JudgeController::class, 'storeCollection'])->name('collections.store');
         Route::post('/photo/{photo}/collections/toggle', [\App\Http\Controllers\JudgeController::class, 'togglePhotoCollection'])->name('collections.toggle_photo');
+        Route::post('/collections/bulk-assign', [\App\Http\Controllers\JudgeController::class, 'bulkAssignToCollection'])->name('collections.bulk_assign');
     });
 });
 

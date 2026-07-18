@@ -1,5 +1,31 @@
 <x-layouts.admin title="Judge Dashboard">
-    <div class="p-8 max-w-7xl mx-auto flex flex-col min-h-[80vh]">
+    <div class="p-8 max-w-7xl mx-auto flex flex-col min-h-[80vh]" 
+         x-data="{ 
+            selectedPhotos: [], 
+            bulkCollectionId: '',
+            bulkAssign(collectionId) {
+                if (this.selectedPhotos.length === 0 || !collectionId) return;
+                fetch('{{ route('judge.collections.bulk_assign') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        collection_id: collectionId,
+                        photo_ids: this.selectedPhotos
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        this.selectedPhotos = [];
+                        window.location.reload();
+                    }
+                });
+            }
+         }">
         
         <!-- Header -->
         <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between border-b border-gray-800 pb-8" data-aos="fade-down">
@@ -99,6 +125,14 @@
                             @endphp
                             
                             <a href="{{ route('judge.photo', $photo->id) }}" class="group block relative rounded-2xl overflow-hidden bg-gray-900 border {{ $hasScored ? 'border-gold' : 'border-gray-800' }} hover:border-gold transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
+                                <!-- Bulk Selection Checkbox -->
+                                <div class="absolute top-3 left-3 z-20" @click.stop>
+                                    <input type="checkbox" 
+                                           :value="{{ $photo->id }}" 
+                                           x-model="selectedPhotos" 
+                                           class="w-5 h-5 rounded border-gray-700 text-gold focus:ring-gold bg-gray-950/80 backdrop-blur-sm cursor-pointer transition-all">
+                                </div>
+
                                 <!-- Aspect Ratio Box -->
                                 <div class="relative w-full pb-[100%]">
                                     <img src="{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="{{ $photo->title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
@@ -134,6 +168,41 @@
                     <p class="text-gray-500">Wait for the admin team to verify the incoming submissions.</p>
                 </div>
             @endforelse
+        </div>
+
+        <!-- Floating Bulk Action Bar -->
+        <div x-show="selectedPhotos.length > 0" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="translate-y-20 opacity-0"
+             x-transition:enter-end="translate-y-0 opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="translate-y-0 opacity-100"
+             x-transition:leave-end="translate-y-20 opacity-0"
+             class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-900/95 border border-gray-800 p-4 px-6 rounded-2xl flex items-center justify-between shadow-2xl z-50 backdrop-blur-md max-w-lg w-[calc(100%-2rem)]"
+             style="display: none;">
+            <div class="flex items-center space-x-3">
+                <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+                <span class="text-sm font-bold text-white"><span x-text="selectedPhotos.length"></span> Foto Terpilih</span>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <select x-model="bulkCollectionId" class="bg-gray-800 border border-gray-700 rounded-lg text-xs text-white px-3 py-2 focus:ring-gold focus:border-gold cursor-pointer">
+                    <option value="">Pilih Kelompok...</option>
+                    @foreach($judgeCollections as $collection)
+                        <option value="{{ $collection->id }}">{{ $collection->name }}</option>
+                    @endforeach
+                </select>
+                <button type="button" 
+                        @click="bulkAssign(bulkCollectionId)" 
+                        :disabled="!bulkCollectionId"
+                        :class="bulkCollectionId ? 'bg-gold text-dark hover:bg-yellow-500' : 'bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700'"
+                        class="px-4 py-2 rounded-lg text-xs font-bold transition-all">
+                    Gabungkan
+                </button>
+                <button type="button" @click="selectedPhotos = []" class="text-gray-400 hover:text-white text-xs font-medium pl-2">
+                    Batal
+                </button>
+            </div>
         </div>
 
     </div>
