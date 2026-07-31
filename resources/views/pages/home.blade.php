@@ -22,6 +22,51 @@
             <p class="text-xl md:text-2xl text-gray-300 font-light mb-12 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="600">
                 "Dari tangan-tangan sederhana lahir kemajuan Bumi Paser."
             </p>
+
+            <!-- COUNTDOWN TIMER -->
+            <div class="mb-12 max-w-md mx-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-5 shadow-2xl" 
+                 data-aos="fade-up" 
+                 data-aos-delay="700"
+                 x-data="countdownTimer('2026-08-07T23:59:59+08:00')">
+                
+                <template x-if="!isExpired">
+                    <div>
+                        <span class="text-xs uppercase tracking-widest text-gold font-bold mb-3 block">Sisa Waktu Pengumpulan Karya</span>
+                        <div class="grid grid-cols-4 gap-2.5 text-white">
+                            <!-- Days -->
+                            <div class="bg-dark/60 rounded-2xl p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner">
+                                <span class="text-2xl md:text-3xl font-mono font-bold text-gold" x-text="days">00</span>
+                                <span class="text-[8px] md:text-[10px] text-gray-400 uppercase tracking-wider mt-1">Hari</span>
+                            </div>
+                            <!-- Hours -->
+                            <div class="bg-dark/60 rounded-2xl p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner">
+                                <span class="text-2xl md:text-3xl font-mono font-bold text-gold" x-text="hours">00</span>
+                                <span class="text-[8px] md:text-[10px] text-gray-400 uppercase tracking-wider mt-1">Jam</span>
+                            </div>
+                            <!-- Minutes -->
+                            <div class="bg-dark/60 rounded-2xl p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner">
+                                <span class="text-2xl md:text-3xl font-mono font-bold text-gold" x-text="minutes">00</span>
+                                <span class="text-[8px] md:text-[10px] text-gray-400 uppercase tracking-wider mt-1">Menit</span>
+                            </div>
+                            <!-- Seconds -->
+                            <div class="bg-dark/60 rounded-2xl p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner animate-pulse">
+                                <span class="text-2xl md:text-3xl font-mono font-bold text-red-400" x-text="seconds">00</span>
+                                <span class="text-[8px] md:text-[10px] text-gray-400 uppercase tracking-wider mt-1">Detik</span>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                
+                <template x-if="isExpired">
+                    <div class="py-2">
+                        <span class="px-3 py-1 bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider rounded-full inline-block mb-2">
+                            Closed
+                        </span>
+                        <h4 class="text-white font-bold text-lg">Pengumpulan Karya Telah Ditutup</h4>
+                        <p class="text-gray-400 text-xs mt-1">Terima kasih atas partisipasi Anda. Nantikan pengumuman pemenang!</p>
+                    </div>
+                </template>
+            </div>
             
             <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 flex-wrap" data-aos="fade-up" data-aos-delay="800">
                 <a href="{{ url('/register') }}" class="bg-gold text-dark px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-500 hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.5)] w-full sm:w-auto text-center mb-4 sm:mb-0">
@@ -196,4 +241,47 @@
             });
         }
     });
+
+    // AlpineJS Countdown Timer
+    function countdownTimer(target) {
+        return {
+            targetDate: new Date(target).getTime(),
+            days: '00',
+            hours: '00',
+            minutes: '00',
+            seconds: '00',
+            isExpired: false,
+            timer: null,
+            init() {
+                this.update();
+                this.timer = setInterval(() => {
+                    this.update();
+                }, 1000);
+            },
+            update() {
+                const now = new Date().getTime();
+                const distance = this.targetDate - now;
+
+                if (distance < 0) {
+                    clearInterval(this.timer);
+                    this.isExpired = true;
+                    this.days = '00';
+                    this.hours = '00';
+                    this.minutes = '00';
+                    this.seconds = '00';
+                    return;
+                }
+
+                const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+                this.days = d.toString().padStart(2, '0');
+                this.hours = h.toString().padStart(2, '0');
+                this.minutes = m.toString().padStart(2, '0');
+                this.seconds = s.toString().padStart(2, '0');
+            }
+        }
+    }
 </script>
