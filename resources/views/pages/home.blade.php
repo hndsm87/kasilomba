@@ -1,6 +1,6 @@
 <x-layouts.app>
     <!-- HERO SECTION -->
-    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <section class="relative min-h-screen py-24 md:py-32 flex items-center justify-center overflow-hidden">
         <!-- Parallax Background -->
         <div class="absolute inset-0 z-0">
             <img src="{{ asset('images/hero-paser.jpg') }}" 
@@ -8,74 +8,74 @@
                  class="w-full h-full object-cover" 
                  x-data
                  x-init="window.addEventListener('scroll', () => { $el.style.transform = `translateY(${window.scrollY * 0.4}px)` })"
-            >
+             >
             <div class="absolute inset-0 bg-dark/70"></div>
         </div>
 
-        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-20">
-            <h1 class="font-heading text-6xl md:text-8xl lg:text-9xl text-white mb-6 tracking-tight text-shadow-premium" data-aos="zoom-in" data-aos-duration="1200">
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-12 md:mt-20">
+            <h1 class="font-heading text-5xl md:text-8xl lg:text-9xl text-white mb-4 md:mb-6 tracking-tight text-shadow-premium" data-aos="zoom-in" data-aos-duration="1200">
                 KASIINFO PHOTO<br>CHALLENGE 2026
             </h1>
-            <p class="font-heading text-3xl md:text-5xl text-gold mb-8 tracking-widest uppercase" data-aos="fade-up" data-aos-delay="400">
+            <p class="font-heading text-2xl md:text-5xl text-gold mb-4 md:mb-6 tracking-widest uppercase" data-aos="fade-up" data-aos-delay="400">
                 Roda Juang Bumi Paser
             </p>
-            <p class="text-xl md:text-2xl text-gray-300 font-light mb-12 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="600">
+            <p class="text-lg md:text-2xl text-gray-300 font-light mb-6 md:mb-8 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="600">
                 "Dari tangan-tangan sederhana lahir kemajuan Bumi Paser."
             </p>
 
             <!-- COUNTDOWN TIMER -->
-            <div class="mb-12 max-w-md mx-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-5 shadow-2xl" 
+            <div class="mb-6 md:mb-10 max-w-sm md:max-w-md mx-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-5 shadow-2xl" 
                  data-aos="fade-up" 
                  data-aos-delay="700"
                  x-data="countdownTimer('2026-08-07T23:59:59+08:00')">
                 
                 <template x-if="!isExpired">
                     <div>
-                        <span class="text-xs uppercase tracking-widest text-gold font-bold mb-3 block">Sisa Waktu Pengumpulan Karya</span>
-                        <div class="grid grid-cols-4 gap-2.5 text-white">
+                        <span class="text-[10px] md:text-xs uppercase tracking-widest text-gold font-bold mb-2 md:mb-3 block">Sisa Waktu Pengumpulan Karya</span>
+                        <div class="grid grid-cols-4 gap-1.5 md:gap-2.5 text-white">
                             <!-- Days -->
-                            <div class="bg-dark/60 rounded-2xl p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner">
-                                <span class="text-2xl md:text-3xl font-mono font-bold text-gold" x-text="days">00</span>
-                                <span class="text-[8px] md:text-[10px] text-gray-400 uppercase tracking-wider mt-1">Hari</span>
+                            <div class="bg-dark/60 rounded-xl md:rounded-2xl py-2 px-1 md:p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner">
+                                <span class="text-xl md:text-3xl font-mono font-bold text-gold" x-text="days">00</span>
+                                <span class="text-[7px] md:text-[9px] text-gray-400 uppercase tracking-widest mt-1">Hari</span>
                             </div>
                             <!-- Hours -->
-                            <div class="bg-dark/60 rounded-2xl p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner">
-                                <span class="text-2xl md:text-3xl font-mono font-bold text-gold" x-text="hours">00</span>
-                                <span class="text-[8px] md:text-[10px] text-gray-400 uppercase tracking-wider mt-1">Jam</span>
+                            <div class="bg-dark/60 rounded-xl md:rounded-2xl py-2 px-1 md:p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner">
+                                <span class="text-xl md:text-3xl font-mono font-bold text-gold" x-text="hours">00</span>
+                                <span class="text-[7px] md:text-[9px] text-gray-400 uppercase tracking-widest mt-1">Jam</span>
                             </div>
                             <!-- Minutes -->
-                            <div class="bg-dark/60 rounded-2xl p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner">
-                                <span class="text-2xl md:text-3xl font-mono font-bold text-gold" x-text="minutes">00</span>
-                                <span class="text-[8px] md:text-[10px] text-gray-400 uppercase tracking-wider mt-1">Menit</span>
+                            <div class="bg-dark/60 rounded-xl md:rounded-2xl py-2 px-1 md:p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner">
+                                <span class="text-xl md:text-3xl font-mono font-bold text-gold" x-text="minutes">00</span>
+                                <span class="text-[7px] md:text-[9px] text-gray-400 uppercase tracking-widest mt-1">Menit</span>
                             </div>
                             <!-- Seconds -->
-                            <div class="bg-dark/60 rounded-2xl p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner animate-pulse">
-                                <span class="text-2xl md:text-3xl font-mono font-bold text-red-400" x-text="seconds">00</span>
-                                <span class="text-[8px] md:text-[10px] text-gray-400 uppercase tracking-wider mt-1">Detik</span>
+                            <div class="bg-dark/60 rounded-xl md:rounded-2xl py-2 px-1 md:p-3 border border-white/5 flex flex-col justify-center items-center shadow-inner animate-pulse">
+                                <span class="text-xl md:text-3xl font-mono font-bold text-red-400" x-text="seconds">00</span>
+                                <span class="text-[7px] md:text-[9px] text-gray-400 uppercase tracking-widest mt-1">Detik</span>
                             </div>
                         </div>
                     </div>
                 </template>
                 
                 <template x-if="isExpired">
-                    <div class="py-2">
-                        <span class="px-3 py-1 bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider rounded-full inline-block mb-2">
+                    <div class="py-1 md:py-2">
+                        <span class="px-2 py-0.5 md:px-3 md:py-1 bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-full inline-block mb-1.5 md:mb-2">
                             Closed
                         </span>
-                        <h4 class="text-white font-bold text-lg">Pengumpulan Karya Telah Ditutup</h4>
-                        <p class="text-gray-400 text-xs mt-1">Terima kasih atas partisipasi Anda. Nantikan pengumuman pemenang!</p>
+                        <h4 class="text-white font-bold text-base md:text-lg">Pengumpulan Karya Telah Ditutup</h4>
+                        <p class="text-gray-400 text-[10px] md:text-xs mt-1">Terima kasih atas partisipasi Anda. Nantikan pengumuman pemenang!</p>
                     </div>
                 </template>
             </div>
             
-            <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 flex-wrap" data-aos="fade-up" data-aos-delay="800">
-                <a href="{{ url('/register') }}" class="bg-gold text-dark px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-500 hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.5)] w-full sm:w-auto text-center mb-4 sm:mb-0">
+            <div class="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4 flex-wrap" data-aos="fade-up" data-aos-delay="800">
+                <a href="{{ url('/register') }}" class="bg-gold text-dark px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-yellow-500 hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.5)] w-full sm:w-auto text-center mb-3 sm:mb-0">
                     Daftar Sekarang
                 </a>
-                <a href="{{ route('track.index') }}" class="bg-gray-900/50 backdrop-blur-md border border-gray-700 hover:border-gold text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-800 transition-all duration-300 w-full sm:w-auto text-center flex items-center justify-center mb-4 sm:mb-0">
-                    <i data-lucide="search" class="w-5 h-5 mr-2"></i> Cek Status Karya
+                <a href="{{ route('track.index') }}" class="bg-gray-900/50 backdrop-blur-md border border-gray-700 hover:border-gold text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-gray-800 transition-all duration-300 w-full sm:w-auto text-center flex items-center justify-center mb-3 sm:mb-0">
+                    <i data-lucide="search" class="w-4 h-4 mr-2"></i> Cek Status Karya
                 </a>
-                <a href="{{ url('/guidebook') }}" class="bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 w-full sm:w-auto text-center">
+                <a href="{{ url('/guidebook') }}" class="bg-white/10 backdrop-blur-md border border-white/30 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-white/20 transition-all duration-300 w-full sm:w-auto text-center">
                     Baca Panduan
                 </a>
             </div>
@@ -99,7 +99,7 @@
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center animate-bounce" data-aos="fade-in" data-aos-delay="1200">
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-10 hidden lg:flex flex-col items-center animate-bounce" data-aos="fade-in" data-aos-delay="1200">
             <i data-lucide="camera" class="w-8 h-8 text-gold mb-2 opacity-80"></i>
             <span class="text-xs text-white uppercase tracking-widest">Gulir Ke Bawah</span>
             <i data-lucide="chevron-down" class="w-5 h-5 text-white"></i>
