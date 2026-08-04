@@ -106,7 +106,8 @@ class JudgeController extends Controller
             return redirect()->route('judge.dashboard')->with('success', 'You have successfully judged all available photos!');
         }
 
-        return redirect()->route('judge.photo', $photo->id);
+        $params = request()->except('skip_id');
+        return redirect()->route('judge.photo', array_merge(['photo' => $photo->id], $params));
     }
 
     public function judgePhoto(Photo $photo)
@@ -167,7 +168,7 @@ class JudgeController extends Controller
         });
 
         // Automatically redirect to the next unjudged photo
-        return redirect()->route('judge.next');
+        return redirect()->route('judge.next', request()->query());
     }
 
     public function reportPhoto(Request $request, Photo $photo)
@@ -184,7 +185,7 @@ class JudgeController extends Controller
             'notes' => $request->notes,
         ]);
 
-        return redirect()->route('judge.next')->with('success', 'Photo flagged for administrative review.');
+        return redirect()->route('judge.next', request()->query())->with('success', 'Photo flagged for administrative review.');
     }
 
     public function myScores(Request $request)

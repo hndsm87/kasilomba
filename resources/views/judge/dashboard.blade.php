@@ -59,7 +59,7 @@
         <!-- Quick Start / Continue Button -->
         <div class="mb-12 flex justify-center" data-aos="zoom-in">
             @if($pendingCount > 0)
-                <a href="{{ route('judge.next') }}" class="inline-flex items-center bg-gold hover:bg-yellow-500 text-dark font-bold py-4 px-10 rounded-xl text-lg shadow-xl hover:shadow-gold/20 transition-all transform hover:-translate-y-1">
+                <a href="{{ route('judge.next', request()->query()) }}" class="inline-flex items-center bg-gold hover:bg-yellow-500 text-dark font-bold py-4 px-10 rounded-xl text-lg shadow-xl hover:shadow-gold/20 transition-all transform hover:-translate-y-1">
                     <i data-lucide="play" class="w-6 h-6 mr-3"></i> CONTINUE JUDGING
                 </a>
             @else
@@ -131,7 +131,7 @@
                                 $hasScored = $photo->scores->isNotEmpty();
                             @endphp
                             
-                            <a href="{{ route('judge.photo', $photo->id) }}" class="group block relative rounded-2xl overflow-hidden bg-gray-900 border {{ $hasScored ? 'border-gold' : 'border-gray-800' }} hover:border-gold transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
+                            <a href="{{ route('judge.photo', array_merge(['photo' => $photo->id], request()->query())) }}" class="group block relative rounded-2xl overflow-hidden bg-gray-900 border {{ $hasScored ? 'border-gold' : 'border-gray-800' }} hover:border-gold transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
                                 <!-- Bulk Selection Checkbox -->
                                 <div class="absolute top-3 left-3 z-20" @click.stop>
                                     <input type="checkbox" 

@@ -60,7 +60,7 @@
         <!-- Right: Scoring Panel (30%) -->
         <div class="w-full lg:w-[30%] h-[50vh] lg:h-full bg-gray-900 border-l border-gray-800 overflow-y-auto custom-scrollbar flex flex-col relative">
             
-            <form id="scoringForm" action="{{ route('judge.store_score', $photo->id) }}" method="POST" class="p-6 flex-grow flex flex-col">
+            <form id="scoringForm" action="{{ route('judge.store_score', array_merge(['photo' => $photo->id], request()->query())) }}" method="POST" class="p-6 flex-grow flex flex-col">
                 @csrf
                 
                 <div class="mb-6 flex justify-between items-center">
@@ -179,7 +179,7 @@
                     </button>
                     
                     <div class="flex space-x-3">
-                        <a href="{{ route('judge.next', ['skip_id' => $photo->id]) }}" class="w-1/2 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-xl border border-gray-700 transition-colors text-center text-sm">
+                        <a href="{{ route('judge.next', array_merge(['skip_id' => $photo->id], request()->query())) }}" class="w-1/2 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-xl border border-gray-700 transition-colors text-center text-sm">
                             Skip
                         </a>
                         <button type="button" @click="showReportDialog = true" class="w-1/2 py-3 bg-gray-800 hover:bg-kasi-red/20 hover:text-kasi-red text-gray-400 hover:border-kasi-red/50 font-medium rounded-xl border border-gray-700 transition-colors flex justify-center items-center text-sm">
@@ -188,7 +188,7 @@
                     </div>
 
                     <!-- Cancel / Kembali Button -->
-                    <a href="{{ route('judge.dashboard') }}" class="w-full py-3 bg-gray-900 border border-gray-700 hover:border-gray-600 text-gray-400 hover:text-white font-medium rounded-xl transition-colors flex justify-center items-center text-sm">
+                    <a href="{{ route('judge.dashboard', request()->query()) }}" class="w-full py-3 bg-gray-900 border border-gray-700 hover:border-gray-600 text-gray-400 hover:text-white font-medium rounded-xl transition-colors flex justify-center items-center text-sm">
                         <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Kembali ke Dashboard (Batal)
                     </a>
                 </div>
@@ -206,7 +206,7 @@
                         <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
                 </div>
-                <form action="{{ route('judge.report_photo', $photo->id) }}" method="POST" class="p-6">
+                <form action="{{ route('judge.report_photo', array_merge(['photo' => $photo->id], request()->query())) }}" method="POST" class="p-6">
                     @csrf
                     <div class="space-y-4">
                         <div>
