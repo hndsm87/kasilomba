@@ -93,6 +93,12 @@
                             <span>{{ $photo->taken_at ? $photo->taken_at->format('d M Y') : 'Unknown Date' }}</span>
                         </div>
                     </div>
+                    <!-- Download Link for Original Photo -->
+                    <div class="pt-2 border-t border-gray-800 flex justify-end">
+                        <a href="{{ $photo->original_url ?? $photo->google_drive_link }}" download target="_blank" class="text-xs text-gold hover:text-yellow-500 font-bold flex items-center transition-colors">
+                            <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5"></i> Unduh Foto Asli
+                        </a>
+                    </div>
                 </div>
 
                 <div class="space-y-6 flex-grow">
@@ -180,6 +186,11 @@
                             <i data-lucide="flag" class="w-4 h-4 mr-2"></i> Report (R)
                         </button>
                     </div>
+
+                    <!-- Cancel / Kembali Button -->
+                    <a href="{{ route('judge.dashboard') }}" class="w-full py-3 bg-gray-900 border border-gray-700 hover:border-gray-600 text-gray-400 hover:text-white font-medium rounded-xl transition-colors flex justify-center items-center text-sm">
+                        <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Kembali ke Dashboard (Batal)
+                    </a>
                 </div>
             </form>
         </div>
