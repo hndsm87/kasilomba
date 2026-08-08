@@ -32,6 +32,9 @@
                     <button @click="toggleFullscreen()" class="p-2 bg-black/50 hover:bg-gold text-white hover:text-dark rounded-full transition-colors backdrop-blur-md" title="Fullscreen (F)">
                         <i data-lucide="maximize" class="w-5 h-5"></i>
                     </button>
+                    <a href="{{ route('judge.dashboard', request()->query()) }}" class="p-2 bg-black/50 hover:bg-kasi-red hover:text-white text-gray-300 hover:scale-105 rounded-full transition-all duration-300 backdrop-blur-md" title="Kembali ke Dashboard (Batal)">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </a>
                 </div>
             </div>
 

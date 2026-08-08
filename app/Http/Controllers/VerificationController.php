@@ -62,6 +62,8 @@ class VerificationController extends Controller
     {
         $photo->update([
             'verification_status' => 'Verified',
+            'is_disqualified' => false,
+            'status' => 'verified',
             'verified_by' => Auth::id(),
             'verified_at' => now(),
         ]);
