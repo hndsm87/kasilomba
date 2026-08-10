@@ -55,8 +55,25 @@ class AdminController extends Controller
             $photo->final_score = $totalWeightedScore;
         }
 
-        // Sort by final score descending
-        $photos = $photos->sortByDesc('final_score')->values();
+        // Sort by final score (desc), then by Criteria 1 (desc), then by created_at (asc)
+        $photos = $photos->sort(function ($a, $b) {
+            // 1. Compare Final Score (descending)
+            if ($a->final_score !== $b->final_score) {
+                return $b->final_score <=> $a->final_score; // desc
+            }
+            
+            // 2. Compare score of Criteria ID 1 (descending)
+            $scoreA = $a->scores->where('criteria_id', 1)->avg('score') ?? 0;
+            $scoreB = $b->scores->where('criteria_id', 1)->avg('score') ?? 0;
+            if ($scoreA !== $scoreB) {
+                return $scoreB <=> $scoreA; // desc
+            }
+            
+            // 3. Compare created_at (ascending)
+            $timeA = $a->created_at ? $a->created_at->timestamp : 0;
+            $timeB = $b->created_at ? $b->created_at->timestamp : 0;
+            return $timeA <=> $timeB; // asc (earlier is preferred)
+        })->values();
 
         // Paginate the collection
         $page = $request->get('page', 1);
@@ -129,5 +146,112 @@ class AdminController extends Controller
         \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         return back()->with('success', 'SEMUA DATA PESERTA BERHASIL DIHAPUS. Sistem telah direset ke kondisi awal.');
+    }
+
+    public function exportResults(Request $request)
+    {
+        $category = $request->get('category', 'smartphone');
+        
+        $photos = Photo::where('is_disqualified', false)
+            ->where('category', $category)
+            ->whereHas('scores')
+            ->with(['scores.criteria', 'scores.judge'])
+            ->get();
+
+        // Calculate average scores
+        foreach ($photos as $photo) {
+            $totalWeightedScore = 0;
+            $judgeCount = $photo->scores->groupBy('judge_id')->count();
+
+            if ($judgeCount > 0) {
+                $scoresByCriteria = $photo->scores->groupBy('criteria_id');
+                foreach ($scoresByCriteria as $criteriaId => $scores) {
+                    $totalWeightedScore += $scores->avg('score');
+                }
+            }
+            $photo->final_score = $totalWeightedScore;
+        }
+
+        // Sort by final score (desc), then by Criteria 1 (desc), then by created_at (asc)
+        $photos = $photos->sort(function ($a, $b) {
+            if ($a->final_score !== $b->final_score) {
+                return $b->final_score <=> $a->final_score; // desc
+            }
+            $scoreA = $a->scores->where('criteria_id', 1)->avg('score') ?? 0;
+            $scoreB = $b->scores->where('criteria_id', 1)->avg('score') ?? 0;
+            if ($scoreA !== $scoreB) {
+                return $scoreB <=> $scoreA; // desc
+            }
+            $timeA = $a->created_at ? $a->created_at->timestamp : 0;
+            $timeB = $b->created_at ? $b->created_at->timestamp : 0;
+            return $timeA <=> $timeB; // asc (earlier is preferred)
+        })->values();
+
+        $filename = "Hasil_Penjurian_Kasiinfo_" . ucfirst($category) . "_" . date('Ymd_His') . ".csv";
+
+        $headers = [
+            "Content-type" => "text/csv; charset=UTF-8",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
+        $callback = function() use ($photos) {
+            $file = fopen('php://output', 'w');
+            
+            // Add UTF-8 BOM for Excel to open it correctly
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+
+            // CSV Header
+            fputcsv($file, [
+                'Peringkat', 
+                'Judul Foto', 
+                'Nama Peserta', 
+                'Kategori', 
+                'Desa', 
+                'Kecamatan', 
+                'Perangkat', 
+                'Nilai Kriteria 1 (Tema & Narasi)', 
+                'Nilai Kriteria 2 (Komposisi)', 
+                'Nilai Kriteria 3 (Teknis)', 
+                'Nilai Kriteria 4 (Dampak Emosional)', 
+                'Nilai Akhir', 
+                'Catatan Juri', 
+                'Waktu Upload'
+            ]);
+
+            // CSV Data
+            foreach ($photos as $index => $photo) {
+                $rank = $index + 1;
+                $c1 = $photo->scores->where('criteria_id', 1)->avg('score') ?? 0;
+                $c2 = $photo->scores->where('criteria_id', 2)->avg('score') ?? 0;
+                $c3 = $photo->scores->where('criteria_id', 3)->avg('score') ?? 0;
+                $c4 = $photo->scores->where('criteria_id', 4)->avg('score') ?? 0;
+                
+                $notes = $photo->scores->pluck('notes')->filter()->unique()->implode('; ');
+
+                fputcsv($file, [
+                    $rank,
+                    $photo->title,
+                    $photo->participant_name,
+                    strtoupper($photo->category),
+                    $photo->village,
+                    $photo->district,
+                    $photo->device_used ?? 'Tidak Terdeteksi',
+                    number_format($c1, 2),
+                    number_format($c2, 2),
+                    number_format($c3, 2),
+                    number_format($c4, 2),
+                    number_format($photo->final_score, 2),
+                    $notes,
+                    $photo->created_at->format('Y-m-d H:i:s')
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }

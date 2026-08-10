@@ -74,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/reports/{report}/resolve', [\App\Http\Controllers\AdminController::class, 'resolveReport'])->name('reports.resolve');
         
         Route::get('/results', [\App\Http\Controllers\AdminController::class, 'results'])->name('results');
+        Route::get('/results/export', [\App\Http\Controllers\AdminController::class, 'exportResults'])->name('results.export');
         
         // Super Admin Only Routes
         Route::middleware(['role:Admin'])->group(function () {

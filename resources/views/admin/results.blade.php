@@ -7,9 +7,9 @@
                 <p class="text-gray-400 mt-1">Aggregated scores from all judges, sorted by highest ranking.</p>
             </div>
             
-            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors flex items-center">
+            <a href="{{ route('admin.results.export', ['category' => $category]) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors flex items-center">
                 <i data-lucide="download" class="w-4 h-4 mr-2"></i> Export Excel
-            </button>
+            </a>
         </div>
 
         <!-- Tabs -->
@@ -53,18 +53,26 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="w-16 h-16 rounded-lg overflow-hidden border border-gray-700 relative group cursor-pointer">
-                                        <img src="{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="Thumbnail" class="w-full h-full object-cover">
-                                    </div>
+                                    <a href="{{ route('admin.submissions.show', $photo->id) }}" class="block w-16 h-16 rounded-lg overflow-hidden border border-gray-700 relative group hover:border-gold transition-all duration-300">
+                                        <img src="{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="Thumbnail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </a>
                                 </td>
                                 <td class="px-6 py-4 font-bold text-white">
-                                    {{ $photo->title }}
+                                    <a href="{{ route('admin.submissions.show', $photo->id) }}" class="hover:text-gold transition-colors">
+                                        {{ $photo->title }}
+                                    </a>
                                 </td>
                                 <td class="px-6 py-4 text-center uppercase tracking-wider text-[10px] font-bold text-gray-400">
                                     <span class="px-2 py-1 bg-gray-800 border border-gray-700 rounded">{{ $photo->category }}</span>
                                 </td>
                                 <td class="px-6 py-4 text-center text-xl font-bold {{ $rank <= 3 ? 'text-gold' : 'text-white' }}">
                                     {{ number_format($photo->final_score, 2) }}
+                                    @php
+                                        $temaScore = $photo->scores->where('criteria_id', 1)->avg('score') ?? 0;
+                                    @endphp
+                                    <div class="text-[10px] text-gray-500 font-normal mt-0.5" title="Kesesuaian Tema & Narasi: {{ number_format($temaScore, 1) }} | Waktu Upload: {{ $photo->created_at->format('d/m/y H:i:s') }}">
+                                        Tema: {{ number_format($temaScore, 1) }} • {{ $photo->created_at->format('d/m H:i') }}
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 text-center text-gray-500">
                                     {{ $photo->scores->pluck('judge_id')->unique()->count() }}
