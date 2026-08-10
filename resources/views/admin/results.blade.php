@@ -53,12 +53,12 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
-                                    <a href="{{ route('admin.submissions.show', $photo->id) }}" class="block w-16 h-16 rounded-lg overflow-hidden border border-gray-700 relative group hover:border-gold transition-all duration-300">
+                                    <a href="{{ route('admin.submissions.show', array_merge(['photo' => $photo->id, 'from' => 'results'], request()->query())) }}" class="block w-16 h-16 rounded-lg overflow-hidden border border-gray-700 relative group hover:border-gold transition-all duration-300">
                                         <img src="{{ $photo->thumbnail_url ?? $photo->google_drive_preview }}" referrerpolicy="no-referrer" alt="Thumbnail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                                     </a>
                                 </td>
                                 <td class="px-6 py-4 font-bold text-white">
-                                    <a href="{{ route('admin.submissions.show', $photo->id) }}" class="hover:text-gold transition-colors">
+                                    <a href="{{ route('admin.submissions.show', array_merge(['photo' => $photo->id, 'from' => 'results'], request()->query())) }}" class="hover:text-gold transition-colors">
                                         {{ $photo->title }}
                                     </a>
                                 </td>

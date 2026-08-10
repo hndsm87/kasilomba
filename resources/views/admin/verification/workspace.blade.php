@@ -5,7 +5,13 @@
         <div class="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-4 md:px-6 py-3 md:py-4 flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0 z-40 relative">
             <div class="flex items-center justify-between w-full md:w-auto">
                 <div class="flex items-center space-x-4">
-                    <a href="{{ route('admin.submissions.index') }}" class="p-2 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white transition-colors" title="Back to Queue">
+                    @php
+                        $backUrl = route('admin.submissions.index');
+                        if (request('from') === 'results') {
+                            $backUrl = route('admin.results', request()->except('from'));
+                        }
+                    @endphp
+                    <a href="{{ $backUrl }}" class="p-2 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white transition-colors" title="{{ request('from') === 'results' ? 'Back to Results' : 'Back to Queue' }}">
                         <i data-lucide="arrow-left" class="w-5 h-5"></i>
                     </a>
                     <div>
